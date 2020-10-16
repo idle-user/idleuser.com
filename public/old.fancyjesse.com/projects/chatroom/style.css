@@ -1,0 +1,161 @@
+::-webkit-scrollbar { 
+    width:10px;
+    border-left:1px solid #ccc;
+}
+
+::-webkit-scrollbar-track {
+    background:rgba(255,255,255,0.4);
+}
+
+::-webkit-scrollbar-thumb {
+    background:#555;
+    border-left:1px solid #ccc;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background:#777;
+}
+
+::-webkit-scrollbar-thumb:active {
+    background:#333;
+}
+
+* {
+    -webkit-user-select: auto;
+}
+
+
+html {
+    overflow:hidden;
+}
+
+.main-table {
+    height:100%;
+    width:100%;
+    position:absolute;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+    border-collapse:collapse;
+}
+
+.main-table td {
+    border:1px solid #7B7B7B;
+    padding:10px;
+    vertical-align:top;
+}
+
+.message-table {
+    display:block;
+    height:100%;
+    overflow:scroll;
+    border-collapse:collapse;
+}
+
+.message-table td{
+    border-bottom:none;
+    border-left:none;
+    border-right:none;
+}
+
+.message-content {
+    text-align:left;
+    vertical-align:top;
+}
+
+.message-time {
+    text-align:right;
+    vertical-align:top;
+    font-size:9px;
+    color:grey;
+}
+
+.info {
+    font-size:9px;
+    padding:5px;
+    border:1px solid #ccc;
+    border-radius:5px;
+    background:#eee;
+    line-height:15px;
+}
+
+#o-cont {
+    box-shadow:0 0 7px rgba(0, 0, 0, 0.6) inset;
+}
+
+#entry {
+    width:100%;
+    font-size:18px;
+    padding:5px;
+    height:75px;
+    border:1px solid #B1B1B1;
+    box-shadow:0 1px 0 #fff;
+    -moz-box-sizing:border-box;
+    -webkit-box-sizing:border-box;
+    box-sizing:border-box;
+    border-radius:5px;
+}
+
+#login-container {
+    background:none repeat scroll 0 0 rgba(0, 0, 0, 0.7);
+    color:#FFFFFF;
+    line-height:30px;
+    padding-left:50px;
+    position:absolute;
+    top:-10px;
+    right:-10px;
+    left:-10px;
+    bottom:-10px;
+    text-align:center;
+}
+
+#right-bar {
+    background:#fff;    
+    border-bottom:none;
+}
+
+#user-list {
+    font-size:10px;
+    list-style:disc outside none;
+    padding:0 0 0 13px;
+    white-space:nowrap;
+    display:block;
+    height:100%;
+    overflow:auto;
+}
+
+#user-list li {
+    margin:5px;
+}
+
+
+#info-cont {
+    vertical-align:bottom;
+    border-top:none;
+    background:#fff;
+}
+
+#copyright{
+    text-align:center;
+}
+
+#copyright li {
+    display:inline-table;
+    padding:0 0 0 1em;
+    margin:0 0 0 1em;
+}
+
+@media only screen and (max-device-width: 550px) {
+    #right-bar {
+        display:none !important;
+    }
+    #info-cont {
+        display:none !important;
+    }
+    #login-container {
+        line-height:30px !important;
+        padding-left:30px !important;
+	bottom:-50px !important;
+    }
+}
