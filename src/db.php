@@ -45,12 +45,11 @@ class MYSQLHandler{
 
 	// GENERAL
 
-	public function add_web_traffic($user_id, $ip, $uri, $user_agent, $action){
-		$id = $this->get_uuid();
-		$query = 'INSERT INTO web_traffic (id, user_id, ip, uri, user_agent, action, dt) VALUES (UUID_TO_BIN(?), ?, INET_ATON(?), ?, ?, ?, NOW())';
+	public function add_web_traffic($user_id, $ip, $uri, $user_agent, $user_action){
+		$query = 'CALL usp_ins_web_traffic(?, INET_ATON(?), ?, ?, ?)';
 		$stmt = $this->DB_CONN->prepare($query);
-		$stmt->bind_param('sissss', $id, $user_id, $ip, $uri, $user_agent, $action);
-		$stmt->execute();
+		$stmt->bind_param('iisss',  $user_id, $ip, $uri, $user_agent, $user_action);
+		return $stmt->execute();
 	}
 
 	public function add_web_contact($fname, $lname, $email, $subject, $body, $ip, $user_id=0){
