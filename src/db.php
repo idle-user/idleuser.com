@@ -48,7 +48,7 @@ class MYSQLHandler{
 	public function add_web_traffic($user_id, $ip, $uri, $user_agent, $user_action){
 		$query = 'CALL usp_ins_web_traffic(?, INET_ATON(?), ?, ?, ?)';
 		$stmt = $this->DB_CONN->prepare($query);
-		$stmt->bind_param('iisss',  $user_id, $ip, $uri, $user_agent, $user_action);
+		$stmt->bind_param('issss',  $user_id, $ip, $uri, $user_agent, $user_action);
 		return $stmt->execute();
 	}
 
