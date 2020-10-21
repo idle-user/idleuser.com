@@ -120,24 +120,24 @@
 	}
 	function page_meta($meta){
     	$DEFAULT_META = [
-			"charset"				=> "utf-8",
-			"viewport"				=> "width=device-width, initial-scale=1, shrink-to-fit=no",
-			"author"				=> "Jesus Andrade",
-			"description"			=> "",
-			"keywords"				=> "idleuser, fancyjesse, Jesus Andrade, Jesus, Andrade, website, developer, services, programmer, wrestling, poll, database, analyst, discord, projects, watchwrestling, work, background, profile",
-			"og:title"				=> "",
-			"og:description"		=> "",
-			"og:url"				=> "https://$_SERVER[SERVER_NAME]",
-			"og:image"				=> "https://$_SERVER[SERVER_NAME]/assets/images/favicon-512x512.png",
-			"og:site_name"			=> "idleuser",
-			"og:type"				=> "website",
-			"twitter:title"			=> "",
-			"twitter:description"	=> "",
-			"twitter:url"			=> "",
-			"twitter:image"			=> "",
-			"twitter:card"			=> "summary",
-			"twitter:site"			=> "",
-			"twitter:creator"		=> ""
+			"charset" 				=> "utf-8",
+			"viewport" 				=> "width=device-width, initial-scale=1, shrink-to-fit=no",
+			"author" 				=> "Jesus Andrade",
+			"description" 			=> "",
+			"keywords" 				=> "idleuser, fancyjesse, Jesus Andrade, Jesus, Andrade, website, developer, services, programmer, wrestling, poll, database, analyst, discord, projects, watchwrestling, work, background, profile",
+			"og:title" 				=> "",
+			"og:description" 		=> "",
+			"og:url" 				=> "https://$_SERVER[SERVER_NAME]",
+			"og:image" 				=> "https://$_SERVER[SERVER_NAME]/assets/images/favicon-512x512.png",
+			"og:site_name" 			=> "idleuser",
+			"og:type" 				=> "website",
+			"twitter:title" 		=> "",
+			"twitter:description" 	=> "",
+			"twitter:url" 			=> "",
+			"twitter:image" 		=> "",
+			"twitter:card" 			=> "summary",
+			"twitter:site" 			=> "",
+			"twitter:creator" 		=> ""
 		];
 		if($meta){
 			$keywords = '';
