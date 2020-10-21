@@ -14,7 +14,7 @@
 	<link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon-16x16.png">
 	<link rel="shortcut icon" href="/assets/images/favicon.ico">
   	<link rel="manifest" href="/assets/images/site.webmanifest">	
-  	<link href="/assets/bootstrap-4.5.2-dist/css/bootstrap.min.css" rel="stylesheet">
+  	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
 
 	<link rel="shortcut icon" type="image/x-icon" href="/assets/images/favicon.ico" size="32x32" />
 </head>
@@ -65,8 +65,7 @@
 		</tr>
 	</table>
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js" crossorigin="anonymous"></script>
-	<script>window.jQuery || document.write('<script src="/assets/bootstrap-4.5.2-dist/js/vendor/jquery.slim.min.js"><\/script>')</script>
-	<script src="/assets/bootstrap-4.5.2-dist/js/bootstrap.bundle.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
 	<script type="text/javascript">
 		var last_message_time = 0;
 		var messageTable = document.getElementById('message-table');
