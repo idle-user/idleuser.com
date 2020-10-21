@@ -287,39 +287,29 @@ class MYSQLHandler{
 		return $result;
 	}
 
-	public function add_discord_schedule($name, $description, $message, $tweet, $sunday_flag, $sunday_time, $monday_flag, $monday_time, $tuesday_flag, $tuesday_time, $wednesday_flag, $wednesday_time, $thursday_flag, $thursday_time, $friday_flag, $friday_time, $saturday_flag, $saturday_time, $active){
+	public function add_discord_schedule($name, $description, $message, $tweet, $start_time, $sunday_flag, $monday_flag, $tuesday_flag, $wednesday_flag, $thursday_flag,  $friday_flag, $saturday_flag, $active){
 		$query = '
 			INSERT INTO chatroom_scheduler (
-			name, description, message, tweet,
-			sunday_flag, sunday_time,
-			monday_flag, monday_time,
-			tuesday_flag, tuesday_time,
-			wednesday_flag, wednesday_time,
-			thursday_flag, thursday_time,
-			friday_flag, friday_time,
-			saturday_flag, saturday_time,
-			active
-			) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+				name, description, message, tweet,
+				start_time,
+				sunday_flag, monday_flag, tuesday_flag, wednesday_flag,thursday_flag, friday_flag, saturday_flag,
+				active
+			) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
 		$stmt = $this->DB_CONN->prepare($query);
-		$stmt->bind_param('ssssisisisisisisisi', $name, $description, $message, $tweet, $sunday_flag, $sunday_time, $monday_flag, $monday_time, $tuesday_flag, $tuesday_time, $wednesday_flag, $wednesday_time, $thursday_flag, $thursday_time, $friday_flag, $friday_time, $saturday_flag, $saturday_time, $active);
+		$stmt->bind_param('sssssiiiiiiii', $name, $description, $message, $tweet, $start_time, $sunday_flag, $monday_flag, $tuesday_flag, $wednesday_flag, $thursday_flag, $friday_flag, $saturday_flag, $active);
 		return $stmt->execute();
 	}
 
-	public function updated_discord_schedule($id, $name, $description, $message, $tweet, $sunday_flag, $sunday_time, $monday_flag, $monday_time, $tuesday_flag, $tuesday_time, $wednesday_flag, $wednesday_time, $thursday_flag, $thursday_time, $friday_flag, $friday_time, $saturday_flag, $saturday_time, $active){
+	public function updated_discord_schedule($id, $name, $description, $message, $tweet, $start_time, $sunday_flag, $monday_flag, $tuesday_flag, $wednesday_flag, $thursday_flag, $friday_flag, $saturday_flag, $active){
 		$query = '
 			UPDATE chatroom_scheduler SET
-			name=?, description=?, message=?, tweet=?,
-			sunday_flag=?, sunday_time=?,
-			monday_flag=?, monday_time=?,
-			tuesday_flag=?, tuesday_time=?,
-			wednesday_flag=?, wednesday_time=?,
-			thursday_flag=?, thursday_time=?,
-			friday_flag=?, friday_time=?,
-			saturday_flag=?, saturday_time=?,
-			active=?
+				name=?, description=?, message=?, tweet=?,
+				start_time=?,
+				sunday_flag=?, monday_flag=?, tuesday_flag=?, wednesday_flag=?, thursday_flag=?, friday_flag=?, saturday_flag=?,
+				active=?
 			WHERE id=?';
 		$stmt = $this->DB_CONN->prepare($query);
-		$stmt->bind_param('ssssisisisisisisisii', $name, $description, $message, $tweet, $sunday_flag, $sunday_time, $monday_flag, $monday_time, $tuesday_flag, $tuesday_time, $wednesday_flag, $wednesday_time, $thursday_flag, $thursday_time, $friday_flag, $friday_time, $saturday_flag, $saturday_time, $active, $id);
+		$stmt->bind_param('sssssiiiiiiiii', $name, $description, $message, $tweet, $start_time, $sunday_flag, $monday_flag, $tuesday_flag, $wednesday_flag, $thursday_flag, $friday_flag, $saturday_flag, $active, $id);
 		return $stmt->execute();
 	}
 
