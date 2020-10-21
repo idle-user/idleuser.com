@@ -1,4 +1,5 @@
 src/config.php
 src/vendor/
+public/old.fancyjesse.com/
 .swp
 .htpasswd
