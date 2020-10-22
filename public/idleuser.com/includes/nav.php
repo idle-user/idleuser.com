@@ -26,8 +26,8 @@
 
         <ul class="navbar-nav ml-md-auto mr-3">
             <li class="nav-item">
-                <a class="nav-link" href="https://discord.gg/RmQCmmZ" target="_blank" title="Discord">
-                    <i class="fab fa-discord"></i>
+                <a class="nav-link" href="https://www.twitch.tv/idle_user" target="_blank" title="Twitch">
+                    <i class="fab fa-twitch"></i>
                 </a>            
             </li>
             <li class="nav-item">
@@ -35,6 +35,11 @@
                     <i class="fab fa-twitter"></i>
                 </a>            
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="https://discord.gg/RmQCmmZ" target="_blank" title="Discord">
+                    <i class="fab fa-discord"></i>
+                </a>            
+            </li>   
             <li class="nav-item">
                 <a class="nav-link" href="https://github.com/idle-user" target="_blank" title="GitHub">
                     <i class="fab fa-github"></i>
