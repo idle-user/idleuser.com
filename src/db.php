@@ -46,7 +46,7 @@ class MYSQLHandler{
 	// GENERAL
 
 	public function add_web_traffic($user_id, $ip, $uri, $user_agent, $user_action){
-		$query = 'CALL usp_ins_web_traffic(?, INET_ATON(?), ?, ?, ?)';
+		$query = 'CALL usp_web_ins_traffic(?, INET_ATON(?), ?, ?, ?)';
 		$stmt = $this->DB_CONN->prepare($query);
 		$stmt->bind_param('issss',  $user_id, $ip, $uri, $user_agent, $user_action);
 		return $stmt->execute();
@@ -143,7 +143,7 @@ class MYSQLHandler{
 	}
 
 	public function user_token_login($user_id, $token){
-		$query = 'CALL usp_upd_user_login_with_token(?, ?)';
+		$query = 'CALL usp_user_upd_login_with_token(?, ?)';
 		$stmt = $this->DB_CONN->prepare($query);
 		$stmt->bind_param('is', $user_id, $token);
 		$stmt->execute();
@@ -156,7 +156,7 @@ class MYSQLHandler{
 
 	public function user_update_login_token($user_id, $username){
 		$token = substr(md5(microtime()), 0, 15);
-		$query = 'CALL usp_upd_user_login_token(?, ?, ?)';
+		$query = 'CALL usp_user_upd_login_token(?, ?, ?)';
 		$stmt = $this->DB_CONN->prepare($query);
 		$stmt->bind_param('iss', $user_id, $username, $token);
 		if($stmt->execute()){
@@ -167,7 +167,7 @@ class MYSQLHandler{
 
 	public function user_update_temp_secret($user_id, $username){
 		$temp = substr(md5(microtime()), 0, 15);
-		$query = 'CALL usp_upd_user_temp_secret(?, ?, ?)';
+		$query = 'CALL usp_user_upd_temp_secret(?, ?, ?)';
 		$stmt = $this->DB_CONN->prepare($query);
 		$stmt->bind_param('iss', $user_id, $username, $temp);
 		if($stmt->execute()){
@@ -177,7 +177,7 @@ class MYSQLHandler{
 	}
 
 	public function user_reset_password($user_id, $username, $temp, $secret){
-		$query = 'CALL usp_upd_user_secret_with_temp(?, ?, ?, ?)';
+		$query = 'CALL usp_user_upd_secret_with_temp(?, ?, ?, ?)';
 		$stmt = $this->DB_CONN->prepare($query);
 		$hash = password_hash($secret, PASSWORD_BCRYPT);
 		$stmt->bind_param('isss', $user_id, $username, $temp, $hash);
@@ -191,7 +191,7 @@ class MYSQLHandler{
 
 	public function user_change_password($user_id, $username, $old_secret, $new_secret){
 		if(password_verify($old_secret, $this->user_secret($username))){
-			$query = 'CALL usp_upd_user_secret(?, ?, ?)';
+			$query = 'CALL usp_user_upd_secret(?, ?, ?)';
 			$stmt = $this->DB_CONN->prepare($query);
 			$hash = password_hash($new_secret, PASSWORD_BCRYPT);
 			$stmt->bind_param('iss', $user_id, $username, $hash);
