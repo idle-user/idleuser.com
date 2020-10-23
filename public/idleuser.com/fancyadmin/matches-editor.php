@@ -5,15 +5,6 @@
     $update_attempt = false;
     $new_attempt = false;
     $match_info = false;
-    $event_list = $db->all_events();
-    $open_matches = $db->open_matches();
-    $season_matches = $db->s4_matches();
-    $superstar_list = $db->all_superstars();
-    $matches_base_data = $db->matches_base_data();
-    usort($matches_base_data['matches_title'], function($a, $b) {return strcmp($a['name'], $b['name']);});
-    usort($matches_base_data['matches_match_type'], function($a, $b) {return strcmp($a['name'], $b['name']);});
-    $title_list = $matches_base_data['matches_title'];
-    $match_type_list = $matches_base_data['matches_match_type'];
 
     function get_match_info($match_id){
         global $db;
@@ -121,8 +112,18 @@
         }
     }
 
+    $event_list = $db->all_events();
+    $open_matches = $db->open_matches();
+    $season_matches = $db->s4_matches();
+    $superstar_list = $db->all_superstars();
+    $matches_base_data = $db->matches_base_data();
+    usort($matches_base_data['matches_title'], function($a, $b) {return strcmp($a['name'], $b['name']);});
+    usort($matches_base_data['matches_match_type'], function($a, $b) {return strcmp($a['name'], $b['name']);});
+    $title_list = $matches_base_data['matches_title'];
+    $match_type_list = $matches_base_data['matches_match_type'];
+
     if($is_success && ($new_attempt || $update_attempt)){
-        $match_info = get_match_info($_POST['match_id']);
+        $match_info = get_match_info($match_id);
     }
 ?>
 <!doctype html>
