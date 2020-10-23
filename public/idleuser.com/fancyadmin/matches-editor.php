@@ -10,10 +10,10 @@
     $season_matches = $db->s4_matches();
     $superstar_list = $db->all_superstars();
     $matches_base_data = $db->matches_base_data();
-    usort($matches_base_data['title'], function($a, $b) {return strcmp($a['name'], $b['name']);});
-    usort($matches_base_data['match_type'], function($a, $b) {return strcmp($a['name'], $b['name']);});
-    $title_list = $matches_base_data['title'];
-    $match_type_list = $matches_base_data['match_type'];
+    usort($matches_base_data['matches_title'], function($a, $b) {return strcmp($a['name'], $b['name']);});
+    usort($matches_base_data['matches_match_type'], function($a, $b) {return strcmp($a['name'], $b['name']);});
+    $title_list = $matches_base_data['matches_title'];
+    $match_type_list = $matches_base_data['matches_match_type'];
 
     function get_match_info($match_id){
         global $db;

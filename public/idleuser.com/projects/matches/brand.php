@@ -11,7 +11,7 @@
 <header class="main">
 	<h1><?php echo $brand['name'].' Roster'; ?></h1>
 </header>
-<span class="image main"><img src="images/brand_<?php echo $brand['id']; ?>.jpg" alt="[Image Coming Soon]" /></span>
+<span class="image main"><img src="<?php echo $brand['image_url']; ?>" alt="[Image Coming Soon]" style="width:300px;height:auto;display:block;margin-left:auto;margin-right:auto;width:50%;" /></span>
 <div class="table-wrapper">
 	<table class="alt">
 		<thead>

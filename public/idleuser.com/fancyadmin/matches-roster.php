@@ -7,8 +7,8 @@
     $superstar_info = false;
     $superstar_list = $db->all_superstars();
     $matches_base_data = $db->matches_base_data();
-    usort($matches_base_data['brand'], function($a, $b) {return strcmp($a['name'], $b['name']);});
-    $brand_list = $matches_base_data['brand'];
+    usort($matches_base_data['matches_brand'], function($a, $b) {return strcmp($a['name'], $b['name']);});
+    $brand_list = $matches_base_data['matches_brand'];
 
     if(isset($_GET['search']) && $_GET['search'] && empty($_POST)){
         $superstar_info = $db->superstar($_GET['search']);
