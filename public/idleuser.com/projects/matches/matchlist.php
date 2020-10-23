@@ -45,8 +45,8 @@
 					echo '</span>';
 				?></td>
 				<td><?php
-					echo $match['title_id'] ? '<b>'.$base_data['title'][$match['title_id']]['name'].'</b><br/><br/>':'';
-					echo $match['match_type_id'] ? $base_data['match_type'][$match['match_type_id']]['name']:'N/A';
+					echo $match['title_id'] ? '<b>'.$base_data['matches_title'][$match['title_id']]['name'].'</b><br/><br/>':'';
+					echo $match['match_type_id'] ? $base_data['matches_match_type'][$match['match_type_id']]['name']:'N/A';
 					echo '<br/><br/><i>'.$match['match_note'].'</i>';
 				?></td>
 				<td><?php

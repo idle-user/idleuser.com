@@ -39,16 +39,17 @@
             if(isset($_POST['name'])){
                 $brand_id = $_POST['brand_id'];
                 $name = $_POST['name'];
+                $image_url = $_POST['image_url'];
                 
                 if($brand_id){
-                    $is_success = $db->update_brand($brand_id, $name);
+                    $is_success = $db->update_brand($brand_id, $name, $image_url);
                     if($is_success){
                         $alert_message = "Brand <b>$name</b> updated.";
                     }  else {
                         $alert_message = "Failed to update Brand <b>$name</b>. Please contact admin.";
                     }
                 } else {
-                    $is_success = $db->add_brand($name);
+                    $is_success = $db->add_brand($name, $image_url);
                     if($is_success){
                         $alert_message = "Brand <b>$name</b> added.";
                     }  else {
@@ -117,12 +118,12 @@
 
     $upcoming_events = $db->upcoming_events();
     $matches_base_data = $db->matches_base_data();
-    usort($matches_base_data['brand'], function($a, $b) {return strcmp($a['name'], $b['name']);});
-    usort($matches_base_data['title'], function($a, $b) {return strcmp($a['name'], $b['name']);});
-    usort($matches_base_data['match_type'], function($a, $b) {return strcmp($a['name'], $b['name']);});
-    $brand_list = $matches_base_data['brand'];
-    $title_list = $matches_base_data['title'];
-    $match_type_list = $matches_base_data['match_type'];
+    usort($matches_base_data['matches_brand'], function($a, $b) {return strcmp($a['name'], $b['name']);});
+    usort($matches_base_data['matches_title'], function($a, $b) {return strcmp($a['name'], $b['name']);});
+    usort($matches_base_data['matches_match_type'], function($a, $b) {return strcmp($a['name'], $b['name']);});
+    $brand_list = $matches_base_data['matches_brand'];
+    $title_list = $matches_base_data['matches_title'];
+    $match_type_list = $matches_base_data['matches_match_type'];
 ?>
 <!doctype html>
 <html lang="en">
@@ -188,7 +189,6 @@
             </form>
         </div>
 
-
         <!-- Brands -->
         <div class="my-3 p-3 bg-white rounded shadow-sm">
             <h6 class="border-bottom border-gray pb-2 mb-3">Brands (<?php echo count($brand_list) ?>)</h6>
@@ -196,8 +196,11 @@
                 <form method="post" class="container">
                     <div class="form-row pb-2">
                         <input type="text" class="form-control d-none" name="brand_id" value="<?php echo $brand['id'] ?>">
-                        <div class="col-md-11 mb-1">
+                        <div class="col-md-4 mb-1">
                             <input type="text" class="form-control" name="name" value="<?php echo $brand['name'] ?>">
+                        </div>
+                        <div class="col-md-7 mb-1">
+                            <input type="text" class="form-control" name="image_url" value="<?php echo $brand['image_url'] ?>">
                         </div>
                         <div class="col-md-1 mb-1">
                             <button type="submit" class="form-control btn btn-primary">Update</button>
@@ -208,8 +211,11 @@
             <form method="post" class="container">
                 <div class="form-row mt-2">
                     <input type="text" class="form-control d-none" name="brand_id" value="0">
-                    <div class="col-md-11 mb-1">
+                    <div class="col-md-4 mb-1">
                         <input type="text" class="form-control" name="name" placeholder="Brand Name" required>
+                    </div>
+                    <div class="col-md-7 mb-1">
+                        <input type="text" class="form-control" name="image_url" placeholder="Image URL" required>
                     </div>
                     <div class="col-md-1 mb-1">
                         <button type="submit" class="form-control btn btn-primary">Add</button>

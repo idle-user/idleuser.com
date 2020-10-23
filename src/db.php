@@ -428,7 +428,7 @@ class MYSQLHandler{
 	// MATCHES
 
 	public function matches_base_data(){
-		$tables = ['title', 'brand', 'match_type'];
+		$tables = ['matches_title', 'matches_brand', 'matches_match_type'];
 		$result = [];
 		foreach($tables as $table){
 			$data = $this->DB_CONN->query("SELECT * FROM $table");
@@ -442,7 +442,7 @@ class MYSQLHandler{
 	}
 
 	public function all_superstars(){
-		$data = $this->DB_CONN->query('SELECT * FROM superstar ORDER BY name');
+		$data = $this->DB_CONN->query('SELECT * FROM matches_superstar ORDER BY name');
 		$result = [];
 		while($r = $data->fetch_array(MYSQLI_ASSOC)){
 			$result[$r['id']] = $r;
@@ -451,7 +451,7 @@ class MYSQLHandler{
 	}
 
 	public function superstar($superstar_id){
-		$query = 'SELECT * FROM superstar WHERE id=?';
+		$query = 'SELECT * FROM matches_superstar WHERE id=?';
 		$stmt = $this->DB_CONN->prepare($query);
 		$stmt->bind_param('i', $superstar_id);
 		$stmt->execute();
@@ -459,7 +459,7 @@ class MYSQLHandler{
 	}
 
 	public function superstar_info($name){
-		$query = 'SELECT * FROM superstar WHERE name=?';
+		$query = 'SELECT * FROM matches_superstar WHERE name=?';
 		$stmt = $this->DB_CONN->prepare($query);
 		$stmt->bind_param('s', $name);
 		$stmt->execute();
@@ -467,7 +467,7 @@ class MYSQLHandler{
 	}
 
 	public function brand_superstars($brand_id){
-		$query = 'SELECT * FROM superstar WHERE brand_id=? ORDER BY name';
+		$query = 'SELECT * FROM matches_superstar WHERE brand_id=? ORDER BY name';
 		$stmt = $this->DB_CONN->prepare($query);
 		$stmt->bind_param('i', $brand_id);
 		$stmt->execute();
@@ -545,21 +545,6 @@ class MYSQLHandler{
 		return $result;
 	}
 
-	/*
-	public function match($match_id){
-		$query = '
-			SELECT uv_matches_all.*, uv_all_matches_bets.*
-			FROM `match`
-			JOIN uv_all_matches ON `match`.id=uv_all_matches.id
-			JOIN uv_all_matches_bets ON `match`.id=uv_all_matches_bets.id
-			WHERE `match`.id=?';
-		$stmt = $this->DB_CONN->prepare($query);
-		$stmt->bind_param('i', $match_id);
-		$stmt->execute();
-		return $stmt->get_result()->fetch_array(MYSQLI_ASSOC);
-	}
-	*/
-
 	public function match($match_id){
 		$query = '
 			SELECT *
@@ -628,7 +613,7 @@ class MYSQLHandler{
 				,mc.*
 			FROM uv_matches vm
 			JOIN
-				match_contestant mc ON mc.superstar_id=?
+				matches_contestant mc ON mc.superstar_id=?
 				AND mc.match_id=vm.id';
 		$stmt = $this->DB_CONN->prepare($query);
 		$stmt->bind_param('i', $superstar_id);
@@ -645,11 +630,11 @@ class MYSQLHandler{
 		$query = '
 			SELECT
 				vm.*
-				,IFNULL(umr.rating,0) AS user_rating
+				,IFNULL(umr.rating,0) AS matches_rating
 				,IF(ubc.bet_won=1,ubc.potential_cut_points,0) AS points_won
 			FROM uv_matches vm
-			JOIN user_bet_calculation ubc ON ubc.user_id=? AND ubc.match_id=vm.id
-			LEFT JOIN user_match_rating umr ON umr.user_id=? AND umr.match_id=vm.id
+			JOIN matches_bet_calculation ubc ON ubc.user_id=? AND ubc.match_id=vm.id
+			LEFT JOIN matches_match_rating umr ON umr.user_id=? AND umr.match_id=vm.id
 			ORDER BY vm.date DESC, vm.id DESC';
 		$stmt = $this->DB_CONN->prepare($query);
 		$stmt->bind_param('ii', $user_id, $user_id);
@@ -663,7 +648,7 @@ class MYSQLHandler{
 	}
 
 	public function all_match_contestants(){
-		$data = $this->DB_CONN->query('SELECT * FROM match_contestant');
+		$data = $this->DB_CONN->query('SELECT * FROM matches_contestant');
 		$result = [];
 		while($r = $data->fetch_array(MYSQLI_ASSOC)){
 			$result[] = $r;
@@ -672,7 +657,7 @@ class MYSQLHandler{
 	}
 
 	public function match_contestants($match_id){
-		$query = 'SELECT * FROM match_contestant WHERE match_id=?';
+		$query = 'SELECT * FROM matches_contestant WHERE match_id=?';
 		$stmt = $this->DB_CONN->prepare($query);
 		$stmt->bind_param('i', $match_id);
 		$stmt->execute();
@@ -693,7 +678,7 @@ class MYSQLHandler{
 				,vus.s1_wins as wins
 				,vus.s1_losses as losses
 				,vus.s1_total_points as points
-			FROM uv_user_stats vus
+			FROM uv_matches_stats vus
 			WHERE s1_wins+s1_losses > 0
 			ORDER BY points DESC');
 		$result = [];
@@ -712,7 +697,7 @@ class MYSQLHandler{
 				,vus.s2_wins as wins
 				,vus.s2_losses as losses
 				,vus.s2_total_points as points
-			FROM uv_user_stats vus
+			FROM uv_matches_stats vus
 			WHERE s2_wins+s2_losses > 0
 			ORDER BY points DESC');
 		$result = [];
@@ -731,7 +716,7 @@ class MYSQLHandler{
 				,vus.s3_wins as wins
 				,vus.s3_losses as losses
 				,vus.s3_total_points as points
-			FROM uv_user_stats vus
+			FROM uv_matches_stats vus
 			WHERE s3_wins+s3_losses > 0
 			ORDER BY points DESC');
 		$result = [];
@@ -750,7 +735,7 @@ class MYSQLHandler{
 				,vus.s4_wins as wins
 				,vus.s4_losses as losses
 				,vus.s4_total_points as points
-			FROM uv_user_stats vus
+			FROM uv_matches_stats vus
 			WHERE s4_wins+s4_losses > 0
 			ORDER BY points DESC');
 		$result = [];
@@ -763,7 +748,7 @@ class MYSQLHandler{
 	public function user_stats($user_id){
 		$query='
 			SELECT vus.*
-			FROM uv_user_stats vus
+			FROM uv_matches_stats vus
 			WHERE vus.user_id=?';
 		$stmt = $this->DB_CONN->prepare($query);
 		$stmt->bind_param('i', $user_id);
@@ -773,8 +758,8 @@ class MYSQLHandler{
 
 	public function all_user_bets(){
 		$query = '
-			SELECT username, match_id, team, points, dt_placed FROM user_bet
-			JOIN user on user.id=user_bet.user_id
+			SELECT username, match_id, team, points, dt_placed FROM matches_bet
+			JOIN user on user.id=matches_bet.user_id
 			ORDER BY match_id, dt_placed DESC';
 		$stmt = $this->DB_CONN->prepare($query);
 		$data = $this->DB_CONN->query($query);
@@ -787,8 +772,8 @@ class MYSQLHandler{
 
 	public function match_bets($match_id){
 		$query = '
-			SELECT username, team, points FROM user_bet WHERE match_id=?
-			JOIN user on user.id=user_bet.user_id';
+			SELECT username, team, points FROM matches_bet WHERE match_id=?
+			JOIN user on user.id=matches_bet.user_id';
 		$stmt = $this->DB_CONN->prepare($query);
 		$stmt->bind_param('i', $match_id);
 		$stmt->execute();
@@ -803,11 +788,11 @@ class MYSQLHandler{
 	public function user_bets($user_id){
 		$query = '
 			SELECT
-				user_bet.*
+				matches_bet.*
 				,IF(team_won=team,CAST(points/base_winner_pot*total_pot AS SIGNED),0) AS points_won
-			FROM user_bet
-			JOIN `match` ON user_bet.match_id=`match`.id
-			JOIN uv_match_bets_all vm ON vm.id=user_bet.match_id
+			FROM matches_bet
+			JOIN matches_match ON matches_bet.match_id=matches_match.id
+			JOIN uv_matches_all_bets vm ON vm.id=matches_bet.match_id
 			WHERE user_id=?';
 		$stmt = $this->DB_CONN->prepare($query);
 		$stmt->bind_param('i', $user_id);
@@ -823,10 +808,10 @@ class MYSQLHandler{
 	public function user_match_bet($user_id, $match_id){
 		$query = '
 			SELECT
-				user_bet.*
+			matches_bet.*
 				,IF(team_won=team,CAST(points/winner_pot*total_pot AS SIGNED),0) AS points_won
-			FROM user_bet
-			JOIN uv_matches_all vm ON vm.id=user_bet.match_id
+			FROM matches_bet
+			JOIN uv_matches_all vm ON vm.id=matches_bet.match_id
 			WHERE user_id=? AND match_id=?';
 		$stmt = $this->DB_CONN->prepare($query);
 		$stmt->bind_param('ii', $user_id, $match_id);
@@ -835,14 +820,14 @@ class MYSQLHandler{
 	}
 
 	public function user_rate_match($user_id, $match_id, $rating){
-		$query = 'CALL usp_ins_user_match_rating(?, ?, ?)';
+		$query = 'CALL usp_matches_ins_rating(?, ?, ?)';
 		$stmt = $this->DB_CONN->prepare($query);
 		$stmt->bind_param('iii', $user_id, $match_id, $rating);
 		return $stmt->execute();
 	}
 
 	public function user_match_ratings($user_id){
-		$query = 'SELECT * FROM user_match_rating WHERE user_id=?';
+		$query = 'SELECT * FROM matches_match_rating WHERE user_id=?';
 		$stmt = $this->DB_CONN->prepare($query);
 		$stmt->bind_param('i', $user_id);
 		$stmt->execute();
@@ -855,7 +840,7 @@ class MYSQLHandler{
 	}
 
 	public function user_match_rating($user_id, $match_id){
-		$query = 'SELECT * FROM user_match_rating WHERE user_id=? AND match_id=?';
+		$query = 'SELECT * FROM matches_match_rating WHERE user_id=? AND match_id=?';
 		$stmt = $this->DB_CONN->prepare($query);
 		$stmt->bind_param('ii', $user_id, $match_id);
 		$stmt->execute();
@@ -863,7 +848,7 @@ class MYSQLHandler{
 	}
 
 	public function all_stable_members(){
-		$data = $this->DB_CONN->query('SELECT * FROM stable_member');
+		$data = $this->DB_CONN->query('SELECT * FROM matches_stable_member');
 		$result = [];
 		while($r = $data->fetch_array(MYSQLI_ASSOC)){
 			$result[] = $r;
@@ -872,7 +857,7 @@ class MYSQLHandler{
 	}
 
 	public function stable_members($stable_id){
-		$query = 'SELECT * FROM stable_member WHERE stable_id=?';
+		$query = 'SELECT * FROM matches_stable_member WHERE stable_id=?';
 		$stmt = $this->DB_CONN->prepare($query);
 		$stmt->bind_param('i', $stable_id);
 		$stmt->execute();
@@ -885,7 +870,7 @@ class MYSQLHandler{
 	}
 
 	public function add_stable($name){
-		$query = 'INSERT INTO stable (name) VALUES (?)';
+		$query = 'INSERT INTO matches_stable (name) VALUES (?)';
 		$stmt = $this->DB_CONN->prepare($query);
 		$success = $stmt->bind_param('s', $name);
 		if($success){
@@ -895,7 +880,7 @@ class MYSQLHandler{
 	}
 
 	public function update_stable($id, $name){
-		$query = 'UPDATE stable SET name=?,last_updated=NOW() WHERE id=?';
+		$query = 'UPDATE matches_stable SET name=?,last_updated=NOW() WHERE id=?';
 		$stmt = $this->DB_CONN->prepare($query);
 		$success = $stmt->bind_param('si', $name, $id);
 		if($success){
@@ -905,7 +890,7 @@ class MYSQLHandler{
 	}
 
 	public function add_stable_member($stable_id, $superstar_id){
-		$query = 'INSERT INTO stable_member (stable_id, superstar_id) VALUES (?, ?)';
+		$query = 'INSERT INTO matches_stable_member (stable_id, superstar_id) VALUES (?, ?)';
 		$stmt = $this->DB_CONN->prepare($query);
 		$success = $stmt->bind_param('ii', $stable_id, $superstar_id);
 		if($success){
@@ -915,7 +900,7 @@ class MYSQLHandler{
 	}
 
 	public function remove_all_stable_members($stable_id){
-		$query = 'DELETE FROM stable_member WHERE stable_id=?';
+		$query = 'DELETE FROM matches_stable_member WHERE stable_id=?';
 		$stmt = $this->DB_CONN->prepare($query);
 		$success = $stmt->bind_param('i', $stable_id);
 		if($success){
@@ -928,7 +913,7 @@ class MYSQLHandler{
 		$superstar_info = $this->superstar_info($name);
 		if(!$superstar_info){
 			$query = '
-				INSERT INTO superstar (name, brand_id, height, weight, hometown, dob, signature_move, page_url, image_url, bio, last_updated)
+				INSERT INTO matches_superstar (name, brand_id, height, weight, hometown, dob, signature_move, page_url, image_url, bio, last_updated)
 				VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())';
 			$stmt = $this->DB_CONN->prepare($query);
 			$success = $stmt->bind_param('sissssssss', $name, $brand_id, $height, $weight, $hometown, $dob, $signature_move, $page_url, $image_url, $bio);
@@ -942,7 +927,7 @@ class MYSQLHandler{
 
 	public function update_superstar($id, $name, $brand_id, $height, $weight, $hometown, $dob, $signature_move, $page_url, $image_url, $bio){
 		$query = '
-			UPDATE superstar
+			UPDATE matches_superstar
 			SET
 				name=?, brand_id=?, height=?, weight=?, hometown=?, dob=?, signature_move=?,
 				page_url=?, image_url=?, bio=?, last_updated=NOW()
@@ -957,7 +942,7 @@ class MYSQLHandler{
 
 	public function update_superstar_twitter($id, $twitter_name){
 		$query = '
-			UPDATE superstar_social
+			UPDATE matches_superstar_social
 			SET twitter_name=?
 			WHERE superstar_id=?';
 		$stmt = $this->DB_CONN->prepare($query);
@@ -969,7 +954,7 @@ class MYSQLHandler{
 	}
 
 	public function all_brands(){
-		$query = 'SELECT * FROM brand order by name';
+		$query = 'SELECT * FROM matches_brand order by name';
 		$data = $this->DB_CONN->query($query);
 		$result = [];
 		while($r = $data->fetch_array(MYSQLI_ASSOC)){
@@ -979,17 +964,17 @@ class MYSQLHandler{
 	}
 
 	public function brand($id){
-		$query = 'SELECT * FROM brand WHERE id=?';
+		$query = 'SELECT * FROM matches_brand WHERE id=?';
 		$stmt = $this->DB_CONN->prepare($query);
 		$stmt->bind_param('i', $id);
 		$stmt->execute();
 		return $stmt->get_result()->fetch_array(MYSQLI_ASSOC);
 	}
 
-	public function add_brand($name){
-		$query = 'INSERT INTO brand (name, last_updated) VALUES (?, now())';
+	public function add_brand($name, $image_url=''){
+		$query = 'INSERT INTO matches_brand (name, image_url, last_updated) VALUES (?, ?, now())';
 		$stmt = $this->DB_CONN->prepare($query);
-		$success = $stmt->bind_param('s', $name);
+		$success = $stmt->bind_param('ss', $name, $image_url);
 		if($success){
 			$success = $stmt->execute();
 		}
@@ -997,7 +982,7 @@ class MYSQLHandler{
 	}
 
 	public function all_titles(){
-		$query = 'SELECT * FROM title order by name';
+		$query = 'SELECT * FROM matches_title order by name';
 		$data = $this->DB_CONN->query($query);
 		$result = [];
 		while($r = $data->fetch_array(MYSQLI_ASSOC)){
@@ -1007,17 +992,17 @@ class MYSQLHandler{
 	}
 
 	public function title($id){
-		$query = 'SELECT * FROM title WHERE id=?';
+		$query = 'SELECT * FROM matches_title WHERE id=?';
 		$stmt = $this->DB_CONN->prepare($query);
 		$stmt->bind_param('i', $id);
 		$stmt->execute();
 		return $stmt->get_result()->fetch_array(MYSQLI_ASSOC);
 	}
 
-	public function update_brand($id, $name){
-		$query = 'UPDATE brand SET name=?, last_updated=NOW() WHERE id=?';
+	public function update_brand($id, $name, $image_url){
+		$query = 'UPDATE matches_brand SET name=?, image_url=?, last_updated=NOW() WHERE id=?';
 		$stmt = $this->DB_CONN->prepare($query);
-		$success = $stmt->bind_param('si', $name, $id);
+		$success = $stmt->bind_param('ssi', $name, $image_url, $id);
 		if($success){
 			$success = $stmt->execute();
 		}
@@ -1025,9 +1010,9 @@ class MYSQLHandler{
 	}
 
 	public function add_title($name){
-		$query = 'INSERT INTO title (name, last_updated) VALUES (?, NOW())';
+		$query = 'INSERT INTO matches_title (name, last_updated) VALUES (?, NOW())';
 		$stmt = $this->DB_CONN->prepare($query);
-		$success = $stmt->bind_param('si', $name);
+		$success = $stmt->bind_param('s', $name);
 		if($success){
 			$success = $stmt->execute();
 		}
@@ -1035,7 +1020,7 @@ class MYSQLHandler{
 	}
 
 	public function update_title($id, $name){
-		$query = 'UPDATE title SET name=?, last_updated=NOW() WHERE id=?';
+		$query = 'UPDATE matches_title SET name=?, last_updated=NOW() WHERE id=?';
 		$stmt = $this->DB_CONN->prepare($query);
 		$success = $stmt->bind_param('si', $name, $id);
 		if($success){
@@ -1045,7 +1030,7 @@ class MYSQLHandler{
 	}
 
 	public function all_match_types(){
-		$query = 'SELECT * FROM match_type order by name';
+		$query = 'SELECT * FROM matches_match_type order by name';
 		$data = $this->DB_CONN->query($query);
 		$result = [];
 		while($r = $data->fetch_array(MYSQLI_ASSOC)){
@@ -1055,7 +1040,7 @@ class MYSQLHandler{
 	}
 
 	public function add_match_type($name){
-		$query = 'INSERT INTO match_type (name) VALUES (?)';
+		$query = 'INSERT INTO matches_match_type (name) VALUES (?)';
 		$stmt = $this->DB_CONN->prepare($query);
 		$success = $stmt->bind_param('s', $name);
 		if($success){
@@ -1065,7 +1050,7 @@ class MYSQLHandler{
 	}
 
 	public function update_match_type($id, $name){
-		$query = 'UPDATE match_type SET name=? WHERE id=?';
+		$query = 'UPDATE matches_match_type SET name=? WHERE id=?';
 		$stmt = $this->DB_CONN->prepare($query);
 		$success = $stmt->bind_param('si', $name, $id);
 		if($success){
@@ -1075,7 +1060,7 @@ class MYSQLHandler{
 	}
 
 	public function all_events(){
-		$data = $this->DB_CONN->query('SELECT * FROM event ORDER BY date_time DESC');
+		$data = $this->DB_CONN->query('SELECT * FROM matches_event ORDER BY date_time DESC');
 		$result = [];
 		while($r = $data->fetch_array(MYSQLI_ASSOC)){
 			$result[$r['id']] = $r;
@@ -1084,7 +1069,7 @@ class MYSQLHandler{
 	}
 
 	public function upcoming_events(){
-		$data = $this->DB_CONN->query('SELECT * FROM event WHERE date_time >= (NOW() - INTERVAL 1 DAY) ORDER BY date_time ASC');
+		$data = $this->DB_CONN->query('SELECT * FROM matches_event WHERE date_time >= (NOW() - INTERVAL 1 DAY) ORDER BY date_time ASC');
 		$result = [];
 		while($r = $data->fetch_array(MYSQLI_ASSOC)){
 			$result[$r['id']] = $r;
@@ -1093,7 +1078,7 @@ class MYSQLHandler{
 	}
 
 	public function add_event($datetime, $name, $ppv){
-		$query = 'INSERT INTO event (date_time, name, ppv) VALUES (?, ?, ?)';
+		$query = 'INSERT INTO matches_event (date_time, name, ppv) VALUES (?, ?, ?)';
 		$stmt = $this->DB_CONN->prepare($query);
 		$success = $stmt->bind_param('ssi', $datetime, $name, $ppv);
 		if($success){
@@ -1103,7 +1088,7 @@ class MYSQLHandler{
 	}
 
 	public function update_event($id, $datetime, $name, $ppv){
-		$query = 'UPDATE event SET date_time=?, name=?, ppv=? WHERE id=?';
+		$query = 'UPDATE matches_event SET date_time=?, name=?, ppv=? WHERE id=?';
 		$stmt = $this->DB_CONN->prepare($query);
 		$success = $stmt->bind_param('ssii', $datetime, $name, $ppv, $id);
 		if($success){
@@ -1114,7 +1099,7 @@ class MYSQLHandler{
 
 	public function add_match($event_id, $title_id, $match_type_id, $match_note, $team_won, $winner_note, $bet_open, $user_id){
 		$query = '
-			INSERT INTO `match` (event_id, title_id, match_type_id, match_note, team_won, winner_note, bet_open, last_updated_by, last_updated)
+			INSERT INTO matches_match (event_id, title_id, match_type_id, match_note, team_won, winner_note, bet_open, last_updated_by, last_updated)
 			VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW())';
 		$stmt = $this->DB_CONN->prepare($query);
 		$success = $stmt->bind_param('iiisisii', $event_id, $title_id, $match_type_id, $match_note, $team_won, $winner_note, $bet_open, $user_id);
@@ -1126,7 +1111,7 @@ class MYSQLHandler{
 
 	public function update_match($id, $event_id, $title_id, $match_type_id, $match_note, $team_won, $winner_note, $bet_open, $user_id){
 		$query = '
-			UPDATE `match`
+			UPDATE matches_match
 			SET event_id=?, title_id=?, match_type_id=?, match_note=?, team_won=?, winner_note=?, bet_open=?, last_updated_by=?, last_updated=NOW()
 			WHERE id=?';
 		$stmt = $this->DB_CONN->prepare($query);
@@ -1139,7 +1124,7 @@ class MYSQLHandler{
 
 	public function recalculate_match($id){
 		$query = '
-			UPDATE `match`
+			UPDATE matches_match
 			SET last_updated=NOW()
 			WHERE id=?';
 		$stmt = $this->DB_CONN->prepare($query);
@@ -1151,7 +1136,7 @@ class MYSQLHandler{
 	}
 
 	public function add_match_contestant($match_id, $superstar_id, $team, $bet_multiplier){
-		$query = 'INSERT INTO match_contestant (match_id, superstar_id, team, bet_multiplier) VALUES (?, ?, ?, ?)';
+		$query = 'INSERT INTO matches_contestant (match_id, superstar_id, team, bet_multiplier) VALUES (?, ?, ?, ?)';
 		$stmt = $this->DB_CONN->prepare($query);
 		$success = $stmt->bind_param('iiii', $match_id, $superstar_id, $team, $bet_multiplier);
 		if($success){
@@ -1161,7 +1146,7 @@ class MYSQLHandler{
 	}
 
 	public function remove_all_match_contestants($match_id){
-		$query = 'DELETE FROM match_contestant WHERE match_id=?';
+		$query = 'DELETE FROM matches_contestant WHERE match_id=?';
 		$stmt = $this->DB_CONN->prepare($query);
 		$success = $stmt->bind_param('i', $match_id);
 		if($success){
@@ -1171,7 +1156,7 @@ class MYSQLHandler{
 	}
 
 	public function update_favorite_superstar($user_id, $superstar_id){
-		$query = 'CALL usp_upd_user_favorite_superstar(?, ?)';
+		$query = 'CALL usp_matches_upd_favorite_superstar(?, ?)';
 		$stmt = $this->DB_CONN->prepare($query);
 		$success = $stmt->bind_param('ii', $user_id, $superstar_id);
 		if($success){
@@ -1182,7 +1167,7 @@ class MYSQLHandler{
 
 	public function add_user_bet($user_id, $match_id, $team, $points){
 		$query = '
-			INSERT INTO user_bet (user_id, match_id, team, points, dt_placed)
+			INSERT INTO matches_bet (user_id, match_id, team, points, dt_placed)
 			VALUES (?, ?, ?, ?, NOW())';
 		$stmt = $this->DB_CONN->prepare($query);
 		$success = $stmt->bind_param('iiii', $user_id, $match_id, $team, $points);

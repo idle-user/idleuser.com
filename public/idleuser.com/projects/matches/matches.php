@@ -32,7 +32,7 @@
 	if(empty($matches)){
 		$season_id = 0;
 	        if(isset($_GET['season_id']) && !empty($_GET['season_id'])){
-	                $season_id = htmlspecialchars($_GET['season_id']);
+	            $season_id = htmlspecialchars($_GET['season_id']);
 	        }
 	        if($season_id == 1){
 	                $matches = $db->s1_matches();
