@@ -41,7 +41,8 @@
 		global $db;
 		$ip = get_ip();
 		if($ip!='192.168.1.1' || !empty($action)){
-			$db->add_web_traffic($_SESSION['user_id'], $ip, $_SERVER['REQUEST_URI'], $_SERVER['HTTP_USER_AGENT'], $action);
+			$user_agent = isset($_SERVER['HTTP_USER_AGENT'])?$_SERVER['HTTP_USER_AGENT']:'';
+			$db->add_web_traffic($_SESSION['user_id'], $ip, $_SERVER['REQUEST_URI'], $user_agent, $action);
 		}
 	}
 	function get_direct_to(){
