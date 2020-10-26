@@ -1,5 +1,5 @@
 <?php 
-  require_once('/srv/http/src/session.php');
+  require_once '/srv/http/src/session.php';
   if($_SESSION['loggedin']){
     echo 'Already logged in. Redirecting back.';
     redirect(1);

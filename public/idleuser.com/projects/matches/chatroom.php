@@ -1,4 +1,5 @@
-<?php include('header.php'); ?>
+<?php include 'header.php';
+ ?>
 <header class="main">
 	<h1>Chatroom</h1>
 </header>
@@ -100,4 +101,4 @@
 		});
 	});
 </script>
-<?php include('navi-footer.php'); ?>
+<?php include 'navi-footer.php'; ?>

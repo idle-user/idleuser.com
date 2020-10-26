@@ -1,6 +1,6 @@
 <?php
 $new_page = "/projects/matches/royalrumble.php";
-require_once('/srv/http/src/session.php');
+require_once '/srv/http/src/session.php';
 echo "Redirecting to <a href='$new_page'>Matches - RoyalRumble</a> ...";
 redirect(3, $new_page);
 exit();

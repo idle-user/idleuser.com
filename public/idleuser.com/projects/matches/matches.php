@@ -1,4 +1,5 @@
-<?php include('header.php'); ?>
+<?php include 'header.php';
+ ?>
 <?php
 	$brands = $db->all_brands();
 	$titles = $db->all_titles();
@@ -52,6 +53,6 @@
 		}
 	}
 	$header = '<h1>'.$header.'</h1>';
-	include('matchlist.php');
+	include 'matchlist.php';
 ?>
-<?php include('navi-footer.php'); ?>
+<?php include 'navi-footer.php'; ?>

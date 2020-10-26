@@ -1,5 +1,5 @@
 <?php
-	require_once('/srv/http/src/session.php');
+	require_once '/srv/http/src/session.php';
 	if (empty($_POST['superstarID']) || empty($_SESSION['user_id'])) {
 		error_log('Error updateFavorite - '.$_POST['superstarID'].' - '.$_SESSION['user_id']);
 		header("Location: /projects/matches");

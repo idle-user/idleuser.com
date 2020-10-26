@@ -1,4 +1,4 @@
-<?php require_once('/srv/http/src/session.php'); set_last_page(); ?>
+<?php require_once '/srv/http/src/session.php'; set_last_page(); ?>
 <?php 
 	$matches_today = $db->todays_matches();
 	$matches_bets_open = $db->open_matches();
@@ -42,7 +42,7 @@
 	<div id="wrapper">
 		<div id="main">
 			<div class="inner">
-				<?php include('notice.php'); ?>
+				<?php include 'notice.php'; ?>
 				<header id="header" style="padding-top:3em;">
 					<a href="#" class="logo"><strong>Matches</strong> by Jesse</a>
 					<ul class="icons">

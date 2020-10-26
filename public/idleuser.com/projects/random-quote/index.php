@@ -1,4 +1,4 @@
-<?php require_once('/srv/http/src/session.php'); set_last_page();?>
+<?php require_once '/srv/http/src/session.php'; set_last_page();?>
 <!DOCTYPE HTML>
 <!--
 	Eventually by HTML5 UP

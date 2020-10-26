@@ -1,4 +1,4 @@
-<?php require_once('/srv/http/src/session.php'); ?>
+<?php require_once '/srv/http/src/session.php'; ?>
 <!doctype html>
 <html lang="en">
   <head>
@@ -15,7 +15,7 @@
   </head>
   <body>
 
-	<?php include('includes/nav.php') ?>
+	<?php include 'includes/nav.php'; ?>
 
 	<main role="main">
 
@@ -30,7 +30,7 @@
 
 	</main>
 	
-	<?php include('includes/footer.php'); ?>
+	<?php include 'includes/footer.php'; ?>
 	
 </body>
 </html>

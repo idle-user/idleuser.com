@@ -1,4 +1,5 @@
-<?php include('header.php'); ?>
+<?php include 'header.php';
+ ?>
 <?php
 	if(isset($_GET['superstar_id']) && !empty($_GET['superstar_id']))
 		$superstar_id = htmlspecialchars($_GET['superstar_id']);
@@ -53,6 +54,6 @@
 	$header = '<h2>Recent Matches</h2>';
 	$matches = [];
 	$matches = $db->superstar_matches($superstar['id']);
-	include('matchlist.php');
+	include 'matchlist.php';
 ?>
-<?php include('navi-footer.php'); ?>
+<?php include 'navi-footer.php'; ?>

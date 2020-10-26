@@ -1,5 +1,6 @@
 <?php
-	include('header.php');
+	include 'header.php';
+
 	$cnt = 1;
 
 	if(isset($_GET['season_id']) && !empty($_GET['season_id'])){
@@ -48,4 +49,4 @@
 		</tbody>
 	</table>
 </div>
-<?php include('navi-footer.php'); ?>
+<?php include 'navi-footer.php'; ?>

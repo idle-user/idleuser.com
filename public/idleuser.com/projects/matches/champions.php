@@ -1,4 +1,5 @@
-<?php include('header.php'); ?>
+<?php include 'header.php';
+ ?>
 <header class="main">
 	<h1>Champions</h1>
 </header>
@@ -19,4 +20,4 @@
 <?php } ?>
 	</table>
 </div>
-<?php include('navi-footer.php'); ?>
+<?php include 'navi-footer.php'; ?>

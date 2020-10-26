@@ -4,7 +4,7 @@
 		header("Location: ..");
 		exit();
 	}
-	require_once('/srv/http/src/session.php');
+	require_once '/srv/http/src/session.php';
 	$data = false;
 	if($_SESSION['loggedin']){
 		$data = $db->user_stats($_SESSION['user_id']);

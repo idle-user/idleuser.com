@@ -1,5 +1,5 @@
 <?php 
-  require_once('/srv/http/src/session.php');
+  require_once '/srv/http/src/session.php';
 
   $topic_id = isset($_GET['id'])?$_GET['id']:false;
   $poll = $db->poll_info($topic_id);
@@ -82,7 +82,7 @@
   </style>
 </head>
 <body>
-  <?php include('header.php'); ?>
+  <?php include 'header.php'; ?>
 
   <main role="main">
 
@@ -213,7 +213,7 @@
 
   </main>
 
-  <?php include('footer.php'); ?>
+  <?php include 'footer.php'; ?>
 
   <script src='https://www.google.com/recaptcha/api.js'></script>
   <script src='/assets/js/recaptcha.js'></script>

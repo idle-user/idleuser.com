@@ -1,5 +1,5 @@
 <?php
-	require_once('/srv/http/src/session.php');
+	require_once '/srv/http/src/session.php';
 	if (session_status() == PHP_SESSION_NONE) {
 		session_start();
 	}

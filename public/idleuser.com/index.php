@@ -1,4 +1,4 @@
-<?php require_once('/srv/http/src/session.php'); set_last_page(); ?>
+<?php require_once '/srv/http/src/session.php'; set_last_page(); ?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -28,7 +28,7 @@
 </head>
 <body>
 
-	<?php include('includes/nav.php') ?>
+	<?php include 'includes/nav.php'; ?>
 
 	<main role="main">
 
@@ -129,7 +129,7 @@
 
 	</main>
 	
-	<?php include('includes/footer.php'); ?>
+	<?php include 'includes/footer.php'; ?>
 	
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="/assets/js/smoothscroll.js"></script>

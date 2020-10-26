@@ -1,5 +1,5 @@
 <?php
-	require_once('/srv/http/src/session.php');
+	require_once '/srv/http/src/session.php';
 	if (empty($_POST['match_id']) || empty($_POST['superstar']) || !isset($_POST['bet']) || empty($_SESSION['user_id'])) {
 		echo 'error';
 		header("Location: /projects/matches");

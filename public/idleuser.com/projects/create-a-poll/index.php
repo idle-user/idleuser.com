@@ -1,4 +1,4 @@
-<?php require_once('/srv/http/src/session.php'); set_last_page(); ?>
+<?php require_once '/srv/http/src/session.php'; set_last_page(); ?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -27,7 +27,7 @@
   </style>
 </head>
 <body>
-  <?php include('header.php'); ?>
+  <?php include 'header.php'; ?>
 
   <main role="main">
 
@@ -159,7 +159,7 @@
 
   </main>
 
-  <?php include('footer.php'); ?>
+  <?php include 'footer.php'; ?>
   
 </body>
 </html>

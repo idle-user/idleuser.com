@@ -1,5 +1,5 @@
 <?php 
-  require_once('/srv/http/src/session.php');
+  require_once '/srv/http/src/session.php';
 
   $is_success = false;
   $alert_message = false;

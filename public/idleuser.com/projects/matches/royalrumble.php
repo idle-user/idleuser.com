@@ -1,4 +1,5 @@
-<?php include('header.php'); $all_entries = $db->all_royalrumble_entries();?>
+<?php include 'header.php';
+ $all_entries = $db->all_royalrumble_entries();?>
 <header class="main">
 	<h1>Royal Rumble Pool</h1>
 	<p>Test your luck in this year's Royal Rumble<br/>Get an entry number and watch to see if your entrant is the winner!</p>
@@ -200,7 +201,7 @@
 		}
 	?>
 </div>
-<?php include('navi-footer.php'); ?>
+<?php include 'navi-footer.php'; ?>
 <script type="text/javascript">
 	var ef = $('#entryForm');
 	var audio = document.createElement('audio');

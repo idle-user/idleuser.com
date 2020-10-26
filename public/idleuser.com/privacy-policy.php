@@ -1,4 +1,4 @@
-<?php require_once('/srv/http/src/session.php'); set_last_page(); ?>
+<?php require_once '/srv/http/src/session.php'; set_last_page(); ?>
 <!doctype html>
 <html lang="en">
   <head>
@@ -23,7 +23,7 @@
   </head>
   <body>
 
-	<?php include('includes/nav.php') ?>
+	<?php include 'includes/nav.php'; ?>
 
 	<main role="main">
         <div class="jumbotron container-fluid">
@@ -87,4 +87,4 @@
             <p>If you have any questions or suggestions about our Privacy Policy, do not hesitate to contact us.</p>
         </div>
     </main>
-<?php include('includes/footer.php'); ?>
+<?php include 'includes/footer.php'; ?>

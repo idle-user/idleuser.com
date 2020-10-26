@@ -1,5 +1,5 @@
 <?php
-	require_once('/srv/http/src/session.php');
+	require_once '/srv/http/src/session.php';
 	if($_SERVER['REQUEST_METHOD'] != 'POST'){
 		header("Location: /projects/led-vote");
 		exit();

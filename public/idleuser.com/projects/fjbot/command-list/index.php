@@ -1,4 +1,4 @@
-<?php require_once('/srv/http/src/session.php'); ?>
+<?php require_once '/srv/http/src/session.php'; ?>
 <!DOCTYPE HTML>
 <html>
 <head>

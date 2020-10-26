@@ -1,15 +1,15 @@
 <?php
 	function get_recaptchaV2_sitekey(){
-		require('config.php');
+		require 'config.php';
 		return $configs['RECAPTCHA_V2_SITEKEY'];
 	}
 	function get_recaptchaV3_sitekey(){
-		require('config.php');
+		require 'config.php';
 		return $configs['RECAPTCHA_V3_SITEKEY'];
 	}
 	function validate_recaptchaV2(){
-		require('config.php');
-		require('vendor/google/recaptcha/src/autoload.php');
+		require 'config.php';
+		require 'vendor/google/recaptcha/src/autoload.php';
 		if (!isset($_POST['g-recaptcha-response'])) {
 			throw new \Exception('ReCaptcha is not set.');
 		}
@@ -18,8 +18,8 @@
 		return $response->isSuccess();
 	}
 	function validate_recaptchaV3(){
-		require('config.php');
-		require('vendor/google/recaptcha/src/autoload.php');
+		require 'config.php';
+		require 'vendor/google/recaptcha/src/autoload.php';
 		if (!isset($_POST['g-recaptcha-response'])) {
 			throw new \Exception('ReCaptcha is not set.');
 		}

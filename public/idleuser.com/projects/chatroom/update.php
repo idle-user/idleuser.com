@@ -1,5 +1,5 @@
 <?php
-	require_once('/srv/http/src/session.php');
+	require_once '/srv/http/src/session.php';
 	if(!isset($_POST['last_message_time'])){
 		header("Location: /projects/chatroom");
 		exit();

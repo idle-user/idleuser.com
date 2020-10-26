@@ -1,4 +1,4 @@
-<?php require_once('/srv/http/src/session.php'); set_last_page(); requires_admin(); ?>
+<?php require_once '/srv/http/src/session.php'; set_last_page(); requires_admin(); ?>
 <?php
     $open_matches = array_slice($db->open_matches(), 0, 5);
     $recent_match_updates = array_slice($db->all_matches_recently_updated(), 0, 5);
@@ -11,16 +11,16 @@
 <head>
     <?php
         $title = 'Admin - Home';
-        include('includes/head.php');
+        include 'includes/head.php';
     ?>
 </head>
 <body>
 
-    <?php include('includes/nav.php') ?>
+    <?php include 'includes/nav.php'; ?>
 
     <main role="main" class="container">
     
-        <?php include('includes/banner.php') ?>
+        <?php include 'includes/banner.php'; ?>
 
         <!-- Last 5 open matches -->
         <div class="my-3 p-3 bg-white rounded shadow-sm">
@@ -154,7 +154,7 @@
 
     </main>
 	
-	<?php include('../includes/footer.php'); ?>
+	<?php include '../includes/footer.php'; ?>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.bundle.min.js'></script>
     <script type="text/javascript">
         $(document).ready(function() {

@@ -1,6 +1,6 @@
 <?php
+require 'config.php' ;
 
-require('config.php');
 $db = new MYSQLHandler($configs);
 $db->connect();
 

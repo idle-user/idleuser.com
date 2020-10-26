@@ -1,9 +1,9 @@
 <?php
-	require_once('/srv/http/src/session.php');
+	require_once '/srv/http/src/session.php';
 	if($_SESSION['loggedin']){
-		include("user.php");
+		include 'user.php';
 	} 
 	else {
-		include("FAQs.php");
+		include 'FAQs.php';
 	}
 ?>

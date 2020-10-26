@@ -1,4 +1,5 @@
-<?php include('header.php'); ?>
+<?php include 'header.php';
+ ?>
 <?php
 	if(isset($_GET['user_id']) && !empty($_GET['user_id'])){
 		$user_id = htmlspecialchars($_GET['user_id']);
@@ -152,6 +153,6 @@
 <?php
 	$header = '<h2>Matches Bet On</h2>';
 	$matches = $db->user_matches($user['user_id']);
-	include('matchlist.php');
+	include 'matchlist.php';
 ?>
-<?php include('navi-footer.php'); ?>
+<?php include 'navi-footer.php'; ?>

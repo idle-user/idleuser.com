@@ -1,5 +1,5 @@
 <?php
-	require_once('/srv/http/src/session.php');
+	require_once '/srv/http/src/session.php';
 	$_POST['entry_username'] = trim($_POST['entry_username']);
 	if(empty($_POST['entry_username'])){
 		redirect_back();

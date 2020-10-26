@@ -1,4 +1,4 @@
-<?php include('header.php') ?>
+<?php include 'header.php'; ?>
 <header class="main">
 	<h1>FAQs</h1>
 </header>
@@ -95,4 +95,4 @@
 		echo "<p>Hope you stick around :)</p>";
 	}
 ?>
-<?php include('navi-footer.php'); ?>
+<?php include 'navi-footer.php'; ?>

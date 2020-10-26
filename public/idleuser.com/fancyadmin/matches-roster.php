@@ -1,4 +1,4 @@
-<?php require_once('/srv/http/src/session.php'); set_last_page(); requires_admin(); ?>
+<?php require_once '/srv/http/src/session.php'; set_last_page(); requires_admin(); ?>
 <?php
     $is_success = false;
     $alert_message = false;
@@ -96,16 +96,16 @@
 <head>
     <?php
         $title = 'Admin - Matches Roster';
-        include('includes/head.php');
+        include 'includes/head.php';
     ?>
 </head>
 <body>
 
-    <?php include('includes/nav.php') ?>
+    <?php include 'includes/nav.php'; ?>
 
     <main role="main" class="container">
 
-        <?php include('includes/banner.php') ?>
+        <?php include 'includes/banner.php'; ?>
 
         <?php if($alert_message){ ?>
         <!-- Notice Message -->
@@ -271,7 +271,7 @@
 
     </main>
 	
-    <?php include('../includes/footer.php'); ?>
+    <?php include '../includes/footer.php'; ?>
 
 </body>
 </html>

@@ -1,5 +1,5 @@
 <?php 
-  require_once('/srv/http/src/session.php'); 
+  require_once '/srv/http/src/session.php'; 
   if(!$_SESSION['loggedin']){
     echo 'You must be logged in to access this.';
     redirect(1);
@@ -34,7 +34,7 @@
   </style>
 </head>
 <body>
-  <?php include('header.php'); ?>
+  <?php include 'header.php'; ?>
 
   <main role="main">
 
@@ -166,7 +166,7 @@
 
   </main>
 
-  <?php include('footer.php'); ?>
+  <?php include 'footer.php'; ?>
   
 </body>
 </html>

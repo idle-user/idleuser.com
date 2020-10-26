@@ -1,4 +1,4 @@
-<?php include('header.php'); ?>
+<?php include 'header.php'; ?>
 <?php
 	if(!isset($_GET['brand_id']) || empty($_GET['brand_id']))
 		$brand_id = 1;
@@ -38,4 +38,4 @@
 		</tbody>
 	</table>
 </div>
-<?php include('navi-footer.php'); ?>
+<?php include 'navi-footer.php'; ?>

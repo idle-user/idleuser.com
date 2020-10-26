@@ -1,4 +1,4 @@
-<?php include('../includes/nav.php') ?>
+<?php include '../includes/nav.php'; ?>
 
 <div class="nav-scroller bg-white shadow-sm">
     <nav class="nav nav-underline">
