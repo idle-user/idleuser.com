@@ -32,7 +32,7 @@
 		<tbody>
 			<tr id="email_row">
 				<td style="white-space:nowrap;"><strong>Email Address</strong></td>
-				<td width="100%" contenteditable><?php echo strpos($uemail, '@INVALID')?'':$uemail; ?></td>
+				<td width="100%" contenteditable><?php echo $uemail; ?></td>
 				<td><button type="button" onclick="return updateEmail();">Update</button></td>
 			</tr>
 			<tr id="discord_row">
