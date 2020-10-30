@@ -1,0 +1,6 @@
+{
+    "require": {
+        "google/recaptcha": "^1.2",
+        "phpunit/phpunit": "^9.3"
+    }
+}
