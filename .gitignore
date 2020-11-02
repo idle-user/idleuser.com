@@ -1,4 +1,4 @@
-src/config.php
-src/vendor/
+*/src/config.php
+*/vendor/
 .swp
 .htpasswd
