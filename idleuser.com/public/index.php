@@ -95,7 +95,7 @@
         </div>
         <div class="col-lg-4">
         <p class="display-3"><i class="fas fa-comments"></i>
-          <h2>FJBot (Chat Bot)</h2>
+          <h2>IdleBot (Chat Bot)</h2>
           <p>A customized chat bot used across Discord, Chatango, and Twitter. Used in conjunction with <a href="/projects/matches/">Matches</a>.</p>
           <p><a class="btn btn-secondary shadow" href="/projects/fjbot/" target="_blank" role="button">Learn More</a></p>
         </div>
