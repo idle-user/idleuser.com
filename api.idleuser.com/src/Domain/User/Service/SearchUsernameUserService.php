@@ -5,7 +5,7 @@ namespace App\Domain\User\Service;
 
 final class SearchUsernameUserService extends UserService
 {
-    public function run(String $keyword)
+    public function run(string $keyword)
     {
         $users = $this->userRepository->searchByUsername("%${keyword}%");
 

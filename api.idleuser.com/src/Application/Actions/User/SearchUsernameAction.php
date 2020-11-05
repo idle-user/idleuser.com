@@ -23,7 +23,7 @@ class SearchUsernameAction extends Action
      */
     protected function action(): Response
     {
-        $keyword = (String) $this->resolveArg('keyword');
+        $keyword = (string) $this->resolveArg('keyword');
 
         $user = $this->searchUsernameUserService->run($keyword);
 
