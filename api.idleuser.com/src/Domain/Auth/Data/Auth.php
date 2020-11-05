@@ -7,10 +7,12 @@ use JsonSerializable;
 
 class Auth implements JsonSerializable
 {
-    private $user_id;
     private $auth_token;
     private $auth_token_exp;
     private $access_level;
+    private $user_id;
+    private $created;
+    private $last_updated;
 
     public function __construct()
     {
@@ -52,16 +54,22 @@ class Auth implements JsonSerializable
     public function jsonSerialize()
     {
         return [
-            'user_id' => $this->user_id,
             'auth_token' => $this->auth_token,
             'auth_token_exp' => $this->auth_token_exp,
+            'access_level' => $this->access_level,
+            'user_id' => $this->user_id,
+            'created' => $this->created,
+            'last_updated' => $this->last_updated,
         ];
     }
 
     protected function fill(array $row)
     {
-        $this->user_id = $row['user_id'];
-        $this->auth_token = $row['auth_token'];
+        $this->auth_token = $row['auth_token_str'];
         $this->auth_token_exp = $row['auth_token_exp'];
+        $this->access_level = $row['access_level'];
+        $this->user_id = $row['user_id'];
+        $this->created = $row['created'];
+        $this->last_updated = $row['last_updated'];
     }
 }

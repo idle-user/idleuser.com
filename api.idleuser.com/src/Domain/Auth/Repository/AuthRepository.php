@@ -20,7 +20,7 @@ class AuthRepository
 
     public function findByAuthToken($authToken)
     {
-        $sql = "SELECT * FROM auth WHERE auth_token=?";
+        $sql = "SELECT BIN_TO_UUID(auth_token) AS auth_token_str, auth.* FROM auth WHERE auth_token=UUID_TO_BIN(?)";
         $stmt = $this->db->query($sql, [$authToken]);
         $row = $stmt->fetch();
         if (!$row) {
