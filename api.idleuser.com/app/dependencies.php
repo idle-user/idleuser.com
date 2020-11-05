@@ -26,7 +26,7 @@ return function (ContainerBuilder $containerBuilder) {
         },
         PDO::class => function (ContainerInterface $c) {
             $settings = $c->get('settings');
-            
+
             $dbSettings = $settings['db'];
             $driver = $dbSettings['driver'];
             $host = $dbSettings['host'];
@@ -37,9 +37,8 @@ return function (ContainerBuilder $containerBuilder) {
             $charset = $dbSettings['charset'];
             $options = $dbSettings['options'];
             $dsn = "$driver:host=$host;dbname=$dbname;charset=$charset";
-        
+
             return new PDO($dsn, $username, $password, $options);
         },
     ]);
 };
-

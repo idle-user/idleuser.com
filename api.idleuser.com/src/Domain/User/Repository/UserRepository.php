@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Domain\User\Repository;
@@ -14,7 +13,6 @@ use PDOException;
 
 class UserRepository
 {
-
     private $db;
 
     public function __construct(Database $db)

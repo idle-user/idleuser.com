@@ -3,19 +3,19 @@ declare(strict_types=1);
 
 namespace App\Application\Actions\Matches;
 
-use App\Domain\Matches\Service\ListSuperstarsService;
+use App\Domain\Matches\Service\ListMatchesService;
 use App\Application\Actions\Action;
 use Psr\Log\LoggerInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 
-class ListSuperstarsAction extends Action
+class ListMatchesAction extends Action
 {
-    private $listSuperstarsService;
+    private $listMatchesService;
 
-    public function __construct(LoggerInterface $logger, ListSuperstarsService $listSuperstarsService)
+    public function __construct(LoggerInterface $logger, ListMatchesService $listMatchesService)
     {
         parent::__construct($logger);
-        $this->listSuperstarsService = $listSuperstarsService;
+        $this->listMatchesService = $listMatchesService;
     }
 
     /**
@@ -23,7 +23,7 @@ class ListSuperstarsAction extends Action
      */
     protected function action(): Response
     {
-        $matches = $this->listSuperstarsService->run();
+        $matches = $this->listMatchesService->run();
 
         return $this->respondWithData($matches);
     }

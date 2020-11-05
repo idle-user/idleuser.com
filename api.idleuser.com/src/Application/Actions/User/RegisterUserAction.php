@@ -4,32 +4,31 @@ declare(strict_types=1);
 namespace App\Application\Actions\User;
 
 use App\Domain\User\Service\RegisterUserService;
-use App\Domain\User\Repository\UserRepository;
+use App\Application\Actions\Action;
 use Psr\Log\LoggerInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 
-class RegisterUserAction extends UserAction
+class RegisterUserAction extends Action
 {
-    private $service;
+    private $registerUserService;
 
-    public function __construct(LoggerInterface $logger, UserRepository $userRepository, RegisterUserService $service)
+    public function __construct(LoggerInterface $logger, RegisterUserService $registerUserService)
     {
-        parent::__construct($logger, $userRepository);
-        $this->service = $service;
+        parent::__construct($logger);
+        $this->registerUserService = $registerUserService;
     }
 
     /**
      * {@inheritdoc}
      */
     protected function action(): Response
-    { 
+    {
         $username = $this->resolvePost('username');
 
         $this->logger->info("User `${username}` register attempt.");
 
-        $user = $this->service->run($this->request->getParsedBody());
+        $user = $this->registerUserService->run($this->request->getParsedBody());
 
         return $this->respondWithData($user);
     }
-
 }

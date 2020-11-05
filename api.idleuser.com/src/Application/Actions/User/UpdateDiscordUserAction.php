@@ -3,32 +3,31 @@ declare(strict_types=1);
 
 namespace App\Application\Actions\User;
 
-use App\Domain\User\Service\LoginUserService;
+use App\Domain\User\Service\UpdateDiscordUserService;
 use App\Application\Actions\Action;
 use Psr\Log\LoggerInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 
-class LoginUserAction extends Action
+class UpdateDiscordUserAction extends Action
 {
-    private $loginUserservice;
+    private $updateDiscordUserService;
 
-    public function __construct(LoggerInterface $logger, LoginUserService $loginUserservice)
+    public function __construct(LoggerInterface $logger, UpdateDiscordUserService $updateDiscordUserService)
     {
         parent::__construct($logger);
-        $this->loginUserservice = $loginUserservice;
+        $this->updateDiscordUserService = $updateDiscordUserService;
     }
 
     /**
      * {@inheritdoc}
      */
     protected function action(): Response
-    {
+    { 
         $username = $this->resolvePost('username');
 
-        $this->logger->info("User `${username}` login attempt.");
-
-        $user = $this->loginUserservice->run($this->request->getParsedBody());
+        $user = $this->updateDiscordUserService->run($this->request->getParsedBody());
 
         return $this->respondWithData($user);
     }
+
 }

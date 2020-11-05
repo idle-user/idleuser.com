@@ -3,21 +3,30 @@ declare(strict_types=1);
 
 namespace App\Application\Actions\User;
 
+use App\Domain\User\Service\SearchUsernameUserService;
+use App\Application\Actions\Action;
+use Psr\Log\LoggerInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 
-class SearchUsernameAction extends UserAction
+class SearchUsernameAction extends Action
 {
+    private $searchUsernameUserService;
+
+    public function __construct(LoggerInterface $logger, SearchUsernameUserService $searchUsernameUserService)
+    {
+        parent::__construct($logger);
+        $this->searchUsernameUserService = $searchUsernameUserService;
+    }
+
     /**
      * {@inheritdoc}
      */
     protected function action(): Response
     {
-        $keyword = $this->resolveArg('keyword');
+        $keyword = (String) $this->resolveArg('keyword');
 
-        $users = $this->userRepository->searchByUsername("%${keyword}%");
+        $user = $this->searchUsernameUserService->run($keyword);
 
-        $this->logger->info("User search `${keyword}` list was viewed.");
-
-        return $this->respondWithData($users);
+        return $this->respondWithData($user);
     }
 }

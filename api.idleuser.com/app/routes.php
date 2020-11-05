@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 
+use App\Application\Actions\Auth;
 use App\Application\Actions\User;
 use App\Application\Actions\Matches;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -14,23 +15,27 @@ return function (App $app) {
         return $response;
     });
 
+    // Auth
     $app->group('/', function (Group $group) {
-        $group->get('', function (Request $request, Response $response) {
-            $response->getBody()->write('Hello world!');
-            return $response;
-        });
-        $group->post('register', User\RegisterUserAction::class);
-        $group->post('login', User\LoginUserAction::class);
+        $group->get('auth', Auth\AuthAction::class)->setName('auth');
+        $group->post('login', User\LoginUserAction::class)->setName('login');
+        $group->post('register', User\RegisterUserAction::class)->setName('register');
     });
 
-    $app->group('/users', function (Group $group) {
-        $group->get('', User\ListUsersAction::class);
+    // User
+    $app->group('/user', function (Group $group) {
+        $group->get('/list', User\ListUsersAction::class);
         $group->get('/{id}', User\ViewUserAction::class);
         $group->get('/search/{keyword}', User\SearchUsernameAction::class);
     });
 
-    $app->group('/superstars', function (Group $group) {
-        $group->get('', Matches\ListSuperstarsAction::class);
+    // Matches
+    $app->group('/matches', function (Group $group) {
+        $group->get('/list', Matches\ListMatchesAction::class);
+        $group->get('/{id}', Matches\ViewMatchAction::class);
+    });
+    $app->group('/superstar', function (Group $group) {
+        $group->get('/list', Matches\ListSuperstarsAction::class);
         $group->get('/{id}', Matches\ViewSuperstarAction::class);
     });
 };

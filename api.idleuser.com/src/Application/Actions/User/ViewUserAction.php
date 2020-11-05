@@ -3,19 +3,29 @@ declare(strict_types=1);
 
 namespace App\Application\Actions\User;
 
+use App\Domain\User\Service\ViewUserService;
+use App\Application\Actions\Action;
+use Psr\Log\LoggerInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 
-class ViewUserAction extends UserAction
+class ViewUserAction extends Action
 {
+    private $viewUserservice;
+
+    public function __construct(LoggerInterface $logger, ViewUserService $viewUserservice)
+    {
+        parent::__construct($logger);
+        $this->viewUserservice = $viewUserservice;
+    }
+
     /**
      * {@inheritdoc}
      */
     protected function action(): Response
     {
         $userId = (int) $this->resolveArg('id');
-        $user = $this->userRepository->findById($userId);
 
-        $this->logger->info("User id `${userId}` was viewed.");
+        $user = $this->viewUserservice->run($userId);
 
         return $this->respondWithData($user);
     }

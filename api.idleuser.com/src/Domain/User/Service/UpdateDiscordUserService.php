@@ -5,15 +5,15 @@ namespace App\Domain\User\Service;
 
 use App\Exception\ValidationException;
 
-final class RegisterUserService extends UserService
+final class UpdateDiscordUserService extends UserService
 {
     public function run(array $data)
     {
         $this->validate($data);
 
-        $user = $this->userRepository->register($data);
+        $user = $this->userRepository->login($data);
 
-        $this->logger->info(sprintf('User registered successfully: %s', $user->getUsername()));
+        $this->logger->info(sprintf('User logged-in successfully: %s', $user->getUsername()));
 
         return $user;
     }
@@ -24,14 +24,10 @@ final class RegisterUserService extends UserService
 
         if (empty($data['username'])) {
             $errors['username'] = 'Input required';
-        } elseif (!preg_match('/^[\w\-]+$/i', $data['username'])) {
-            $errors['username'] = "Invalid username.";
         }
 
         if (empty($data['secret'])) {
             $errors['secret'] = 'Input required';
-        } elseif (strlen($data["secret"]) < 6) {
-            $errors['secret']  = "Must contain at least 6 characters.";
         }
 
         if ($errors) {
