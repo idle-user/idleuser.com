@@ -25,8 +25,8 @@ class ViewSuperstarAction extends Action
     {
         $superstarId = (int) $this->resolveArg('id');
 
-        $match = $this->viewSuperstarService->run($superstarId);
+        $superstar = $this->viewSuperstarService->run($superstarId);
 
-        return $this->respondWithData($match);
+        return $this->respondWithData($superstar);
     }
 }
