@@ -1,24 +1,19 @@
 {
-    "name": "slim/slim-skeleton",
-    "description": "A Slim Framework skeleton application for rapid development",
+    "name": "idleuser/api",
+    "description": "An API for idleuser.com built with Slim Framework",
     "keywords": [
         "microframework",
         "rest",
         "router",
-        "psr7"
+        "psr7",
+        "api"
     ],
-    "homepage": "http://github.com/slimphp/Slim-Skeleton",
+    "homepage": "https://github.com/idle-user/website",
     "license": "MIT",
     "authors": [
         {
-            "name": "Josh Lockhart",
-            "email": "info@joshlockhart.com",
-            "homepage": "http://www.joshlockhart.com/"
-        },
-        {
-            "name": "Pierre Berube",
-            "email": "pierre@lgse.com",
-            "homepage": "http://www.lgse.com/"
+            "name": "Jesus Andrade",
+            "homepage": "http://idleuser.com/"
         }
     ],
     "require": {
