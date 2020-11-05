@@ -40,4 +40,15 @@ class SuperstarRepository
         return Superstar::withRow($row);
     }
 
+    public function searchByName($keyword)
+    {
+        $sql = "SELECT * FROM matches_superstar WHERE name LIKE ?";
+        $stmt = $this->db->query($sql, [$keyword]);
+        $ret = [];
+        while ($row = $stmt->fetch()) {
+            $ret[] = Superstar::withRow($row);
+        }
+        return $ret;
+    }
+
 }

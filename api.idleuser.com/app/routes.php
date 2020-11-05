@@ -30,12 +30,13 @@ return function (App $app) {
     });
 
     // Matches
-    $app->group('/matches', function (Group $group) {
+    $app->group('/matches/match', function (Group $group) {
         $group->get('/list', Matches\ListMatchesAction::class);
         $group->get('/{id}', Matches\ViewMatchAction::class);
     });
-    $app->group('/superstar', function (Group $group) {
+    $app->group('/matches/superstar', function (Group $group) {
         $group->get('/list', Matches\ListSuperstarsAction::class);
         $group->get('/{id}', Matches\ViewSuperstarAction::class);
+        $group->get('/search/{keyword}', Matches\SearchSuperstarAction::class);
     });
 };
