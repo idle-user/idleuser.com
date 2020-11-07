@@ -1,6 +1,5 @@
-*/src/config.php
-*/vendor/
+src/config.php
+vendor/
+public/maintenance_on.html
 .swp
 .htpasswd
-maintenance_on.html
-settings.php
