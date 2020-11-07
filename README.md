@@ -1,4 +1,4 @@
-# website
+# idleuser.com
 My personal website
 
 
