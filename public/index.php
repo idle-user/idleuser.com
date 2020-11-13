@@ -1,22 +1,26 @@
-<?php require_once $_SERVER['DOCUMENT_ROOT'] . '/../src/session.php'; set_last_page(); ?>
+<?php require_once $_SERVER['DOCUMENT_ROOT'] . '/../src/session.php';
+set_last_page();
+?>
 <!doctype html>
 <html lang="en">
 <head>
 	<title>Jesse's Website</title>
+  <meta name="google-site-verification" content="W6CApNdGsK6IEjel5CeMTOACliRAZOFeptIX9ABJfqs" />
 	<link rel="apple-touch-icon" sizes="180x180" href="/assets/images/favicon-180x180.png">
 	<link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-32x32.png">
 	<link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon-16x16.png">
 	<link rel="shortcut icon" href="/assets/images/favicon.ico">
-  <link rel="manifest" href="/assets/images/site.webmanifest">	
+  <link rel="manifest" href="/assets/images/site.webmanifest">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto" type='text/css'>
 
-  <?php 
-    $meta = [
-      "og:title" => "Jesse's Personal Website",
-      "og:description" => "I am a developer, programmer, and project manager. When I'm not working, I spend my time tinkering with personal side projects."
-    ];
-    echo page_meta($meta);
+  <?php
+  $meta = [
+      'og:title' => "Jesse's Personal Website",
+      'og:description' =>
+          "I am a developer, programmer, and project manager. When I'm not working, I spend my time tinkering with personal side projects.",
+  ];
+  echo page_meta($meta);
   ?>
 
   <style>
@@ -34,7 +38,7 @@
 
 		<div id="about" class="jumbotron text-center bg-transparent">
 			<div class="container">
-				<h1 class="display-3">Hello &amp; Welcome</h1>        
+				<h1 class="display-3">Hello &amp; Welcome</h1>
         <img class="rounded-circle" src="/assets/images/red.png" alt="Jesse" width="180" height="180">
         <h2>I'm Jesse.</h2>
         <p>
@@ -124,13 +128,11 @@
         </p>
       </div>
     </div>
-    
-
 
 	</main>
-	
+
 	<?php include 'includes/footer.php'; ?>
-	
+
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="/assets/js/smoothscroll.js"></script>
 </body>
