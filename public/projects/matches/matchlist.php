@@ -87,8 +87,8 @@
 						$user_bet = array_key_exists($match['id'], $user_bets)?$user_bets[$match['id']]:False;
 						if($user_bet){
 							if($match['team_won']){
-								if($match['team_won']==$user_bet['team'])
-									$message = "<font color='green'>WIN (+".number_format($user_bet['points_won'], 0, '', ',').")</font>";
+								if($user_bet['bet_won'])
+									$message = "<font color='green'>WIN (+".number_format($user_bet['potential_cut_points'], 0, '', ',').")</font>";
 								else if($match['team_won']==999)
 									$message = "<font color='grey'>NO CONTEST</font>";
 								else
@@ -131,7 +131,7 @@
 		</tbody>
 	</table>
 	<div class="align-center">
-	<?php	
+	<?php
 		if ($current_page != 1) {
 			$prevpage = $current_page - 1;
 			$url = get_page_query_url($prevpage);
@@ -184,7 +184,7 @@
 			$query_result = http_build_query($query);
 			return "{$_SERVER['PHP_SELF']}?{$query_result}";
 		}
-		
+
 	?>
 	</div>
 </div>

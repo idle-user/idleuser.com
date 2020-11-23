@@ -419,7 +419,7 @@ class MYSQLHandler{
 		}
 		return false;
 	}
-	
+
 	// MATCHES
 
 	public function matches_base_data(){
@@ -782,13 +782,10 @@ class MYSQLHandler{
 
 	public function user_bets($user_id){
 		$query = '
-			SELECT
-				matches_bet.*
-				,IF(team_won=team,CAST(points/base_winner_pot*total_pot AS SIGNED),0) AS points_won
-			FROM matches_bet
-			JOIN matches_match ON matches_bet.match_id=matches_match.id
-			JOIN uv_matches_all_bets vm ON vm.id=matches_bet.match_id
-			WHERE user_id=?';
+			SELECT mbc.*, mb.team
+			FROM matches_bet_calculation mbc
+			JOIN matches_bet mb ON mb.match_id=mbc.match_id AND mb.user_id=mbc.user_id
+			WHERE mbc.user_id=?';
 		$stmt = $this->DB_CONN->prepare($query);
 		$stmt->bind_param('i', $user_id);
 		$stmt->execute();
@@ -802,12 +799,10 @@ class MYSQLHandler{
 
 	public function user_match_bet($user_id, $match_id){
 		$query = '
-			SELECT
-			matches_bet.*
-				,IF(team_won=team,CAST(points/winner_pot*total_pot AS SIGNED),0) AS points_won
-			FROM matches_bet
-			JOIN uv_matches_all vm ON vm.id=matches_bet.match_id
-			WHERE user_id=? AND match_id=?';
+			SELECT mbc.*, mb.team
+			FROM matches_bet_calculation mbc
+			JOIN matches_bet mb ON mb.match_id=mbc.match_id AND mb.user_id=mbc.user_id
+			WHERE mbc.user_id=? AND mbc.match_id=?';
 		$stmt = $this->DB_CONN->prepare($query);
 		$stmt->bind_param('ii', $user_id, $match_id);
 		$stmt->execute();
@@ -1330,7 +1325,7 @@ class MYSQLHandler{
 		}
 		return $result;
 	}
-	
+
 	public function poll_info($topic_id){
 		$query = 'SELECT * FROM uv_poll_info WHERE id=?';
 		$stmt = $this->DB_CONN->prepare($query);
@@ -1370,7 +1365,7 @@ class MYSQLHandler{
 		if($success){
 			$success = $stmt->execute();
 		}
-		return $success?$topic_id:false;	
+		return $success?$topic_id:false;
 	}
 
 	public function add_poll_item($topic_id, $content){
@@ -1381,7 +1376,7 @@ class MYSQLHandler{
 		if($success){
 			$success = $stmt->execute();
 		}
-		return $success?$item_id:false;		
+		return $success?$item_id:false;
 	}
 
 	public function add_poll_vote($topic_id, $item_id, $user_id){
@@ -1394,7 +1389,7 @@ class MYSQLHandler{
 		if($success){
 			$success = $stmt->execute();
 		}
-		return $success?$vote_id:false;	
+		return $success?$vote_id:false;
 	}
 
 }
