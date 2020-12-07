@@ -17,7 +17,7 @@
             }
             ksort($match_info['contestant_info']);
             return $match_info;
-        } 
+        }
         return false;
     }
 
@@ -80,7 +80,7 @@
                     foreach($team_data as $key => $val) {
                         if(is_numeric($key)){
                             if($val == 0) continue;
-                            $superstar_id = $val;                        
+                            $superstar_id = $val;
                             $db->add_match_contestant($match_id, $superstar_id, $team_id, $team_data['multiplier']);
                             $contestants_added++;
                         }
@@ -155,7 +155,7 @@
                 <label class="my-1 mr-2" for="selectMatchSelector">Match Selector</label>
                 <select class="custom-select my-1 mr-sm-2" id="selectMatchSelector" id="match_selected" name="search">
                     <option value="0" selected>Select a Match ...</option>
-                    <?php 
+                    <?php
                         foreach($season_matches as $sm){
                             $has_title = $sm['title']?'(c)':'';
                             $is_searched = ($match_info && $sm['id']==$match_info['id'])?'selected':'';
@@ -189,7 +189,7 @@
                         <?php echo $om['contestants'] ?><small class="float-right"><?php echo $om['info_last_updated_by_username'] ?></small>
                     </p>
                 </div>
-            <?php 
+            <?php
                 }
             }
              ?>
@@ -202,7 +202,7 @@
             <h6 class="border-bottom border-gray pb-2 mb-0">Match Editor <?php if($match_info) echo  "<small class='float-right'>Last Updated: $match_info[info_last_updated]</small>"; ?></h6>
             <div class="media text-muted pt-3">
 
-            <?php $dtnow = date('Y-m-d H:i:s'); ?>
+            <?php $dtToday = date('Y-m-d 0:0:0'); ?>
             <?php if($match_info){ ?>
 
                  <!-- Update Form -->
@@ -236,33 +236,33 @@
                             <label for="selectMatchEvent">Event</label>
                             <select class="custom-select my-1 mr-sm-2" id="selectMatchEvent" name="match_event">
                                 <option value="0" selected>Select an Event ...</option>
-                                <?php 
+                                <?php
                                     foreach($event_list as $event){
                                         $is_selected = ($event['id']==$match_info['event_id'])?'selected':'';
                                         $event_date_only = explode(' ', $event['date_time'])[0];
-                                        $classes = $event['date_time']<$dtnow?'text-danger':'text-success';
+                                        $classes = $event['date_time']<$dtToday?'text-danger':'text-success';
                                         echo "<option class='$classes' value='$event[id]' $is_selected>[$event_date_only] $event[name]</option>";
                                     }
                                 ?>
-                            </select>                        
+                            </select>
                         </div>
                         <div class="col-md-4 mb-3">
                             <label for="selectMatchType">Match Type</label>
                             <select class="custom-select my-1 mr-sm-2" id="selectMatchType" name="match_type">
                                 <option value="0" selected>Select a Match Type ...</option>
-                                <?php 
+                                <?php
                                     foreach($match_type_list as $match_type){
                                         $is_selected = ($match_type['id']==$match_info['match_type_id'])?'selected':'';
                                         echo "<option value='$match_type[id]' $is_selected>$match_type[name]</option>";
                                     }
                                 ?>
-                            </select>                              
+                            </select>
                         </div>
                         <div class="col-md-4 mb-3">
                             <label for="selectTitle">Title</label>
                             <select class="custom-select my-1 mr-sm-2" id="selectTitle" name="match_title">
                                 <option value="0" selected>Select a Title ...</option>
-                                <?php 
+                                <?php
                                     foreach($title_list as $title){
                                         $is_selected = ($title['id']==$match_info['title_id'])?'selected':'';
                                         echo "<option value='$title[id]' $is_selected>$title[name]</option>";
@@ -279,15 +279,15 @@
                     </div>
                     <div id="contestantsDiv">
                         <label for="contestantsDiv">Contestants</label>
-                        <?php 
-                            foreach($match_info['contestant_info'] as $team) { 
+                        <?php
+                            foreach($match_info['contestant_info'] as $team) {
                                 $team_number = $team[0]['team'];
                                 $team_bet_multiplier = $team[0]['bet_multiplier'];
                         ?>
                             <div class="mb-3">
                                 <label>Team <?php echo $team_number ?></label>
                                 <select class="ml-4 rounded text-muted" name="contestants[<?php echo $team_number ?>][multiplier]">
-                                <?php 
+                                <?php
                                     for($i=1; $i<=5; $i++){
                                         $is_selected = $i==$team_bet_multiplier?'selected':'';
                                         echo "<option value='$i' $is_selected>{$i}x</option>";
@@ -326,8 +326,8 @@
                                             <input class="form-check-input" type="radio" id="radioTeamWon0" name="result" value="0" checked>
                                             <label class="form-check-label" for="radioTeamWon0">TBD</label>
                                         </div>
-                                        <?php 
-                                            foreach($match_info['contestant_info'] as $team) { 
+                                        <?php
+                                            foreach($match_info['contestant_info'] as $team) {
                                                 $team_number = $team[0]['team'];
                                                 $team_won = $match_info['team_won'] == $team_number;
                                         ?>
@@ -346,7 +346,7 @@
                                 <input type="text" class="form-control" id="inputResult" name="result_note" placeholder="Result Note" value="<?php echo $match_info['winner_note'] ?>">
                             </fieldset>
                         </div>
-                    </div>       
+                    </div>
                     <button class="btn btn-primary float-right" type="submit">Update Match</button>
                 </form>
 
@@ -387,8 +387,8 @@
                                 <option value="0" selected>Select an Event ...</option>
                                 <?php
                                     function isFutureEvent($event){
-                                        global $dtnow;
-                                        return $event['date_time']>$dtnow;
+                                        global $dtToday;
+                                        return $event['date_time']>$dtToday;
                                     }
                                     $filtered_event_list = array_filter($event_list, "isFutureEvent");
                                     $last_event = end($filtered_event_list);
@@ -398,24 +398,24 @@
                                         echo "<option class='text-success' value='$event[id]' $is_default>[$event_date_only] $event[name]</option>";
                                     }
                                 ?>
-                            </select>                        
+                            </select>
                         </div>
                         <div class="col-md-4 mb-3">
                             <label for="selectMatchType">Match Type</label>
                             <select class="custom-select my-1 mr-sm-2" id="selectMatchType" name="match_type">
                                 <option value="0" selected>Select a Match Type ...</option>
-                                <?php 
+                                <?php
                                     foreach($match_type_list as $match_type){
                                         echo "<option value='$match_type[id]'>$match_type[name]</option>";
                                     }
                                 ?>
-                            </select>                              
+                            </select>
                         </div>
                         <div class="col-md-4 mb-3">
                             <label for="selectTitle">Title</label>
                             <select class="custom-select my-1 mr-sm-2" id="selectTitle" name="match_title">
                                 <option value="0" selected>Select a Title ...</option>
-                                <?php 
+                                <?php
                                     foreach($title_list as $title){
                                         echo "<option value='$title[id]'>$title[name]</option>";
                                     }
@@ -479,7 +479,7 @@
                     <div class="col-md-12 mb-3 float-right">
                         <a class="btn btn-primary btn-sm" type="submit" onclick="addTeam()">Add Team</a>
                         <a class="btn btn-primary btn-sm" type="submit" onclick="addMembers()">Add Member</a>
-                    </div>      
+                    </div>
                     <button class="btn btn-primary float-right" type="submit">Submit Match</button>
                 </form>
             <?php } ?>
@@ -488,7 +488,7 @@
         </div>
 
     </main>
-	
+
     <?php include '../includes/footer.php'; ?>
     <script type="text/javascript" src="assets/js/custom.js"></script>
 
