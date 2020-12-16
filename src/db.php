@@ -235,6 +235,16 @@ class MYSQLHandler{
 		return $stmt->execute();
 	}
 
+	// TWITTER
+
+	public function user_twitter($user_id){
+		$query = 'SELECT twitter_id FROM user WHERE id=?';
+		$stmt = $this->DB_CONN->prepare($query);
+		$stmt->bind_param('i', $user_id);
+		$stmt->execute();
+		return $stmt->get_result()->fetch_array(MYSQLI_ASSOC);
+	}
+
 	// DISCORD
 
 	public function user_discord($user_id){
