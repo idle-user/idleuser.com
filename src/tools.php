@@ -111,8 +111,24 @@
 			$_SESSION['username'] = '';
 			$_SESSION['access'] = 1;
 			$_SESSION['loggedin'] = false;
+			$_SESSION['auth_token'] = false;
+			$_SESSION['auth_token_exp'] = false;
 		}
 		$_SESSION['loggedin'] = $_SESSION['user_id'] && !empty($_SESSION['username']);
+		if($_SESSION['loggedin']){
+			auth_check();
+		}
+	}
+	function auth_check(){
+		global $db;
+		if(!$_SESSION['auth_token']){
+			$auth = $db->auth_token($_SESSION['user_id']);
+			if(!$auth){
+				$auth = $db->add_auth_token($_SESSION['user_id']);
+			}
+			$_SESSION['auth_token'] = $auth['auth_token'];
+			$_SESSION['auth_token_exp'] = $auth['auth_token_exp'];
+		}
 	}
 	function logout(){
 		$uid = $_SESSION['user_id'];
@@ -120,7 +136,7 @@
 		track("Logout - uid:$uid");
 	}
 	function page_meta($meta){
-    	$DEFAULT_META = [
+		$DEFAULT_META = [
 			"charset"				=> "utf-8",
 			"viewport"				=> "width=device-width, initial-scale=1, shrink-to-fit=no",
 			"author"				=> "Jesus Andrade",
