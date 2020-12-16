@@ -107,7 +107,7 @@
 							"<br/>Total Points: " + String(data.s4_total_points).replace(/\B(?=(\d{3})+(?!\d))/g, ",") +
 							"</h3></hr>" +
 							`<input type="button" value="Logout" onclick="location.href='/logout.php?<?php echo get_direct_to(); ?>'" />` +
-							`<a href="/account.php?<?php echo get_direct_to(); ?>" class="m-2 float-right">Change Password</a>`
+							`<a href="/account/" class="m-2 float-right">Account Settings</a>`
 						);
 					}
 					document.querySelector("#sidebar > a").text = ""; // yeah, idk why it puts "Toggle"

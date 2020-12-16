@@ -28,34 +28,34 @@
             <li class="nav-item">
                 <a class="nav-link" href="https://www.twitch.tv/idle_user" target="_blank" title="Twitch">
                     <i class="fab fa-twitch"></i>
-                </a>            
+                </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="https://twitter.com/an_idle_user" target="_blank" title="Twitter">
                     <i class="fab fa-twitter"></i>
-                </a>            
+                </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="https://discord.gg/RmQCmmZ" target="_blank" title="Discord">
                     <i class="fab fa-discord"></i>
-                </a>            
-            </li>   
+                </a>
+            </li>
             <li class="nav-item">
                 <a class="nav-link" href="https://github.com/idle-user" target="_blank" title="GitHub">
                     <i class="fab fa-github"></i>
                 </a>
-            </li>  
+            </li>
         </ul>
 
         <?php if($_SESSION['loggedin']){ ?>
             <ul class="navbar-nav">
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="accountDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Account</a>
+                    <a class="nav-link dropdown-toggle" href="#" id="accountDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?php echo $_SESSION['username'] ?></a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="accountDropdown">
                         <?php if($_SESSION['access']>1) { ?>
                             <a class="dropdown-item" href="/fancyadmin/">Admin</a>
                         <?php } ?>
-                        <a class="dropdown-item" href="/account.php">Change Password</a>
+                        <a class="dropdown-item" href="/account/">Settings</a>
                         <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">Logout</a>
                     </div>
                 </li>
