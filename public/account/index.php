@@ -25,18 +25,42 @@ if(!$_SESSION['loggedin']){
       <form>
         <div class="form-group">
           <label for="usernameFormControlInput">Username</label>
-          <input type="text" class="form-control" id="usernameFormControlInput" value="<?php echo $_SESSION['username'] ?>">
+          <div class="input-group mb-3">
+            <input type="text" class="form-control" id="usernameFormControlInput" pattern="/^[\w\-]+$/i" title="Can contain: a-z A-Z 0-9 - _" value="<?php echo $_SESSION['username']; ?>">
+            <div class="input-group-append">
+              <button class="btn btn-primary" type="button">Update</button>
+            </div>
+          </div>
         </div>
+      </form>
+      <form>
         <div class="form-group">
-          <label for="emailFormControlInput">Email address</label>
-          <input type="email" class="form-control" id="emailFormControlInput" value="<?php echo $db->user_email($_SESSION['user_id'])['email']; ?>">
+          <label for="emailFormControlInput">Email Address</label>
+          <div class="input-group mb-3">
+            <input type="password" class="form-control" id="emailFormControlInput" value="<?php echo $db->user_email($_SESSION['user_id'])['email']; ?>">
+            <div class="input-group-append">
+              <button class="btn btn-secondary" type="button" onclick="showHide()">Show/Hide</button>
+            </div>
+            <div class="input-group-append">
+              <button class="btn btn-primary" type="button">Update</button>
+            </div>
+          </div>
         </div>
       </form>
 
-      <a class="btn btn-primary" type="button" href="change-password.php">Change Password</a>
+      <a class="btn btn-primary mt-5" type="button" href="change-password.php">Change Password</a>
 
       <?php include 'includes/footer.php'; ?>
     </main>
-
+    <script>
+      function showHide() {
+        var x = document.getElementById("emailFormControlInput");
+        if (x.type === "password") {
+          x.type = "email";
+        } else {
+          x.type = "password";
+        }
+      }
+    </script>
 </body>
 </html>
