@@ -22,8 +22,9 @@ if(!$_SESSION['loggedin']){
         <h1 class="h2">IdleUser API</h1>
       </div>
 
+      <label for="authTokenInput">Auth Token</label>
       <div class="input-group mb-3">
-        <input type="password" class="form-control" id="showHideInput" value="<?php echo $_SESSION['auth_token'] ?>" readonly>
+        <input type="password" class="form-control" id="authTokenInput" value="<?php echo $_SESSION['auth_token'] ?>" readonly>
         <span class="input-group-text">Expires: <?php echo $_SESSION['auth_token_exp']?></span>
         <div class="input-group-append">
           <button class="btn btn-outline-secondary" type="button" onclick="showHide()">Show/Hide</button>
@@ -35,7 +36,7 @@ if(!$_SESSION['loggedin']){
 
     <script>
       function showHide() {
-        var x = document.getElementById("showHideInput");
+        var x = document.getElementById("authTokenInput");
         if (x.type === "password") {
           x.type = "text";
         } else {
