@@ -4,7 +4,7 @@
     $recent_match_updates = array_slice($db->all_matches_recently_updated(), 0, 5);
     $recent_polls =  array_slice($db->all_polls(), 0, 5);
     $recent_users = $db->all_recent_users();
-    
+
 ?>
 <!doctype html>
 <html lang="en">
@@ -19,7 +19,7 @@
     <?php include 'includes/nav.php'; ?>
 
     <main role="main" class="container">
-    
+
         <?php include 'includes/banner.php'; ?>
 
         <!-- Last 5 open matches -->
@@ -42,7 +42,7 @@
                         <?php echo $om['contestants'] ?><small class="float-right"><?php echo $om['info_last_updated_by_username'] ?></small>
                     </p>
                 </div>
-            <?php 
+            <?php
                 }
             }
              ?>
@@ -71,7 +71,7 @@
                         <?php echo $rm['contestants'] ?><small class="float-right"><?php echo $rm['info_last_updated_by_username'] ?></small>
                     </p>
                 </div>
-            <?php 
+            <?php
                 }
             }
              ?>
@@ -97,7 +97,7 @@
                         <?php echo $rp['ending_in']<0?'expired':'' ?><small class="float-right"><?php echo $rp['username'] ?></small>
                     </p>
                 </div>
-            <?php 
+            <?php
                 }
             }
              ?>
@@ -126,7 +126,7 @@
                         <small><?php echo $ru['discord_id']?'+Discord':' '; echo $ru['chatango_id']?'+Chatango':' ' ?></small>
                     </p>
                 </div>
-            <?php 
+            <?php
                 }
             }
              ?>
@@ -153,7 +153,7 @@
         </div>
 
     </main>
-	
+
 	<?php include '../includes/footer.php'; ?>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.bundle.min.js'></script>
     <script type="text/javascript">
@@ -184,7 +184,7 @@
                     padding: {
                         left: 0
                     }
-                    }, 
+                    },
                     scales: {
                     xAxes: [{
                         ticks: {
@@ -192,7 +192,7 @@
                             fixedStepSize: 1
                         }
                     }]
-                }   
+                }
                 }
             });
 
@@ -220,7 +220,7 @@
                     padding: {
                         left: 0
                     }
-                    }, 
+                    },
                     scales: {
                     xAxes: [{
                         ticks: {
@@ -228,7 +228,7 @@
                             fixedStepSize: 1
                         }
                     }]
-                }   
+                }
                 }
             });
 

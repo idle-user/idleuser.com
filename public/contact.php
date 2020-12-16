@@ -1,4 +1,4 @@
-<?php 
+<?php
   require_once $_SERVER['DOCUMENT_ROOT'] . '/../src/session.php';
 
   $is_success = false;
@@ -26,7 +26,7 @@
     }
 
   }
-  
+
   if($contact_attempt){
     if(!$alert_message){
       $alert_message = "Something went wrong.<br/>Please try contacting me through Twitter or Discord.";
@@ -43,11 +43,11 @@
 	<link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-32x32.png">
 	<link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon-16x16.png">
 	<link rel="shortcut icon" href="/assets/images/favicon.ico">
-  <link rel="manifest" href="/assets/images/site.webmanifest">	
+  <link rel="manifest" href="/assets/images/site.webmanifest">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
   <link href="/assets/css/account.css" rel="stylesheet">
-  
-  <?php 
+
+  <?php
     $meta = [
     "viewport" => "width=device-width, initial-scale=1, user-scalable=no",
     "keywords" => "contact, contact me, feedback, account, login, register, logout",
@@ -60,14 +60,14 @@
 </head>
 <body>
   <form class="form-signin" method="post">
-    
+
     <div class="text-center mb-4">
       <a href="/"><img class="mb-4" src="/assets/images/favicon-512x512.png" alt="" width="72" height="72"></a>
       <h1 class="h3 mb-3 font-weight-normal">Contact Me</h1>
       <p></p>
     </div>
 
-    <?php 
+    <?php
       if($contact_attempt) {
         if($is_success) {
     ?>
@@ -77,7 +77,7 @@
     <?php } ?>
         <text><?php echo $alert_message ?></label>
       </div>
-    <?php 
+    <?php
       }
     ?>
 
@@ -112,7 +112,7 @@
         <textarea rows="10" id="inputBody" class="form-control" placeholder="Message" name="body" required></textarea>
       </div>
     </div>
-    
+
   <div class="form-row">
     <div class="col-md-8 mb-3">
       <?php if(!$_SESSION['loggedin']) { ?>
@@ -130,7 +130,7 @@
       &copy; 2020 Jesus Andrade
       <br/><a href="https://freedns.afraid.org/">Free DNS</a> | <a href="/privacy-policy.php">Privacy Policy</a>
     </p>
-    
+
   </form>
 
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>

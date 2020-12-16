@@ -28,9 +28,9 @@
                 if($schedule_id){
                     $is_success = $db->updated_discord_schedule(
                         $schedule_id,
-                        $name, $description, 
+                        $name, $description,
                         $discord_message, $twitter_message,
-                        $start_time, 
+                        $start_time,
                         $sun_active, $mon_active, $tue_active, $wed_active, $thu_active, $fri_active, $sat_active,
                         $is_active
                     );
@@ -41,10 +41,10 @@
                     }
                 } else {
                     $is_success = $db->add_discord_schedule(
-                        $name, $description, 
-                        $name, $description, 
+                        $name, $description,
+                        $name, $description,
                         $discord_message, $twitter_message,
-                        $start_time, 
+                        $start_time,
                         $sun_active, $mon_active, $tue_active, $wed_active, $thu_active, $fri_active, $sat_active,
                         $is_active
                     );
@@ -198,7 +198,7 @@
         </div>
 
     </main>
-	
+
     <?php include'../includes/footer.php'; ?>
 
 </body>

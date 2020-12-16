@@ -3,7 +3,7 @@
         <p class="float-right"><a href="#">Back to top</a></p>
         <p class="small">&copy; 2020 Jesus Andrade</a></p>
         <p class="small">
-            <a href="https://freedns.afraid.org/">Free DNS</a>  | 
+            <a href="https://freedns.afraid.org/">Free DNS</a>  |
             <a href="/privacy-policy.php">Privacy Policy</a>
         </p>
     </div>

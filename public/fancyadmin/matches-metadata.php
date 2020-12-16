@@ -14,7 +14,7 @@
                 $name = $_POST['name'];
                 $datetime = $_POST['start_time'];
                 $is_ppv = $_POST['is_ppv']=='PPV'?1:0;
-                
+
                 if($event_id){
                     $is_success = $db->update_event($event_id, $datetime, $name, $is_ppv);
                     if($is_success){
@@ -40,7 +40,7 @@
                 $brand_id = $_POST['brand_id'];
                 $name = $_POST['name'];
                 $image_url = $_POST['image_url'];
-                
+
                 if($brand_id){
                     $is_success = $db->update_brand($brand_id, $name, $image_url);
                     if($is_success){
@@ -65,7 +65,7 @@
             if(isset($_POST['name'])){
                 $title_id = $_POST['title_id'];
                 $name = $_POST['name'];
-                
+
                 if($title_id){
                     $is_success = $db->update_title($title_id, $name);
                     if($is_success){
@@ -90,7 +90,7 @@
             if(isset($_POST['name'])){
                 $match_type_id = $_POST['match_type_id'];
                 $name = $_POST['name'];
-                
+
                 if($match_type_id){
                     $is_success = $db->update_match_type($match_type_id, $name);
                     if($is_success){
@@ -158,7 +158,7 @@
                         <div class="col-md-6 mb-1">
                             <input type="text" class="form-control" name="name" value="<?php echo $ue['name'] ?>">
                         </div>
-                        <div class="col-md-3 mb-1">   
+                        <div class="col-md-3 mb-1">
                             <input type="datetime-local" class="form-control" name="start_time" value="<?php echo str_replace(' ','T',$ue['date_time']) ?>">
                         </div>
                         <div class="col-md-2 mb-1">
@@ -176,7 +176,7 @@
                     <div class="col-md-6 mb-1">
                         <input type="text" class="form-control" name="name" placeholder="Event Name" required>
                     </div>
-                    <div class="col-md-3 mb-1">                    
+                    <div class="col-md-3 mb-1">
                         <input type="datetime-local" class="form-control" name="start_time" required>
                     </div>
                     <div class="col-md-2 mb-1">
@@ -283,7 +283,7 @@
         </div>
 
     </main>
-	
+
     <?php include '../includes/footer.php'; ?>
 
 </body>
