@@ -27,7 +27,7 @@ if(!$_SESSION['loggedin']){
         <input type="password" class="form-control" id="authTokenInput" value="<?php echo $_SESSION['auth_token'] ?>" readonly>
         <span class="input-group-text">Expires: <?php echo $_SESSION['auth_token_exp']?></span>
         <div class="input-group-append">
-          <button class="btn btn-outline-secondary" type="button" onclick="showHide()">Show/Hide</button>
+          <button class="btn btn-outline-secondary" type="button" id="showHideButton" onclick="showHide()">Show</button>
         </div>
       </div>
 
@@ -37,10 +37,14 @@ if(!$_SESSION['loggedin']){
     <script>
       function showHide() {
         var x = document.getElementById("authTokenInput");
+        var y = document.getElementById("showHideButton");
+        showHideButton
         if (x.type === "password") {
           x.type = "text";
+          y.textContent = "Hide";
         } else {
           x.type = "password";
+          y.textContent = "Show";
         }
       }
     </script>

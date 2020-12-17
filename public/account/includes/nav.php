@@ -1,5 +1,34 @@
 <?php include '../includes/nav.php'; ?>
 
+<div class="nav-scroller bg-white shadow-sm">
+    <ul class="nav nav-underline mr-auto">
+        <li class="nav-item">
+            <a class="nav-link dropdown-toggle" id="settingsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Settings</a>
+            <div class="dropdown-menu" aria-labelledby="settingsDropdown">
+                <a class="nav-link" href="index.php">Account</a>
+                <a class="nav-link" href="connections.php">Connections</a>
+                <a class="nav-link" href="api.php">API</a>
+            </div>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link dropdown-toggle" id="matchesDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Matches</a>
+            <div class="dropdown-menu" aria-labelledby="matchesDropdown">
+                <a class="nav-link" href="matches.php?season=1">Season 1</a>
+                <a class="nav-link" href="matches.php?season=2">Season 2</a>
+                <a class="nav-link" href="matches.php?season=3">Season 3</a>
+            </div>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link dropdown-toggle" id="pollDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Create-a-Poll</a>
+            <div class="dropdown-menu" aria-labelledby="pollDropdown">
+                <a class="nav-link" href="create-a-poll">History</a>
+            </div>
+        </li>
+    </ul>
+</div>
+
+
+
 <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
     <div class="sidebar-sticky pt-3">
 

@@ -26,7 +26,7 @@ if(!$_SESSION['loggedin']){
         <div class="form-group">
           <label for="usernameFormControlInput">Username</label>
           <div class="input-group mb-3">
-            <input type="text" class="form-control" id="usernameFormControlInput" pattern="/^[\w\-]+$/i" title="Can contain: a-z A-Z 0-9 - _" value="<?php echo $_SESSION['username']; ?>">
+            <input type="text" class="form-control" id="usernameFormControlInput" name="username" pattern="/^[\w\-]+$/i" title="Can contain: a-z A-Z 0-9 - _" value="<?php echo $_SESSION['username']; ?>">
             <div class="input-group-append">
               <button class="btn btn-primary" type="button">Update</button>
             </div>
@@ -37,9 +37,9 @@ if(!$_SESSION['loggedin']){
         <div class="form-group">
           <label for="emailFormControlInput">Email Address</label>
           <div class="input-group mb-3">
-            <input type="password" class="form-control" id="emailFormControlInput" value="<?php echo $db->user_email($_SESSION['user_id'])['email']; ?>">
+            <input type="password" class="form-control" id="emailFormControlInput" name="email" value="<?php echo $db->user_email($_SESSION['user_id'])['email']; ?>">
             <div class="input-group-append">
-              <button class="btn btn-secondary" type="button" onclick="showHide()">Show/Hide</button>
+              <button class="btn btn-secondary" type="button" id="showHideButton" onclick="showHide()">Show</button>
             </div>
             <div class="input-group-append">
               <button class="btn btn-primary" type="button">Update</button>
@@ -55,10 +55,13 @@ if(!$_SESSION['loggedin']){
     <script>
       function showHide() {
         var x = document.getElementById("emailFormControlInput");
+        var y = document.getElementById("showHideButton");
         if (x.type === "password") {
           x.type = "email";
+          y.textContent = "Hide";
         } else {
           x.type = "password";
+          y.textContent = "Show";
         }
       }
     </script>
