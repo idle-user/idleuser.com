@@ -58,7 +58,7 @@ class MYSQLHandler{
 	// AUTH
 
 	public function auth_token($user_id){
-		$query = 'SELECT BIN_TO_UUID(auth_token) AS auth_token, auth_token_exp FROM api_auth WHERE user_id=? AND auth_token_exp>NOW()';
+		$query = 'SELECT auth_token, auth_token_exp FROM api_auth WHERE user_id=? AND auth_token_exp>NOW()';
 		$stmt = $this->DB_CONN->prepare($query);
 		$stmt->bind_param('i', $user_id);
 		$stmt->execute();
@@ -66,11 +66,12 @@ class MYSQLHandler{
 	}
 
 	public function add_auth_token($user_id){
-		$query = 'CALL usp_api_ins_auth(?)';
+		$token = random_bytes(32);
+		$query = 'CALL usp_api_ins_auth(?, ?)';
 		$stmt = $this->DB_CONN->prepare($query);
-		$stmt->bind_param('i', $user_id);
+		$stmt->bind_param('is', $user_id, $token);
 		$stmt->execute();
-		return $stmt->get_result()->fetch_array(MYSQLI_ASSOC);;
+		return $token;
 	}
 
 	// USER

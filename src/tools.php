@@ -121,14 +121,14 @@
 	}
 	function auth_check(){
 		global $db;
-		if(!$_SESSION['auth_token']){
-			$auth = $db->auth_token($_SESSION['user_id']);
-			if(!$auth){
-				$auth = $db->add_auth_token($_SESSION['user_id']);
-			}
-			$_SESSION['auth_token'] = $auth['auth_token'];
-			$_SESSION['auth_token_exp'] = $auth['auth_token_exp'];
+
+		$auth = $db->auth_token($_SESSION['user_id']);
+		if(!$auth){
+			$auth = $db->add_auth_token($_SESSION['user_id']);
 		}
+		$_SESSION['auth_token'] = bin2hex($auth['auth_token']);
+		$_SESSION['auth_token_exp'] = $auth['auth_token_exp'];
+
 	}
 	function logout(){
 		$uid = $_SESSION['user_id'];
@@ -205,5 +205,8 @@
 		$from = 'no-reply@idleuser.com';
 		$header = "From: $from";
 		return mail($to, $subject, $message, $header);
+	}
+	function api_call($url, $payload){
+
 	}
 ?>
