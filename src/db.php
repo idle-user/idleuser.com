@@ -57,8 +57,16 @@ class MYSQLHandler{
 
 	// AUTH
 
-	public function auth_token($user_id){
-		$query = 'SELECT auth_token, auth_token_exp FROM api_auth WHERE user_id=? AND auth_token_exp>NOW()';
+	public function auth_by_token($token){
+		$query = 'SELECT auth_token, auth_token_exp, user_id FROM api_auth WHERE auth_token=? AND auth_token_exp>NOW()';
+		$stmt = $this->DB_CONN->prepare($query);
+		$stmt->bind_param('s', $token);
+		$stmt->execute();
+		return $stmt->get_result()->fetch_array(MYSQLI_ASSOC);
+	}
+
+	public function auth_by_user_id($user_id){
+		$query = 'SELECT auth_token, auth_token_exp, user_id FROM api_auth WHERE user_id=? AND auth_token_exp>NOW()';
 		$stmt = $this->DB_CONN->prepare($query);
 		$stmt->bind_param('i', $user_id);
 		$stmt->execute();

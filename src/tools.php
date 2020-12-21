@@ -115,20 +115,53 @@
 			$_SESSION['auth_token_exp'] = false;
 		}
 		$_SESSION['loggedin'] = $_SESSION['user_id'] && !empty($_SESSION['username']);
-		if($_SESSION['loggedin']){
-			auth_check();
+		if($_SESSION['loggedin'] && !$_SESSION['auth_token']){
+			set_auth_values();
+		}
+		if(!$_SESSION['loggedin']){
+			auth_login();
+		} else {
+			auth_validate();
 		}
 	}
-	function auth_check(){
+	function set_auth_values(){
 		global $db;
 
-		$auth = $db->auth_token($_SESSION['user_id']);
+		$auth = $db->auth_by_user_id($_SESSION['user_id']);
 		if(!$auth){
 			$auth = $db->add_auth_token($_SESSION['user_id']);
 		}
 		$_SESSION['auth_token'] = bin2hex($auth['auth_token']);
 		$_SESSION['auth_token_exp'] = $auth['auth_token_exp'];
+	}
+	function auth_login(){
+		global $db;
 
+		$token = $_SESSION['auth_token'];
+		if($token){
+			$auth = $db->auth_by_token(hex2bin($token));
+			if($auth){
+				$user = $db->user_info($auth['user_id']);
+				$_SESSION['user_id'] = $user['user_id'];
+				$_SESSION['username'] = $user['username'];
+				$_SESSION['access'] = $user['access'];
+				$_SESSION['loggedin'] = true;
+				$_SESSION['auth_token'] = bin2hex($auth['auth_token']);
+				$_SESSION['auth_token_exp'] = $auth['auth_token_exp'];
+				redirect(0);
+			}
+		}
+	}
+	function auth_validate(){
+		global $db;
+
+		$token = $_SESSION['auth_token'];
+		if($token){
+			$auth = $db->auth_by_token(hex2bin($token));
+			if(!$auth){
+				logout();
+			}
+		}
 	}
 	function logout(){
 		$uid = $_SESSION['user_id'];
