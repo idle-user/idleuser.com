@@ -37,11 +37,14 @@
 		}
 		return $ip;
 	}
+	function get_user_agent(){
+		return isset($_SERVER['HTTP_USER_AGENT'])?$_SERVER['HTTP_USER_AGENT']:'';
+	}
 	function track($action=''){
 		global $db;
 		$ip = get_ip();
+		$user_agent = get_user_agent();
 		if($ip!='192.168.1.1' || !empty($action)){
-			$user_agent = isset($_SERVER['HTTP_USER_AGENT'])?$_SERVER['HTTP_USER_AGENT']:'';
 			$db->add_web_traffic($_SESSION['user_id'], $ip, $_SERVER['REQUEST_URI'], $user_agent, $action);
 		}
 	}
@@ -123,6 +126,14 @@
 		} else {
 			auth_validate();
 		}
+	}
+	function update_user_values(){
+		global $db;
+
+		$user = $db->user_info($_SESSION['user_id']);
+		$_SESSION['username'] = $user['username'];
+		$_SESSION['access'] = $user['access'];
+		set_auth_values();
 	}
 	function set_auth_values(){
 		global $db;
@@ -239,7 +250,92 @@
 		$header = "From: $from";
 		return mail($to, $subject, $message, $header);
 	}
-	function api_call($url, $payload){
+	function api_call($method, $route, $payload){
+		global $configs;
 
+		$url = $configs['API_URL'] . $route;
+		$curl = curl_init();
+		switch ($method){
+			case "POST":
+			   curl_setopt($curl, CURLOPT_POST, 1);
+			   if ($payload)
+				  curl_setopt($curl, CURLOPT_POSTFIELDS, $payload);
+			   break;
+			case "PUT":
+			   curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "PUT");
+			   if ($payload)
+				  curl_setopt($curl, CURLOPT_POSTFIELDS, $payload);
+			   break;
+			case "PATCH":
+				curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "PATCH");
+				if ($payload)
+				   curl_setopt($curl, CURLOPT_POSTFIELDS, $payload);
+				break;
+			default:
+			   if ($payload)
+				  $url = sprintf("%s?%s", $url, http_build_query($payload));
+		 }
+		 // OPTIONS:
+		 curl_setopt($curl, CURLOPT_URL, $url);
+		 curl_setopt($curl, CURLOPT_USERAGENT, get_user_agent());
+		 curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+			'Authorization: Bearer '.$_SESSION['auth_token'],
+			'Content-Type: application/json',
+		 ));
+		 curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+		 curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BEARER);
+		 // EXECUTE:
+		 $result = curl_exec($curl);
+		 if(!$result){die("API Connection Failure");}
+		 curl_close($curl);
+		 return $result;
+	}
+	function maybe_process_form(){
+		if($_SERVER['REQUEST_METHOD'] === 'POST'){
+			$method = false;
+			$route = false;
+			$sessionUpdate = false;
+
+			if(isset($_POST['username-update'])){
+				$method = 'PATCH';
+				$route = "users/{$_SESSION['user_id']}/username";
+				$sessionUpdate = true;
+			}
+
+			elseif(isset($_POST['email-update'])){
+				$method = 'PATCH';
+				$route = "users/{$_SESSION['user_id']}/email";
+			}
+
+			elseif(isset($_POST['discord-update'])){
+				$method = 'PATCH';
+				$route = "users/{$_SESSION['user_id']}/discord";
+			}
+
+			elseif(isset($_POST['chatango-update'])){
+				$method = 'PATCH';
+				$route = "users/{$_SESSION['user_id']}/chatango";
+			}
+
+			elseif(isset($_POST['twitter-update'])){
+				$method = 'PATCH';
+				$route = "users/{$_SESSION['user_id']}/twitter";
+			}
+
+			elseif(isset($_POST['api-update'])){
+				$method = 'POST';
+				$route = "auth";
+				$sessionUpdate = true;
+			}
+
+			if($method && $route){
+				$response = api_call($method, $route, json_encode($_POST));
+				if($sessionUpdate){
+					update_user_values();
+				}
+				return json_decode($response, true);
+			}
+		}
+		return false;
 	}
 ?>

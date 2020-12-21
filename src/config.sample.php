@@ -1,6 +1,9 @@
 <?php
 $configs = array(
 
+    # API
+    'API_URL'=> '',
+
     # MySQL
     'DB_HOST'=>     '',
     'DB_USER'=>     '',
