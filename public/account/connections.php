@@ -1,9 +1,13 @@
 <?php 	require_once $_SERVER['DOCUMENT_ROOT'] . '/../src/session.php';
 
+
 if(!$_SESSION['loggedin']){
     redirect(0, '/login.php');
     exit();
 }
+
+$response = maybe_process_form();
+
 ?>
 <!doctype html>
 <html lang="en">
@@ -22,35 +26,44 @@ if(!$_SESSION['loggedin']){
         <h1 class="h2">Connections</h1>
       </div>
 
-      <form>
+      <?php include 'includes/alert.php'; ?>
+
+      <?php $discordInfo = $db->user_discord($_SESSION['user_id']); ?>
+      <form method="post">
         <div class="form-group">
           <label for="discordFormControlInput">Discord ID</label>
+          <span class="small text-muted float-right pt-3">Last Updated: <?php echo $discordInfo['discord_last_updated'];?></span>
           <div class="input-group mb-3">
-            <input type="text" class="form-control" id="discordFormControlInput" name="discord_id" value="<?php echo $db->user_discord($_SESSION['user_id'])['discord_id']; ?>">
+            <input type="text" class="form-control" id="discordFormControlInput" name="discord_id" value="<?php echo $discordInfo['discord_id']; ?>">
             <div class="input-group-append">
-              <button class="btn btn-primary" type="button">Update</button>
+              <input class="btn btn-primary" type="submit" name="discord-update" value="Update">
             </div>
           </div>
         </div>
       </form>
-      <form>
+
+      <?php $chatangoInfo = $db->user_chatango($_SESSION['user_id']); ?>
+      <form method="post">
         <div class="form-group">
           <label for="chatangoFormControlInput">Chatango Username</label>
+          <span class="small text-muted float-right pt-3">Last Updated: <?php echo $chatangoInfo['chatango_last_updated'];?></span>
           <div class="input-group mb-3">
-            <input type="text" class="form-control" id="chatangoFormControlInput" name="chatango_id" value="<?php echo $db->user_chatango($_SESSION['user_id'])['chatango_id']; ?>">
+            <input type="text" class="form-control" id="chatangoFormControlInput" name="chatango_id" value="<?php echo $chatangoInfo['chatango_id']; ?>">
             <div class="input-group-append">
-              <button class="btn btn-primary" type="button">Update</button>
-            </div>
+              <input class="btn btn-primary" type="submit" name="chatango-update" value="Update">
           </div>
         </div>
       </form>
-      <form>
+
+      <?php $twitterInfo = $db->user_twitter($_SESSION['user_id']); ?>
+      <form method="post" class="mb-3">
         <div class="form-group">
           <label for="twitterFormControlInput">Twitter ID</label>
+          <span class="small text-muted float-right pt-3">Last Updated: <?php echo $twitterInfo['twitter_last_updated'];?></span>
           <div class="input-group mb-3">
-            <input type="text" class="form-control" id="twitterFormControlInput" name="twitter_id" value="<?php echo $db->user_twitter($_SESSION['user_id'])['twitter_id']; ?>">
+            <input type="text" class="form-control" id="twitterFormControlInput" name="twitter_id" value="<?php echo $twitterInfo['twitter_id']; ?>">
             <div class="input-group-append">
-              <button class="btn btn-primary" type="button">Update</button>
+              <input class="btn btn-primary" type="submit" name="twitter-update" value="Update">
             </div>
           </div>
         </div>

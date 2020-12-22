@@ -22,9 +22,8 @@ if(!$_SESSION['loggedin']){
         <h1 class="h2">Create-a-Poll</h1>
       </div>
 
-      <form>
+      View your past polls here - Coming soon.
 
-      </form>
 
       <?php include 'includes/footer.php'; ?>
     </main>

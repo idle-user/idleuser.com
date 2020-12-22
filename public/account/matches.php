@@ -22,9 +22,7 @@ if(!$_SESSION['loggedin']){
         <h1 class="h2">Matches</h1>
       </div>
 
-      <form>
-
-      </form>
+      View your past bets here - Coming soon.
 
       <?php include 'includes/footer.php'; ?>
     </main>

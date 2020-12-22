@@ -247,7 +247,7 @@ class MYSQLHandler{
 	// TWITTER
 
 	public function user_twitter($user_id){
-		$query = 'SELECT twitter_id FROM user WHERE id=?';
+		$query = 'SELECT twitter_id, twitter_last_updated FROM user WHERE id=?';
 		$stmt = $this->DB_CONN->prepare($query);
 		$stmt->bind_param('i', $user_id);
 		$stmt->execute();
@@ -257,7 +257,7 @@ class MYSQLHandler{
 	// DISCORD
 
 	public function user_discord($user_id){
-		$query = 'SELECT discord_id FROM user WHERE id=?';
+		$query = 'SELECT discord_id, discord_last_updated FROM user WHERE id=?';
 		$stmt = $this->DB_CONN->prepare($query);
 		$stmt->bind_param('i', $user_id);
 		$stmt->execute();
@@ -348,7 +348,7 @@ class MYSQLHandler{
 	// CHATANGO
 
 	public function user_chatango($user_id){
-		$query = 'SELECT chatango_id FROM user WHERE id=?';
+		$query = 'SELECT chatango_id, chatango_last_updated FROM user WHERE id=?';
 		$stmt = $this->DB_CONN->prepare($query);
 		$stmt->bind_param('i', $user_id);
 		$stmt->execute();

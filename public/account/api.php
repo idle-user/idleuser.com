@@ -1,9 +1,12 @@
-<?php 	require_once $_SERVER['DOCUMENT_ROOT'] . '/../src/session.php';
+<?php require_once $_SERVER['DOCUMENT_ROOT'] . '/../src/session.php';
 
 if(!$_SESSION['loggedin']){
     redirect(0, '/login.php');
     exit();
 }
+
+$response = maybe_process_form();
+
 ?>
 <!doctype html>
 <html lang="en">
@@ -23,6 +26,8 @@ if(!$_SESSION['loggedin']){
         <h1 class="h2">IdleUser API</h1>
       </div>
 
+      <?php include 'includes/alert.php'; ?>
+
       <label for="authTokenInput">Auth Token</label>
       <div>
         <span class="small text-muted">Do not share this.</span>
@@ -34,10 +39,7 @@ if(!$_SESSION['loggedin']){
           <button class="btn btn-outline-secondary" type="button" id="showHideButton" onclick="showHide()">Show</button>
         </div>
       </div>
-      <a class="btn btn-outline-primary float-right" type="button" href="">Regenerate</a>
-
-
-
+      <!--a class="btn btn-outline-primary float-right" type="button" href="">Regenerate</a-->
 
       <?php include 'includes/footer.php'; ?>
     </main>
