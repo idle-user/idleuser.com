@@ -1,9 +1,9 @@
 <footer class="text-muted">
     <div class="container">
-        <p class="float-right"><a href="#">Back to top</a></p>
+        <p class="float-right d-none" id="backToTop"><a href="#">Back to top</a></p>
         <p class="small">&copy; 2020 Jesus Andrade</a></p>
         <p class="small">
-            <a href="https://freedns.afraid.org/">Free DNS</a>  | 
+            <a href="https://freedns.afraid.org/">Free DNS</a>  |
             <a href="/privacy-policy.php">Privacy Policy</a>
         </p>
     </div>
@@ -12,3 +12,4 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
 <script src="/assets/fontawesome-free-5.14.0-web/js/all.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js"></script>
+<script src="/assets/js/backtotop.js"></script>

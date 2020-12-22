@@ -43,7 +43,7 @@ class MYSQLHandler{
 	public function add_web_traffic($user_id, $ip, $uri, $user_agent, $user_action){
 		$query = 'CALL usp_web_ins_traffic(?, INET_ATON(?), ?, ?, ?)';
 		$stmt = $this->DB_CONN->prepare($query);
-		$stmt->bind_param('issss',  $user_id, $ip, $uri, $user_agent, $user_action);
+		$stmt->bind_param('issss', $user_id, $ip, $uri, $user_agent, $user_action);
 		return $stmt->execute();
 	}
 
@@ -53,6 +53,33 @@ class MYSQLHandler{
 		$stmt = $this->DB_CONN->prepare($query);
 		$stmt->bind_param('sssssssi', $id, $fname, $lname, $email, $subject, $body, $ip, $user_id);
 		return $stmt->execute();
+	}
+
+	// AUTH
+
+	public function auth_by_token($token){
+		$query = 'SELECT auth_token, auth_token_exp, user_id FROM api_auth WHERE auth_token=? AND auth_token_exp>NOW()';
+		$stmt = $this->DB_CONN->prepare($query);
+		$stmt->bind_param('s', $token);
+		$stmt->execute();
+		return $stmt->get_result()->fetch_array(MYSQLI_ASSOC);
+	}
+
+	public function auth_by_user_id($user_id){
+		$query = 'SELECT auth_token, auth_token_exp, user_id FROM api_auth WHERE user_id=? AND auth_token_exp>NOW()';
+		$stmt = $this->DB_CONN->prepare($query);
+		$stmt->bind_param('i', $user_id);
+		$stmt->execute();
+		return $stmt->get_result()->fetch_array(MYSQLI_ASSOC);
+	}
+
+	public function add_auth_token($user_id){
+		$token = random_bytes(32);
+		$query = 'CALL usp_api_ins_auth(?, ?)';
+		$stmt = $this->DB_CONN->prepare($query);
+		$stmt->bind_param('is', $user_id, $token);
+		$stmt->execute();
+		return $token;
 	}
 
 	// USER
@@ -72,7 +99,7 @@ class MYSQLHandler{
 		$stmt = $this->DB_CONN->prepare($query);
 		$stmt->bind_param('i', $id);
 		$stmt->execute();
-		$user =  $stmt->get_result()->fetch_array(MYSQLI_ASSOC);
+		$user = $stmt->get_result()->fetch_array(MYSQLI_ASSOC);
 		if($user){
 			unset($user['secret']);
 			unset($user['secret_last_updated']);
@@ -89,7 +116,7 @@ class MYSQLHandler{
 		$stmt = $this->DB_CONN->prepare($query);
 		$stmt->bind_param('s', $username);
 		$stmt->execute();
-		$user =  $stmt->get_result()->fetch_array(MYSQLI_ASSOC);
+		$user = $stmt->get_result()->fetch_array(MYSQLI_ASSOC);
 		if($user){
 			unset($user['secret']);
 			unset($user['secret_last_updated']);
@@ -217,10 +244,20 @@ class MYSQLHandler{
 		return $stmt->execute();
 	}
 
+	// TWITTER
+
+	public function user_twitter($user_id){
+		$query = 'SELECT twitter_id, twitter_last_updated FROM user WHERE id=?';
+		$stmt = $this->DB_CONN->prepare($query);
+		$stmt->bind_param('i', $user_id);
+		$stmt->execute();
+		return $stmt->get_result()->fetch_array(MYSQLI_ASSOC);
+	}
+
 	// DISCORD
 
 	public function user_discord($user_id){
-		$query = 'SELECT discord_id FROM user WHERE id=?';
+		$query = 'SELECT discord_id, discord_last_updated FROM user WHERE id=?';
 		$stmt = $this->DB_CONN->prepare($query);
 		$stmt->bind_param('i', $user_id);
 		$stmt->execute();
@@ -282,7 +319,7 @@ class MYSQLHandler{
 		return $result;
 	}
 
-	public function add_discord_schedule($name, $description, $message, $tweet, $start_time, $sunday_flag, $monday_flag, $tuesday_flag, $wednesday_flag, $thursday_flag,  $friday_flag, $saturday_flag, $active){
+	public function add_discord_schedule($name, $description, $message, $tweet, $start_time, $sunday_flag, $monday_flag, $tuesday_flag, $wednesday_flag, $thursday_flag, $friday_flag, $saturday_flag, $active){
 		$query = '
 			INSERT INTO chatroom_scheduler (
 				name, description, message, tweet,
@@ -311,7 +348,7 @@ class MYSQLHandler{
 	// CHATANGO
 
 	public function user_chatango($user_id){
-		$query = 'SELECT chatango_id FROM user WHERE id=?';
+		$query = 'SELECT chatango_id, chatango_last_updated FROM user WHERE id=?';
 		$stmt = $this->DB_CONN->prepare($query);
 		$stmt->bind_param('i', $user_id);
 		$stmt->execute();

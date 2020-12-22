@@ -10,7 +10,7 @@
 	<link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-32x32.png">
 	<link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon-16x16.png">
 	<link rel="shortcut icon" href="/assets/images/favicon.ico">
-	<link rel="manifest" href="/assets/images/site.webmanifest">	
+	<link rel="manifest" href="/assets/images/site.webmanifest">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
   </head>
   <body>
@@ -29,8 +29,8 @@
 		</div>
 
 	</main>
-	
+
 	<?php include 'includes/footer.php'; ?>
-	
+
 </body>
 </html>

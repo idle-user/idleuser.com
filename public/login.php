@@ -1,4 +1,4 @@
-<?php 
+<?php
   require_once $_SERVER['DOCUMENT_ROOT'] . '/../src/session.php';
   if($_SESSION['loggedin']){
     echo 'Already logged in. Redirecting back.';
@@ -31,11 +31,11 @@
 	<link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-32x32.png">
 	<link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon-16x16.png">
 	<link rel="shortcut icon" href="/assets/images/favicon.ico">
-  <link rel="manifest" href="/assets/images/site.webmanifest">	
+  <link rel="manifest" href="/assets/images/site.webmanifest">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-  <link href="/assets/css/account.css" rel="stylesheet">
-  
-  <?php 
+  <link href="/assets/css/form.css" rel="stylesheet">
+
+  <?php
     $meta = [
     "viewport" => "width=device-width, initial-scale=1, user-scalable=no",
     "keywords" => "account, login, register, logout",
@@ -50,7 +50,7 @@
   <form class="form-signin" method="post">
     <div class="text-center mb-4">
       <a href="/"><img class="mb-4" src="/assets/images/favicon-512x512.png" alt="" width="72" height="72"></a>
-      
+
       <?php if($login_attempt && $_SESSION['loggedin']){ ?>
         <h1 class="h3 mb-3 font-weight-normal">Login Successful</h1>
         <p>Redirecting you ...</p>
@@ -84,7 +84,7 @@
       <text>Invalid username or password. Try again.</label>
     </div>
     <?php } ?>
-    
+
     <div class="row">
       <div class="col-lg-12">
           <a href="/register.php" class="btn btn-sm text-primary font-weight-bold" type="button">Create account</a>
@@ -97,7 +97,7 @@
       &copy; 2020 Jesus Andrade
       <br/><a href="https://freedns.afraid.org/">Free DNS</a> | <a href="/privacy-policy.php">Privacy Policy</a>
     </p>
-    
+
   </form>
 </body>
 </html>

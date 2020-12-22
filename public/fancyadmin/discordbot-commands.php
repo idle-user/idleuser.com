@@ -110,7 +110,7 @@
                 <label class="my-1 mr-2" for="selectCommandSelector">Command Selector (<?php echo count($command_list) ?>)</label>
                 <select class="custom-select my-1 mr-sm-2" id="selectCommandSelector" id="command_selected" name="search">c
                     <option value="0" selected>Select a Command ...</option>
-                    <?php 
+                    <?php
                         foreach($command_list as $command){
                             $is_searched = ($command_info && $command['id']==$command_info['id'])?'selected':'';
                             echo "<option value='$command[id]' $is_searched>$command[command]</option>";
@@ -189,7 +189,7 @@
 
 
     </main>
-	
+
     <?php include '../includes/footer.php'; ?>
 
 </body>

@@ -38,7 +38,7 @@
         $weight = $_POST['weight']?:'';
         $hometown = $_POST['hometown']?:'';
         $dob = $_POST['dob']?:'0000-00-00';
-        $signature_move = $_POST['signature_move']?:''; 
+        $signature_move = $_POST['signature_move']?:'';
         $page_url = $_POST['page_url']?:'';
         $image_url = $_POST['image_url']?:'';
         $bio = $_POST['bio']?:'';
@@ -120,7 +120,7 @@
                 <label class="my-1 mr-2" for="selectSuperstarSelector">Superstar Selector (<?php echo count($superstar_list) ?>)</label>
                 <select class="custom-select my-1 mr-sm-2" id="selectSuperstarSelector" id="superstar_selected" name="search">
                     <option value="0" selected>Select a Superstar ...</option>
-                    <?php 
+                    <?php
                         foreach($superstar_list as $superstar){
                             $is_searched = ($superstar_info && $superstar['id']==$superstar_info['id'])?'selected':'';
                             echo "<option value='$superstar[id]' $is_searched>$superstar[name]</option>";
@@ -150,13 +150,13 @@
                             <label for="selectBrand">Brand</label>
                             <select class="custom-select my-1 mr-sm-2" id="selectBrand" name="brand_id" required>
                                 <option value="0" selected>Select a Brand ...</option>
-                                <?php 
+                                <?php
                                     foreach($brand_list as $brand){
                                         $is_selected = ($brand['id']==$superstar_info['brand_id'])?'selected':'';
                                         echo "<option value='$brand[id]' $is_selected>$brand[name]</option>";
                                     }
                                 ?>
-                            </select>                              
+                            </select>
                         </div>
                         <div class="col-md-3 mb-3">
                             <label for="inputPageUrl">Page URL</label>
@@ -215,12 +215,12 @@
                             <label for="selectBrand">Brand</label>
                             <select class="custom-select my-1 mr-sm-2" id="selectBrand" name="brand_id" required>
                                 <option value="0" selected>Select a Brand ...</option>
-                                <?php 
+                                <?php
                                     foreach($brand_list as $brand){
                                         echo "<option value='$brand[id]'>$brand[name]</option>";
                                     }
                                 ?>
-                            </select>                              
+                            </select>
                         </div>
                         <div class="col-md-3 mb-3">
                             <label for="inputPageUrl">Page URL</label>
@@ -270,7 +270,7 @@
 
 
     </main>
-	
+
     <?php include '../includes/footer.php'; ?>
 
 </body>

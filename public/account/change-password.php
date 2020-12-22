@@ -5,10 +5,10 @@
 		redirect(0, '/login.php');
 		exit();
 	  }
-	
+
 	$update_attempt = false;
   $error_message = false;
-  
+
 
 	if( (isset($_POST['temp_secret']) || isset($_POST['old_secret'])) && isset($_POST['new_secret']) && isset($_POST['new_secret_verify']) ){
 		$update_attempt = true;
@@ -39,15 +39,15 @@
 					$_SESSION['loggedin'] = true;
 				}
 			}
-		
+
 		track("Update Password Attempt - username:$_SESSION[username]; result:$_SESSION[loggedin]");
 
 		if(!$res && !$error_message){
 			$error_message = "Failed to update account. Try again.";
     }
-    
+
   }
-  
+
   if($update_attempt && !$error_message){
     redirect(2);
   }
@@ -64,9 +64,9 @@
 	<link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-32x32.png">
 	<link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon-16x16.png">
 	<link rel="shortcut icon" href="/assets/images/favicon.ico">
-  <link rel="manifest" href="/assets/images/site.webmanifest">	
+  <link rel="manifest" href="/assets/images/site.webmanifest">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-  <link href="/assets/css/account.css" rel="stylesheet">
+  <link href="/assets/css/form.css" rel="stylesheet">
 </head>
 <body>
   <form class="form-signin" method="post" oninput="inputNewPasswordVerify.setCustomValidity(inputNewPasswordVerify.value != inputNewPassword.value ? 'Passwords do not match.' : '')">
@@ -105,7 +105,7 @@
     </div>
 
     <?php
-      if($update_attempt) { 
+      if($update_attempt) {
         if($error_message){
     ?>
           <div class="p-2 alert-danger text-center alert">
@@ -115,9 +115,9 @@
           <div class="p-2 alert-success text-center alert">
             <text>Updated Account.<br/>Redirecting you back ...</text>
           </div>
-    <?php 
+    <?php
         }
-      } 
+      }
     ?>
 
     <div class="row">
