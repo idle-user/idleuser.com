@@ -281,6 +281,7 @@
 		 curl_setopt($curl, CURLOPT_HTTPHEADER, array(
 			'Authorization: Bearer '.$_SESSION['auth_token'],
 			'Content-Type: application/json',
+			'X-Forwarded-For: '.get_ip(),
 		 ));
 		 curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 		 curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BEARER);
