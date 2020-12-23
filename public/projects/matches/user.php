@@ -21,35 +21,6 @@
 <header class="main">
 	<h1><?php echo $user['username']; ?></h1>
 </header>
-<?php 
-	if($_SESSION['user_id']==$user['user_id']){ 
-	$uemail = $db->user_email($_SESSION['user_id'])['email'];
-	$udiscord = $db->user_discord($_SESSION['user_id'])['discord_id'];
-	$uchatango = $db->user_chatango($_SESSION['user_id'])['chatango_id'];
-	?>
-<div class="table-wrapper">
-	<table class="alt">
-		<th colspan="3">Linked Accounts</br><i>(only you can see this)</i></th>
-		<tbody>
-			<tr id="email_row">
-				<td style="white-space:nowrap;"><strong>Email Address</strong></td>
-				<td width="100%" contenteditable><?php echo $uemail; ?></td>
-				<td><button type="button" onclick="return updateEmail();">Update</button></td>
-			</tr>
-			<tr id="discord_row">
-				<td style="white-space:nowrap;"><strong>Discord ID</strong></td>
-				<td width="100%" contenteditable><?php echo $udiscord?:''; ?></td>
-				<td><button type="button" onclick="return updateDiscordID();">Update</button></td>
-			</tr>
-			<tr id="chatango_row">
-				<td style="white-space:nowrap;"><strong>Chatango ID</strong></td>
-				<td width="100%" contenteditable><?php echo $uchatango?:''; ?></td>
-				<td><button type="button" onclick="return updateChatangoID();">Update</button></td>
-			</tr>
-		</tbody>
-	</table>
-</div>
-<?php } ?>
 <div class="table-wrapper">
 	<table class="alt">
 		<thead>
