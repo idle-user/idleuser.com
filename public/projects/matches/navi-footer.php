@@ -114,36 +114,6 @@
 				}
 			);
 		}
-		function updateEmail(){
-			var email = $('#email_row').find("td")[1].innerText;
-			$.post('/scripts/email_link.php', {'email':email},
-				function(response){
-					response = JSON.parse(response);
-					alert(response.message);
-				}
-			);
-			return false;
-		}
-		function updateDiscordID(){
-			var discordID = $('#discord_row').find("td")[1].innerText;
-			$.post('/scripts/discord_link.php', {'discord_id':discordID},
-				function(response){
-					response = JSON.parse(response);
-					alert(response.message);
-				}
-			);
-			return false;
-		}
-		function updateChatangoID(){
-			var chatangoID = $('#chatango_row').find("td")[1].innerText.toLowerCase();
-			$.post('/scripts/chatango_link.php', {'chatango_id':chatangoID},
-				function(response){
-					response = JSON.parse(response);
-					alert(response.message);
-				}
-			);
-			return false;
-		}
 		function updateFavorite(superstarID){
 			$.post('scripts/updateFavorite.php', {'superstarID':superstarID},
 				function(response){
