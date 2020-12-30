@@ -36,7 +36,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="https://discord.gg/RmQCmmZ" target="_blank" title="Discord">
+                <a class="nav-link" href="https://discord.gg/U5wDzWP8yD" target="_blank" title="Discord">
                     <i class="fab fa-discord"></i>
                 </a>
             </li>

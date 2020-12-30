@@ -1,5 +1,5 @@
 <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/../src/session.php'; set_last_page(); ?>
-<?php 
+<?php
 	$matches_today = $db->todays_matches();
 	$matches_bets_open = $db->open_matches();
 ?>
@@ -17,7 +17,7 @@
 	<link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-32x32.png">
 	<link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon-16x16.png">
 	<link rel="shortcut icon" href="/assets/images/favicon.ico">
-  	<link rel="manifest" href="/assets/images/site.webmanifest">	
+  	<link rel="manifest" href="/assets/images/site.webmanifest">
   	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
@@ -27,7 +27,7 @@
 	<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
 	<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
 
-	<?php 
+	<?php
     $meta = [
 	  "viewport" => "width=device-width, initial-scale=1, user-scalable=no",
 	  "keywords" => "WWE, AEW, NJPW, ROH, IMPACT, wrestling, bet, points, fjbot, chatroom, streams, watch online, wrestling discord, discord",
@@ -46,7 +46,7 @@
 				<header id="header" style="padding-top:3em;">
 					<a href="#" class="logo"><strong>Matches</strong> by Jesse</a>
 					<ul class="icons">
-						<li><a href="https://discord.gg/Q9mX5hQ" target="_blank" class="icon fa-discord"><span class="label">Discord</span></a></li>
+						<li><a href="https://discord.gg/U5wDzWP8yD target="_blank" class="icon fa-discord"><span class="label">Discord</span></a></li>
 						<li><a href="https://twitter.com/an_idle_user" target="_blank" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
 						<li><a href="https://www.linkedin.com/in/andradejesus" target="_blank" class="icon fa-linkedin"><span class="label">LinkedIn</span></a></li>
 						<li><a href="https://github.com/idle-user" target="_blank" class="icon fa-github"><span class="label">GitHub</span></a></li>
