@@ -2,8 +2,6 @@
 
 $all_entries = $db->all_royalrumble_entries();
 
-$response = maybe_process_form();
-
 ?>
 <header class="main">
 	<h1>Royal Rumble Pool</h1>
@@ -53,10 +51,14 @@ $response = maybe_process_form();
 			<li>Registered users will receive a unique entry number.</li>
 			<li>Once all registered entry numbers are filled, duplicates will occur.</li>
 			<li>Unregistered user entries may not receive a unique entry number.</li>
+			<li>Only registered users may win the point prize.</li>
 		</ul>
 	</i>
 	<br/>
-	<h2 id="entryAck" />
+	<div id="entryAck" class="h3 m-4 text-center"></div>
+	<audio id="audioControl" class="d-none" style="margin: 0 auto; display: block;" controls>
+		<source src="audio/royalrumble_countdown.mp3" type="audio/mpeg">
+	</audio>
 </div>
 <hr class="major"/>
 <div class="inner">
@@ -215,55 +217,44 @@ $response = maybe_process_form();
 	?>
 </div>
 <?php include 'navi-footer.php'; ?>
-
-
-<!-- TODO: update to API response instead-->
 <script type="text/javascript">
 	var ef = $('#entryForm');
-	var audio = document.createElement('audio');
-	audio.setAttribute('src', 'audio/royalrumble_countdown.mp3');
-	ef.submit(function (ev) {
-		$.ajax({
-			type: ef.attr('method'),
-			url: ef.attr('action'),
-			dataType: 'json',
-			data: ef.serialize(),
-			success: function (data) {
-				if(data['success']){
-					$('#entryForm :input').prop('readonly', true);
-					$('input[type="submit"]').prop('disable', true);
-					$('#entryForm').hide();
-					$('#entryForm').addClass("d-none");
-					function countdown() {
-						if (audio.readyState) {
-							audio.play();
-							audio.volume = 0.15;
-						}
-						var count = 10;
-						$('#entryAck').empty();
-						$('#entryAck').append('<h1>' + count-- + '</h1>');
-						var interval = window.setInterval(function () {
-							$('#entryAck').empty();
-							if(count == 0) {
-								window.clearInterval(interval);
-								$('#entryAck').append(data['data']);
-								//$('#entryTable').append(newRow);
-								$('#entryForm :input').prop('readonly', false);
-								$('input[type="submit"]').prop('disable', false);
-								$('#entryForm').show(1000);
-							} else {
-								$('#entryAck').append('<h1>' + count-- + '</h1>');
-							}
-						} , 1000);
-					}
-					countdown();
-				} else {
+	var audio = document.getElementById("audioControl");
+	var response = <?php echo json_encode($response); ?>;
+	if(response){
+		if(response.statusCode == 200){
+			$('#entryForm :input').prop('readonly', true);
+			$('input[type="submit"]').prop('disable', true);
+			$('#entryForm').hide();
+			$('#entryForm').addClass("d-none");
+			$('#audioControl').removeClass("d-none");
+			function countdown() {
+				audio.play();
+				audio.volume = 0.15;
+				var count = 10;
+				$('#entryAck').empty();
+				$('#entryAck').append('<h1>' + count-- + '</h1>');
+				var interval = window.setInterval(function () {
 					$('#entryAck').empty();
-					$('#entryAck').append(data['data']);
-				}
-				$('#entryAck').show();
+					if(count == 0) {
+						window.clearInterval(interval);
+						$('#entryAck').append('<h1>#' + response.data.entry + '</h1>');
+						$('#entryForm :input').prop('readonly', false);
+						$('input[type="submit"]').prop('disable', false);
+						$('#entryForm').removeClass("d-none");
+						$('#entryForm').show(1000);
+					} else {
+						$('#entryAck').append('<h1>' + count-- + '</h1>');
+					}
+				} , 1000);
 			}
-		});
-		ev.preventDefault();
-	});
+			countdown();
+		} else {
+			$('#entryAck').empty();
+			$('#entryAck').append(response.error.description);
+		}
+
+		$('#entryAck').show();
+	}
+
 </script>

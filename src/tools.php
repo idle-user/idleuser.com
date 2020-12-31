@@ -332,6 +332,7 @@
 			elseif(isset($_POST['royalrumble-entry-add'])){
 				$method = 'POST';
 				$route = "watchwrestling/royalrumbles/{$_POST['royalrumble_id']}";
+				$_POST['user_id'] = $_SESSION['user_id'];
 			}
 
 			if($method && $route){
