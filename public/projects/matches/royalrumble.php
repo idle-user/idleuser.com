@@ -30,7 +30,7 @@ $all_entries = $db->all_royalrumble_entries();
 				<div class="6u">
 					<label for="entry_event">Event</label>
 					<select name="royalrumble_id" id="entry_event" required>
-						<option value="0" disabled selected>Select Event ...</option>
+						<option value="" disabled selected>Select Event ...</option>
 					<?php
 						foreach($all_entries as $entries){
 							if($entries[0]['entry_won']) continue;
