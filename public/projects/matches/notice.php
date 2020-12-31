@@ -36,18 +36,8 @@
 		<strong>You are not logged-in. Please <a href="/login.php?<?php echo get_direct_to();?>">register and login</a> to bet on matches.</strong>
 	</div>
 <?php
-	} else { 
-		$uemail = $db->user_email($_SESSION['user_id'])['email'];
-		if(strpos($uemail, '@INVALID') || $uemail='') {
-?>
-
-	<div class="container alert alert-info fade show mt-3 alert-dismissible" role="alert" style="background-color: bisque;border-color: bisque;">
-		<strong>You have not linked an email to your account - <a href="/projects/matches">Click Here</a> to update it.</strong>
-	</div>
-	
-<?php 
-		} 
 	}
 ?>
 
 <div class="mb-n4"> </div>
+
