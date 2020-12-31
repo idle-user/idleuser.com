@@ -1,5 +1,6 @@
 <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/../src/session.php'; set_last_page(); ?>
 <?php
+	$response = maybe_process_form();
 	$matches_today = $db->todays_matches();
 	$matches_bets_open = $db->open_matches();
 ?>

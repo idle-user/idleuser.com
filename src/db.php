@@ -1205,16 +1205,16 @@ class MYSQLHandler{
 	}
 
 	public function all_royalrumble_entries(){
-		$data = $this->DB_CONN->query('SELECT * FROM uv_royalrumble');
+		$data = $this->DB_CONN->query('SELECT * FROM uv_matches_royalrumble');
 		$result = [];
 		while($r = $data->fetch_array(MYSQLI_ASSOC)){
-			$result[$r['id']][] = $r;
+			$result[$r['royalrumble_id']][] = $r;
 		}
 		return $result;
 	}
 
 	public function royalrumble($id){
-		$query = 'SELECT * FROM royalrumble WHERE id=?';
+		$query = 'SELECT * FROM matches_royalrumble WHERE id=?';
 		$stmt = $this->DB_CONN->prepare($query);
 		$stmt->bind_param('i', $id);
 		$stmt->execute();
@@ -1222,55 +1222,11 @@ class MYSQLHandler{
 	}
 
 	public function royalrumble_entry($royalrumble_id, $username){
-		$query = 'SELECT * FROM uv_royalrumble WHERE id=? AND username=?';
+		$query = 'SELECT * FROM uv_matches_royalrumble WHERE royalrumble_id=? AND display_name=?';
 		$stmt = $this->DB_CONN->prepare($query);
 		$stmt->bind_param('is', $royalrumble_id, $username);
 		$stmt->execute();
 		return $stmt->get_result()->fetch_array(MYSQLI_ASSOC);
-	}
-
-	public function add_royalrumble_entry($royalrumble_id, $user_id, $username, $comment){
-		$rr_data = $this->royalrumble($royalrumble_id);
-		if(!$rr_data || $rr_data['winner']){
-			return false;
-		}
-		$max_entries = $rr_data['entries'];
-		$set_entries = [];
-
-		if($user_id!=0){
-			$query = 'SELECT DISTINCT number FROM royalrumble_entry WHERE royalrumble_id=? AND user_id>0';
-			$stmt = $this->DB_CONN->prepare($query);
-			$stmt->bind_param('i', $royalrumble_id);
-			$stmt->execute();
-			$set_entries_data = $stmt->get_result();
-			while($r = $set_entries_data->fetch_array(MYSQLI_ASSOC)){
-				$set_entries[] = $r['number'];
-			}
-		}
-
-		$available_numbers = array_diff(range(1, $max_entries), $set_entries);
-		if(empty($available_numbers)){
-			$available_numbers = range(1, $max_entries);
-		}
-
-		$rand_entry = $available_numbers[array_rand($available_numbers, 1)];
-		if(!$rand_entry){
-			return false;
-		}
-
-		$query = '
-			INSERT INTO royalrumble_entry (royalrumble_id, username, user_id, number, comment, dt_entered)
-			VALUES (?, ?, ?, ?, ?, NOW())';
-		$stmt = $this->DB_CONN->prepare($query);
-		$success = $stmt->bind_param('isiis', $royalrumble_id, $username, $user_id, $rand_entry, $comment);
-		if($success){
-			$success = $stmt->execute();
-			$success = true;
-		}
-		if($success){
-			$success = $rand_entry;
-		}
-		return $success;
 	}
 
 	// POLL
