@@ -297,7 +297,13 @@
 			$route = false;
 			$sessionUpdate = false;
 
-			if(isset($_POST['username-update'])){
+			if(isset($_POST['api-update'])){
+				$method = 'POST';
+				$route = "auth";
+				$sessionUpdate = true;
+			}
+
+			elseif(isset($_POST['username-update'])){
 				$method = 'PATCH';
 				$route = "users/{$_SESSION['user_id']}/username";
 				$sessionUpdate = true;
@@ -323,10 +329,9 @@
 				$route = "users/{$_SESSION['user_id']}/twitter";
 			}
 
-			elseif(isset($_POST['api-update'])){
+			elseif(isset($_POST['royalrumble-entry-add'])){
 				$method = 'POST';
-				$route = "auth";
-				$sessionUpdate = true;
+				$route = "watchwrestling/royalrumbles/{$_POST['royalrumble_id']}";
 			}
 
 			if($method && $route){
