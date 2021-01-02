@@ -1222,6 +1222,15 @@ class MYSQLHandler{
 		return $result;
 	}
 
+	public function open_royalrumbles(){
+		$data = $this->DB_CONN->query('SELECT * FROM matches_royalrumble WHERE entry_won IS NULL');
+		$result = [];
+		while($r = $data->fetch_array(MYSQLI_ASSOC)){
+			$result[] = $r;
+		}
+		return $result;
+	}
+
 	public function royalrumble_entries($id){
 		$query = $this->DB_CONN->query('SELECT * FROM matches_royalrumble_entries WHERE royalrumble_id=?');
 		$stmt = $this->DB_CONN->prepare($query);
