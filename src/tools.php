@@ -94,12 +94,11 @@
 			global $db;
 			$res = $db->user_token_login($_GET['uid'], $_GET['token']);
 			if($res){
-				session_destroy();
-				session_start();
 				$_SESSION['user_id'] = $res['id'];
 				$_SESSION['username'] = $res['username'];
 				$_SESSION['access'] = $res['access'];
 				$_SESSION['loggedin'] = true;
+				set_auth_values();
 			}
 			track("Token Login Attempt - uid:$_GET[uid]; result:".($res!=false?'1':'0'));
 			if($res!=false){
@@ -140,7 +139,8 @@
 
 		$auth = $db->auth_by_user_id($_SESSION['user_id']);
 		if(!$auth){
-			$auth = $db->add_auth_token($_SESSION['user_id']);
+			$auth_token = $db->add_auth_token($_SESSION['user_id']);
+			$auth = $db->auth_by_token(bin2hex($auth_token));
 		}
 		$_SESSION['auth_token'] = bin2hex($auth['auth_token']);
 		$_SESSION['auth_token_exp'] = $auth['auth_token_exp'];
