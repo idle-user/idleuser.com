@@ -9,16 +9,27 @@
 	}
 ?>
 
-
+<!-- Voting (manual) -->
 <?php if(false) { ?>
-<div class="container alert alert-info fade show mt-3 alert-dismissible" role="alert">
+<div class="container alert alert-info fade show mt-3 text-center" role="alert">
 	<strong>Are you registered to vote? Check your status and register in two minutes. <a href="https://vote.org/">Vote.org</a></strong>
 </div>
 <?php } ?>
 
 
+<!-- Royal Rumble open -->
+<?php if(count($royalrumbles_open)) { ?>
+<div class="container alert alert-info fade show mt-3 text-center" role="alert">
+	<strong class="h4">Royal Rumble Entries are Open!</strong>
+	<div class="col-12">
+		<text class="h5"><a href="/projects/matches/royalrumble.php">Enter the Royal Rumble!</a></text>
+	</div>
+</div>
+<?php } ?>
+
+<!-- Bets open-->
 <?php if(count($matches_bets_open)||count($matches_today)) { ?>
-<div class="container alert alert-info fade show mt-3 alert-dismissible text-center" role="alert">
+<div class="container alert alert-info fade show mt-3 text-center" role="alert">
 	<strong>Matches are available!</strong>
 	<div class="col-12">
 		<?php if(count($matches_bets_open)){ ?><text class="col-6"><a href="/projects/matches/matches.php?type=bets_open">Matches (Bets Open)</a></text><?php } ?>
@@ -28,12 +39,12 @@
 <?php } ?>
 
 
-
+<!-- not logged-in notice -->
 <?php
 	if(!$_SESSION['loggedin']){
 ?>
-	<div class="container alert alert-warning fade show mt-3" role="alert">
-		<strong>You are not logged-in. Please <a href="/login.php?<?php echo get_direct_to();?>">register and login</a> to bet on matches.</strong>
+	<div class="container alert alert-warning fade show mt-3 text-center" role="alert">
+		<strong>You are not logged-in.<br/>Please <a href="/login.php?<?php echo get_direct_to();?>">register and login</a> to bet on matches and earn points.</strong>
 	</div>
 <?php
 	}

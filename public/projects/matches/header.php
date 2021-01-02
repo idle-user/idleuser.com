@@ -3,6 +3,7 @@
 	$response = maybe_process_form();
 	$matches_today = $db->todays_matches();
 	$matches_bets_open = $db->open_matches();
+	$royalrumbles_open = $db->open_royalrumbles();
 ?>
 <!DOCTYPE HTML>
 <html lang="en">

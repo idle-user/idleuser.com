@@ -21,9 +21,9 @@
 						<h2>Menu</h2>
 					</header>
 					<ul>
-						<li><a href="/projects/matches">Homepage</a></li>
+						<li><a href="/projects/matches">Home</a></li>
 						<?php if(count($matches_bets_open)) echo "<li class='font-weight-bold'><a href='/projects/matches/matches.php?type=bets_open'>Matches (Bets Open)</a></li>"; ?>
-						<!--li><a href="/projects/matches/royalrumble.php">Royal Rumble</a></li-->
+						<?php if(count($royalrumbles_open)) echo "<li><a href='/projects/matches/royalrumble.php'>Royal Rumble</a></li>"; ?>
 						<li>
 							<span class="opener">Matches</span>
 							<ul>
@@ -50,8 +50,6 @@
 								<a href="/projects/matches/leaderboard.php?season_id=1">Season 1</a>
 							</ul>
 						</li>
-						<!--li><a href="/projects/matches/chatroom.php">Chatroom</a></li-->
-						<!--li><a href="/projects/matches/shop.php">Shop</a></li-->
 						<li><a href="/projects/matches/FAQs.php">FAQs</a></li>
 					</ul>
 				</nav>

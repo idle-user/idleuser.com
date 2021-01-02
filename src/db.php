@@ -1213,6 +1213,37 @@ class MYSQLHandler{
 		return $result;
 	}
 
+	public function all_royalrumbles(){
+		$data = $this->DB_CONN->query('SELECT * FROM matches_royalrumble');
+		$result = [];
+		while($r = $data->fetch_array(MYSQLI_ASSOC)){
+			$result[] = $r;
+		}
+		return $result;
+	}
+
+	public function open_royalrumbles(){
+		$data = $this->DB_CONN->query('SELECT * FROM matches_royalrumble WHERE entry_won IS NULL');
+		$result = [];
+		while($r = $data->fetch_array(MYSQLI_ASSOC)){
+			$result[] = $r;
+		}
+		return $result;
+	}
+
+	public function royalrumble_entries($id){
+		$query = $this->DB_CONN->query('SELECT * FROM matches_royalrumble_entries WHERE royalrumble_id=?');
+		$stmt = $this->DB_CONN->prepare($query);
+		$stmt->bind_param('i', $id);
+		$stmt->execute();
+		$data = $stmt->get_result();
+		$result = [];
+		while($r = $data->fetch_array(MYSQLI_ASSOC)){
+			$result[$r['royalrumble_id']] = $r;
+		}
+		return $result;
+	}
+
 	public function royalrumble($id){
 		$query = 'SELECT * FROM matches_royalrumble WHERE id=?';
 		$stmt = $this->DB_CONN->prepare($query);
@@ -1227,6 +1258,26 @@ class MYSQLHandler{
 		$stmt->bind_param('is', $royalrumble_id, $username);
 		$stmt->execute();
 		return $stmt->get_result()->fetch_array(MYSQLI_ASSOC);
+	}
+
+	public function add_royalrumble($description, $event_id, $entry_max, $entry_won){
+		$query = 'INSERT INTO matches_royalrumble (description, event_id, entry_max, entry_won) VALUES (?, ?, ?, ?)';
+		$stmt = $this->DB_CONN->prepare($query);
+		$success = $stmt->bind_param('siii', $description, $event_id, $entry_max, $entry_won);
+		if($success){
+			$success = $stmt->execute();
+		}
+		return $success?mysqli_insert_id($this->DB_CONN):false;
+	}
+
+	public function update_royalrumble($id, $description, $event_id, $entry_max, $entry_won){
+		$query = 'UPDATE matches_royalrumble SET description=?, event_id=?, entry_max=?, entry_won=? WHERE id=?';
+		$stmt = $this->DB_CONN->prepare($query);
+		$success = $stmt->bind_param('siiii', $description, $event_id, $entry_max, $entry_won, $id);
+		if($success){
+			$success = $stmt->execute();
+		}
+		return $success;
 	}
 
 	// POLL
