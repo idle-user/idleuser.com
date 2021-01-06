@@ -83,7 +83,7 @@ set_last_page();
     </div>
 
     <div id="projects" class="container rounded text-center p-5">
-      <h2 class="text-center pb-3">Some of my Project</h2>
+      <h2 class="text-center pb-3">Some of my Projects</h2>
       <div class="row">
         <div class="col-lg-4">
           <p class="display-3"><i class="fas fa-trophy"></i>
