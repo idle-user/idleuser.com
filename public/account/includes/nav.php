@@ -16,6 +16,7 @@
                 <a class="nav-link" href="matches.php?season=1">Season 1</a>
                 <a class="nav-link" href="matches.php?season=2">Season 2</a>
                 <a class="nav-link" href="matches.php?season=3">Season 3</a>
+                <a class="nav-link" href="matches.php?season=4">Season 4</a>
             </div>
         </li>
         <li class="nav-item">
@@ -61,6 +62,9 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="matches.php?season=3">Season 3</a>
+            </li>
+           <li class="nav-item">
+                <a class="nav-link" href="matches.php?season=4">Season 4</a>
             </li>
         </ul>
 
