@@ -1,7 +1,13 @@
-<?php include 'header.php';
+<?php
+	require_once $_SERVER['DOCUMENT_ROOT'] . '/../src/session.php';
+	$all_entries = $db->all_royalrumble_entries();
 
-$all_entries = $db->all_royalrumble_entries();
-
+	$meta = [
+		"keywords" => "Royal Rumble, random number, enter royal rumble, watchwrestling, WWE, AEW, NJPW, ROH, IMPACT, wrestling, bet, points, fjbot, chatroom, streams, watch online, wrestling discord, discord",
+		"og:title" => "WatchWrestling - Royal Rumble ",
+		"og:description" => "Join the Royal Rumble! Enter to get a random entry number and watch to see if your entry wins. Registered users win point prizes."
+	];
+	include 'header.php';
 ?>
 <header class="main">
 	<h1>Royal Rumble Pool</h1>

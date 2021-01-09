@@ -1,8 +1,7 @@
 <?php
-	include 'header.php';
+	require_once $_SERVER['DOCUMENT_ROOT'] . '/../src/session.php';
 
 	$cnt = 1;
-
 	if(isset($_GET['season_id']) && !empty($_GET['season_id'])){
 		$season_id = htmlspecialchars($_GET['season_id']);
 	}
@@ -18,6 +17,13 @@
 		$season_id = 4;
 		$leaderboard = $db->s4_leaderboard();
 	}
+
+	$meta = [
+		"keywords" => "Season {$season_id}, watchwrestling, WWE, AEW, NJPW, ROH, IMPACT, wrestling, bet, points, fjbot, chatroom, streams, watch online, wrestling discord, discord",
+		"og:title" => "WatchWrestling Leaderboard - Season {$season_id}",
+	];
+	include 'header.php';
+
 ?>
 <header class="main">
 	<h1>Leaderboard (Season <?php echo $season_id; ?>)</h1>

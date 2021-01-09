@@ -1,6 +1,6 @@
-<?php include 'header.php';
- ?>
 <?php
+	require_once $_SERVER['DOCUMENT_ROOT'] . '/../src/session.php';
+
 	$brands = $db->all_brands();
 	$titles = $db->all_titles();
 	$header = 'All Matches';
@@ -52,6 +52,12 @@
 			$header = 'All Matches';
 		}
 	}
+	$meta = [
+		"keywords" => "{$header}, watchwrestling, WWE, AEW, NJPW, ROH, IMPACT, wrestling, bet, points, fjbot, chatroom, streams, watch online, wrestling discord, discord",
+		"og:title" => "WatchWrestling - {$header}",
+	];
+	include 'header.php';
+
 	$header = '<h1>'.$header.'</h1>';
 	include 'matchlist.php';
 ?>

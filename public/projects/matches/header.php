@@ -1,9 +1,23 @@
-<?php require_once $_SERVER['DOCUMENT_ROOT'] . '/../src/session.php'; set_last_page(); ?>
 <?php
+	require_once $_SERVER['DOCUMENT_ROOT'] . '/../src/session.php';
+	set_last_page();
+
 	$response = maybe_process_form();
 	$matches_today = $db->todays_matches();
 	$matches_bets_open = $db->open_matches();
 	$royalrumbles_open = $db->open_royalrumbles();
+
+    $default_meta = [
+	  "viewport" => "width=device-width, initial-scale=1, user-scalable=no",
+	  "keywords" => "watchwrestling, WWE, AEW, NJPW, ROH, IMPACT, wrestling, bet, points, fjbot, chatroom, streams, watch online, wrestling discord, discord",
+	  "og:title" => "WatchWrestling Matches",
+	  "og:description" => "Wager points against others on upcoming wrestling matches. Rank up on the leaderboard and rate your favorite matches."
+	];
+	if(isset($meta)){
+		$meta = array_merge($default_meta, $meta);
+	} else {
+		$meta = $default_meta;
+	}
 ?>
 <!DOCTYPE HTML>
 <html lang="en">
@@ -13,7 +27,7 @@
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 -->
 <head>
-	<title>WatchWrestling Matches</title>
+	<title><?php echo $meta['og:title']; ?></title>
 	<script src="assets/js/jquery.min.js"></script>
 	<link rel="apple-touch-icon" sizes="180x180" href="/assets/images/favicon-180x180.png">
 	<link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-32x32.png">
@@ -29,15 +43,7 @@
 	<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
 	<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
 
-	<?php
-    $meta = [
-	  "viewport" => "width=device-width, initial-scale=1, user-scalable=no",
-	  "keywords" => "WWE, AEW, NJPW, ROH, IMPACT, wrestling, bet, points, fjbot, chatroom, streams, watch online, wrestling discord, discord",
-	  "og:title" => "WatchWrestling Matches",
-	  "og:description" => "Wager points against others on upcoming wrestling matches. Rank up on the leaderboard and rate your favorite matches."
-	];
-    echo page_meta($meta);
-  	?>
+	<?php echo page_meta($meta); ?>
 
 </head>
 <body>
