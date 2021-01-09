@@ -788,6 +788,17 @@ class MYSQLHandler{
 		return $stmt->get_result()->fetch_array(MYSQLI_ASSOC);
 	}
 
+	public function user_season_stats($user_id, $season_id){
+		$query='
+			SELECT *
+			FROM matches_stats
+			WHERE user_id=? AND season=?';
+		$stmt = $this->DB_CONN->prepare($query);
+		$stmt->bind_param('ii', $user_id, $season_id);
+		$stmt->execute();
+		return $stmt->get_result()->fetch_array(MYSQLI_ASSOC);
+	}
+
 	public function all_user_bets(){
 		$query = '
 			SELECT username, match_id, team, points, dt_placed FROM matches_bet
@@ -825,6 +836,24 @@ class MYSQLHandler{
 			WHERE mbc.user_id=?';
 		$stmt = $this->DB_CONN->prepare($query);
 		$stmt->bind_param('i', $user_id);
+		$stmt->execute();
+		$data = $stmt->get_result();
+		$result = [];
+		while($r = $data->fetch_array(MYSQLI_ASSOC)){
+			$result[$r['match_id']] = $r;
+		}
+		return $result;
+	}
+
+	public function user_season_bets($user_id, $season_id){
+		$query = '
+			SELECT ms.season, ub.*
+			FROM matches_season ms
+			JOIN uv_matches_user_bets ub ON ub.user_id=? AND ms.season=?
+			WHERE ub.match_id BETWEEN ms.start_matchid AND IFNULL(ms.end_matchid, ub.match_id)
+			ORDER BY ub.bet_placed DESC';
+		$stmt = $this->DB_CONN->prepare($query);
+		$stmt->bind_param('ii', $user_id, $season_id);
 		$stmt->execute();
 		$data = $stmt->get_result();
 		$result = [];
