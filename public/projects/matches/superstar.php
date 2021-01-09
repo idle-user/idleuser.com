@@ -1,6 +1,6 @@
-<?php include 'header.php';
- ?>
 <?php
+	require_once $_SERVER['DOCUMENT_ROOT'] . '/../src/session.php';
+
 	if(isset($_GET['superstar_id']) && !empty($_GET['superstar_id']))
 		$superstar_id = htmlspecialchars($_GET['superstar_id']);
 	else
@@ -11,6 +11,13 @@
 		$superstar_brand = $db->brand($superstar['brand_id']);
 	else
 		$superstar_brand = ['id'=>0, 'name'=>'N/A'];
+
+
+	$meta = [
+		"keywords" => "{$superstar['name']}, superstar, bio, watchwrestling, WWE, AEW, NJPW, ROH, IMPACT, wrestling, bet, points, fjbot, chatroom, streams, watch online, wrestling discord, discord",
+		"og:title" => "WatchWrestling Superstar - {$superstar['name']}",
+	];
+	include 'header.php';
 ?>
 <header class="main">
 	<h1><?php echo $superstar['name']; ?></h1>

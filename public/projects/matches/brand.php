@@ -1,5 +1,6 @@
-<?php include 'header.php'; ?>
 <?php
+	require_once $_SERVER['DOCUMENT_ROOT'] . '/../src/session.php';
+
 	if(!isset($_GET['brand_id']) || empty($_GET['brand_id']))
 		$brand_id = 1;
 	else
@@ -7,6 +8,12 @@
 	$brand = $db->brand($brand_id);
 	if(!$brand)
 		$brand = $db->brand(1);
+
+	$meta = [
+		"keywords" => "{$brand['name']}, roster, watchwrestling, WWE, AEW, NJPW, ROH, IMPACT, wrestling, bet, points, fjbot, chatroom, streams, watch online, wrestling discord, discord",
+		"og:title" => "WatchWrestling Roster - {$brand['name']}",
+	];
+	include 'header.php';
 ?>
 <header class="main">
 	<h1><?php echo $brand['name'].' Roster'; ?></h1>

@@ -1,6 +1,6 @@
-<?php include 'header.php';
- ?>
 <?php
+	require_once $_SERVER['DOCUMENT_ROOT'] . '/../src/session.php';
+
 	if(isset($_GET['user_id']) && !empty($_GET['user_id'])){
 		$user_id = htmlspecialchars($_GET['user_id']);
 	} else if(isset($_SESSION['user_id']) && !empty($_SESSION['user_id']) ){
@@ -17,6 +17,12 @@
 	else
 		$superstar_brand = ['id'=>0, 'name'=>'N/A'];
 
+	$meta = [
+		"keywords" => "{$user['username']}, watchwrestling, WWE, AEW, NJPW, ROH, IMPACT, wrestling, bet, points, fjbot, chatroom, streams, watch online, wrestling discord, discord",
+		"og:title" => "WatchWrestling Profile - {$user['username']}",
+		"og:description" => "{$user['username']}'s WatchWrestling profile. View their stats, bets, win/loss record."
+	];
+	include 'header.php';
 ?>
 <header class="main">
 	<h1><?php echo $user['username']; ?></h1>

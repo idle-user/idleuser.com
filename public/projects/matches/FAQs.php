@@ -1,4 +1,12 @@
-<?php include 'header.php'; ?>
+<?php
+	require_once $_SERVER['DOCUMENT_ROOT'] . '/../src/session.php';
+
+	$meta = [
+		"keywords" => "FAQ, watchwrestling, WWE, AEW, NJPW, ROH, IMPACT, wrestling, bet, points, fjbot, chatroom, streams, watch online, wrestling discord, discord",
+		"og:title" => "WatchWrestling - FAQ",
+	];
+	include 'header.php';
+?>
 <header class="main">
 	<h1>FAQs</h1>
 </header>
