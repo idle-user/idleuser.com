@@ -55,15 +55,19 @@
         header("Location: ..");
         exit();
 	}
-	function redirect($delay=0,$url=false){
+	function redirect($delay=0, $url=false){
 		if(!$url){
-			if(isset($_GET['redirect_to'])){
-				$url = $_GET['redirect_to'];
-			} else {
-				$url = get_last_page();
-			}
+			maybe_redirect_to();
+			$url = get_last_page();
 		}
 		header("refresh:$delay;url=$url");
+	}
+	function maybe_redirect_to($delay=0){
+		if(isset($_GET['redirect_to'])){
+			$url = $_GET['redirect_to'];
+			redirect($delay, $url);
+			exit();
+		}
 	}
 	function set_last_page(){
 		$_SESSION['last_page'] = $_SERVER['REQUEST_URI'];
@@ -102,8 +106,7 @@
 			}
 			track("Token Login Attempt - uid:$_GET[uid]; result:".($res!=false?'1':'0'));
 			if($res!=false){
-				redirect(0);
-				exit();
+				maybe_redirect_to();
 			}
 		}
 	}
