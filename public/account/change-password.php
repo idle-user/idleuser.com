@@ -4,7 +4,7 @@
 	if(!$_SESSION['loggedin']){
 		redirect(0, '/login.php');
 		exit();
-	  }
+	}
 
 	$update_attempt = false;
   $error_message = false;
@@ -49,7 +49,7 @@
   }
 
   if($update_attempt && !$error_message){
-    redirect(2);
+    redirect($delay=2, $url='/account');
   }
 
 ?>
@@ -73,8 +73,8 @@
     <div class="text-center mb-4">
       <a href="/"><img class="mb-4" src="/assets/images/favicon-512x512.png" alt="" width="72" height="72"></a>
 
-      <h1 class="h3 mb-3 font-weight-normal">Update Account</h1>
-      <p>Update your account information. Use your IdleUser Account across the entire website, including <a href="/projects/matches/">Matches</a> and <a href="/projects/create-a-poll/">Create-a-Poll</a>.</p>
+      <h1 class="h3 mb-3 font-weight-normal">Change Password</h1>
+      <p>Change your account password. Use your IdleUser Account across the entire website, including <a href="/projects/matches/">Matches</a> and <a href="/projects/create-a-poll/">Create-a-Poll</a>.</p>
     </div>
 
     <div class="form-label-group">
@@ -84,7 +84,7 @@
 
     <?php if(isset($_GET['temp_pw'])){?>
       <div class="form-label-group">
-        <input type="text" id="inputTempSecret" class="form-control" placeholder="Temporary Password" name="temp_secret"  value="<?php echo $_GET['temp_pw'] ?>" required hidden>
+        <input type="text" id="inputTempSecret" class="form-control" placeholder="Temporary Password" name="temp_secret"  value="<?php echo $_GET['temp_pw'] ?>" required readonly>
         <label for="inputOldPassword">Temporary Password</label>
       </div>
     <?php } else { ?>
