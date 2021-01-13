@@ -93,10 +93,10 @@
 			exit();
 		}
 	}
-	function token_login_check(){
-		if(isset($_GET['uid']) && isset($_GET['token'])){
+	function login_token_check(){
+		if(isset($_GET['uid']) && isset($_GET['login_token'])){
 			global $db;
-			$res = $db->user_token_login($_GET['uid'], $_GET['token']);
+			$res = $db->user_token_login($_GET['uid'], $_GET['login_token']);
 			if($res){
 				$_SESSION['user_id'] = $res['id'];
 				$_SESSION['username'] = $res['username'];
@@ -104,7 +104,7 @@
 				$_SESSION['loggedin'] = true;
 				set_auth_values();
 			}
-			track("Token Login Attempt - uid:$_GET[uid]; result:".($res!=false?'1':'0'));
+			track("Login Token Attempt - uid:{$_GET['uid']}; result:".($res!=false?'1':'0'));
 			if($res!=false){
 				maybe_redirect_to();
 			}
@@ -247,11 +247,6 @@
 			<meta name="twitter:image" content="{$meta['twitter:image']}">
 			<meta name="twitter:site" content="{$meta['twitter:site']}">
 		EOD;
-	}
-	function email($to, $subject, $message){
-		$from = 'no-reply@idleuser.com';
-		$header = "From: $from";
-		return mail($to, $subject, $message, $header);
 	}
 	function api_call($method, $route, $payload){
 		global $configs;
