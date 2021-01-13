@@ -1,5 +1,5 @@
-<?php 
-  require_once $_SERVER['DOCUMENT_ROOT'] . '/../src/session.php'; 
+<?php
+  require_once $_SERVER['DOCUMENT_ROOT'] . '/../src/session.php';
   if(!$_SESSION['loggedin']){
     echo 'You must be logged in to access this.';
     redirect(1);
@@ -15,11 +15,11 @@
 	<link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-32x32.png">
 	<link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon-16x16.png">
 	<link rel="shortcut icon" href="/assets/images/favicon.ico">
-  <link rel="manifest" href="/assets/images/site.webmanifest">	
+  <link rel="manifest" href="/assets/images/site.webmanifest">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
   <link rel="stylesheet" href="assets/custom.css">
 
-  <?php 
+  <?php
     $meta = [
       "og:title" => "Create-a-Poll",
       "og:description" => "Create and share any poll fast!"
@@ -44,7 +44,7 @@
         <p class="lead text-muted">These are the polls you have created.</p>
         <p>
           <a href="./" class="btn btn-secondary my-2">Home</a>
-          <a href="create.php" class="btn btn-primary my-2">Create a Poll</a>
+          <a href="create" class="btn btn-primary my-2">Create a Poll</a>
         </p>
       </div>
     </section>
@@ -58,7 +58,7 @@
           $poll_list_limit = 6;
           $poll_list = $db->polls_user_most_recent($_SESSION['user_id']);
           $poll_list = array_slice($poll_list, 0, $poll_list_limit);
-          if(empty($poll_list)){ 
+          if(empty($poll_list)){
             echo '<p class="card-body">No active polls found.</p>';
           } else {
             foreach($poll_list as $poll){
@@ -71,16 +71,16 @@
                 <div class="card-body">
                   <div class="d-flex justify-content-between align-items-center">
                     <div class="btn-group">
-                      <a href="vote.php?id=<?php echo $poll['id'] ?>" type="button" class="btn btn-sm btn-outline-secondary">View</a>
+                      <a href="vote?id=<?php echo $poll['id'] ?>" type="button" class="btn btn-sm btn-outline-secondary">View</a>
                     </div>
                     <small class="text-muted"><text name="countdown" value="<?php echo $poll['ending_in'] ?>"></text></small>
                   </div>
                 </div>
               </div>
             </div>
-          <?php 
+          <?php
               }
-            } 
+            }
           ?>
         </div>
       </div>
@@ -95,7 +95,7 @@
           $poll_list_limit = 6;
           $poll_list = $db->polls_user_most_recent($_SESSION['user_id']);
           $poll_list = array_slice($poll_list, 0, $poll_list_limit);
-          if(empty($poll_list)){ 
+          if(empty($poll_list)){
             echo '<p class="card-body">No active polls found.</p>';
           } else {
             foreach($poll_list as $poll){
@@ -108,16 +108,16 @@
                 <div class="card-body">
                   <div class="d-flex justify-content-between align-items-center">
                     <div class="btn-group">
-                      <a href="vote.php?id=<?php echo $poll['id'] ?>" type="button" class="btn btn-sm btn-outline-secondary">View</a>
+                      <a href="vote?id=<?php echo $poll['id'] ?>" type="button" class="btn btn-sm btn-outline-secondary">View</a>
                     </div>
                     <small class="text-muted"><text name="countdown" value="<?php echo $poll['ending_in'] ?>"></text></small>
                   </div>
                 </div>
               </div>
             </div>
-        <?php 
+        <?php
             }
-          } 
+          }
         ?>
         </div>
       </div>
@@ -137,7 +137,7 @@
               <p class="text-center">No previous polls found.</p>
             </div>
           <?php
-           } else { 
+           } else {
             foreach($poll_list as $poll){
           ?>
             <div class="col-md-4">
@@ -148,16 +148,16 @@
                 <div class="card-body">
                   <div class="d-flex justify-content-between align-items-center">
                     <div class="btn-group">
-                      <a href="vote.php?id=<?php echo $poll['id'] ?>" type="button" class="btn btn-sm btn-outline-secondary">View</a>
+                      <a href="vote?id=<?php echo $poll['id'] ?>" type="button" class="btn btn-sm btn-outline-secondary">View</a>
                     </div>
                     <small class="text-muted"><text name="countdown" value="<?php echo $poll['ending_in'] ?>"></text></small>
                   </div>
                 </div>
               </div>
             </div>
-        <?php 
+        <?php
             }
-          } 
+          }
         ?>
         </div>
       </div>
@@ -167,6 +167,6 @@
   </main>
 
   <?php include 'footer.php'; ?>
-  
+
 </body>
 </html>

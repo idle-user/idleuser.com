@@ -45,8 +45,8 @@
 	<?php foreach($leaderboard as $user){ ?>
 			<tr>
 				<td><?php echo $cnt; ?></td>
-				<td><a href="/projects/matches/user.php?user_id=<?php echo $user['user_id']; ?>"><?php echo $user['username']; ?></a></td>
-				<td><a href="/projects/matches/superstar.php?superstar_id=<?php echo $user['favorite_superstar_id']; ?>"><?php echo $db->superstar($user['favorite_superstar_id'])['name'] ?></a></td>
+				<td><a href="/projects/matches/user?user_id=<?php echo $user['user_id']; ?>"><?php echo $user['username']; ?></a></td>
+				<td><a href="/projects/matches/superstar?superstar_id=<?php echo $user['favorite_superstar_id']; ?>"><?php echo $db->superstar($user['favorite_superstar_id'])['name'] ?></a></td>
 				<td><?php echo $user['wins'] ? $user['wins'] : '0'; ?></td>
 				<td><?php echo $user['losses'] ? $user['losses'] : '0'; ?></td>
 				<td><?php echo number_format($user['points'], 0, '', ',')?:'0'; ?></td>

@@ -124,7 +124,7 @@ set_last_page();
           <p>Discord chat is on the rise. Start your own Discord server and include your own <strong>custom bot</strong> to fit your needs - whatever they may be. User roll mangement, customized greetings, channel chat logs, scheduled alerts, and much more can be offered.</p>
         </div>
         <p class="container pt-3">
-          <a class="btn btn-secondary btn-lg shadow" href="/contact.php" role="button">Contact Me</a>
+          <a class="btn btn-secondary btn-lg shadow" href="/contact" role="button">Contact Me</a>
         </p>
       </div>
     </div>

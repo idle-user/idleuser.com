@@ -36,7 +36,7 @@
 	<!-- Footer -->
 	<footer id="footer">
 		<ul class="copyright">
-			<li>© 2017 Jesus Andrade</li>
+			<li>&copy; 2017-2021 Jesus Andrade</li>
 			<li>Design: <a href="https://html5up.net">HTML5 UP</a></li>
 			<li>DNS: <a href="https://freedns.afraid.org/">Free DNS</a></li>
 			<li>Page Last Updated: <?php echo date("Y.m.d H:i:s.", getlastmod()); ?></i>

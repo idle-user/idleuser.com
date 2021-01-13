@@ -34,7 +34,7 @@
 		<tbody>
 	<?php foreach($db->brand_superstars($brand['id']) as $superstar){ ?>
 			<tr>
-				<td><a href="/projects/matches/superstar.php?superstar_id=<?php echo $superstar['id']; ?>"> <?php echo $superstar['name']; ?></a></td>
+				<td><a href="/projects/matches/superstar?superstar_id=<?php echo $superstar['id']; ?>"> <?php echo $superstar['name']; ?></a></td>
 				<td><?php echo $superstar['height']; ?></td>
 				<td><?php echo $superstar['weight']; ?></td>
 				<td><?php echo $superstar['hometown']; ?></td>

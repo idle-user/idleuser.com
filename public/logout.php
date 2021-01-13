@@ -34,8 +34,8 @@
       <p>Redirecting you ...</p>
       <input type="button" value="Return to previous page" onclick="javascript:history.go(-1)" >
       <p class="mt-5 mb-3 text-muted text-center small">
-      &copy; 2020 Jesus Andrade
-      <br/><a href="https://freedns.afraid.org/">Free DNS</a> | <a href="/privacy-policy.php">Privacy Policy</a>
+      &copy; 2017-2021 Jesus Andrade
+      <br/><a href="https://freedns.afraid.org/">Free DNS</a> | <a href="/privacy-policy">Privacy Policy</a>
     </p>
   </form>
 </body>

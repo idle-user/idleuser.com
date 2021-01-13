@@ -15,7 +15,7 @@
 <?php foreach($db->all_titles() as $title){ ?>
 		<tr>
 			<td><?php echo $title['name']; ?></td>
-			<td><a href="/projects/matches/matches.php?title_id=<?php echo $title['id']; ?>">Matches</a></td>
+			<td><a href="/projects/matches/matches?title_id=<?php echo $title['id']; ?>">Matches</a></td>
 		</tr>
 <?php } ?>
 	</table>

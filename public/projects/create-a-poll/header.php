@@ -44,13 +44,13 @@
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                  <a href="/logout.php?<?php echo get_direct_to(); ?>" class="btn btn-primary">Logout</a>
+                  <a href="/logout?<?php echo get_direct_to(); ?>" class="btn btn-primary">Logout</a>
                 </div>
               </div>
             </div>
           </div>
         <?php } else { ?>
-          <a href="/login.php?<?php echo get_direct_to(); ?>" class="btn btn-secondary float-right mr-4">Login</a>
+          <a href="/login?<?php echo get_direct_to(); ?>" class="btn btn-secondary float-right mr-4">Login</a>
         <?php } ?>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>

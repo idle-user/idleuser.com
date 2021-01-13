@@ -50,7 +50,7 @@
 		<footer class="page-footer font-small blue pt-4">
 			<div class="footer-copyright text-center py-3">
 				<ul class="list-unstyled">
-					<li>© 2020 Jesus Andrade</li>
+					<li>&copy; 2017-2021 Jesus Andrade</li>
 					<li>DNS: <a href="https://freedns.afraid.org/">Free DNS</a></li>
 					<li>Page Last Updated: <?php echo date("Y.m.d H:i:s.", getlastmod()); ?></i>
 				</ul>

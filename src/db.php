@@ -100,14 +100,6 @@ class MYSQLHandler{
 		$stmt->bind_param('i', $id);
 		$stmt->execute();
 		$user = $stmt->get_result()->fetch_array(MYSQLI_ASSOC);
-		if($user){
-			unset($user['secret']);
-			unset($user['secret_last_updated']);
-			unset($user['login_token']);
-			unset($user['login_token_exp']);
-			unset($user['temp_secret']);
-			unset($user['temp_secret_last_updated']);
-		}
 		return $user;
 	}
 
@@ -117,14 +109,15 @@ class MYSQLHandler{
 		$stmt->bind_param('s', $username);
 		$stmt->execute();
 		$user = $stmt->get_result()->fetch_array(MYSQLI_ASSOC);
-		if($user){
-			unset($user['secret']);
-			unset($user['secret_last_updated']);
-			unset($user['login_token']);
-			unset($user['login_token_exp']);
-			unset($user['temp_secret']);
-			unset($user['temp_secret_last_updated']);
-		}
+		return $user;
+	}
+
+	public function reset_token_info($token){
+		$query = 'SELECT * FROM user WHERE temp_secret=? AND temp_secret_exp>NOW()';
+		$stmt = $this->DB_CONN->prepare($query);
+		$stmt->bind_param('s', $token);
+		$stmt->execute();
+		$user = $stmt->get_result()->fetch_array(MYSQLI_ASSOC);
 		return $user;
 	}
 
@@ -165,7 +158,7 @@ class MYSQLHandler{
 	}
 
 	public function user_token_login($user_id, $token){
-		$query = 'CALL usp_user_upd_login_with_token(?, ?)';
+		$query = 'UPDATE user SET login_token_exp=NOW(), last_login=NOW() WHERE id=? AND login_token=? AND login_token_exp>NOW()';
 		$stmt = $this->DB_CONN->prepare($query);
 		$stmt->bind_param('is', $user_id, $token);
 		$stmt->execute();
@@ -176,33 +169,33 @@ class MYSQLHandler{
 		return false;
 	}
 
-	public function user_update_login_token($user_id, $username){
-		$token = substr(md5(microtime()), 0, 15);
-		$query = 'CALL usp_user_upd_login_token(?, ?, ?)';
+	public function user_update_login_token($user_id){
+		$token = bin2hex(random_bytes(32));
+		$query = 'UPDATE user SET login_token=?, login_token_exp=DATE_ADD(NOW(), INTERVAL 5 MINUTE) WHERE id=?';
 		$stmt = $this->DB_CONN->prepare($query);
-		$stmt->bind_param('iss', $user_id, $username, $token);
+		$stmt->bind_param('si', $token, $user_id);
 		if($stmt->execute()){
 			return $token;
 		}
 		return false;
 	}
 
-	public function user_update_temp_secret($user_id, $username){
-		$temp = substr(md5(microtime()), 0, 15);
-		$query = 'CALL usp_user_upd_temp_secret(?, ?, ?)';
+	public function user_update_temp_secret($user_id){
+		$token = bin2hex(random_bytes(32));
+		$query = 'UPDATE user SET temp_secret=?, temp_secret_exp=DATE_ADD(NOW(), INTERVAL 30 MINUTE) WHERE id=?';
 		$stmt = $this->DB_CONN->prepare($query);
-		$stmt->bind_param('iss', $user_id, $username, $temp);
+		$stmt->bind_param('si', $token, $user_id);
 		if($stmt->execute()){
-			return $temp;
+			return $token;
 		}
 		return false;
 	}
 
-	public function user_reset_password($user_id, $username, $temp, $secret){
-		$query = 'CALL usp_user_upd_secret_with_temp(?, ?, ?, ?)';
+	public function user_reset_password($user_id, $token, $secret){
+		$query = 'UPDATE user SET secret=?, secret_last_updated=NOW(), temp_secret_exp=NOW() WHERE id=? AND temp_secret=? AND temp_secret_exp>NOW()';
 		$stmt = $this->DB_CONN->prepare($query);
 		$hash = password_hash($secret, PASSWORD_BCRYPT);
-		$stmt->bind_param('isss', $user_id, $username, $temp, $hash);
+		$stmt->bind_param('sis', $hash, $user_id, $token);
 		$stmt->execute();
 		if($stmt->affected_rows == 1){
 			$user_info = $this->user_info($user_id);
@@ -213,10 +206,10 @@ class MYSQLHandler{
 
 	public function user_change_password($user_id, $username, $old_secret, $new_secret){
 		if(password_verify($old_secret, $this->user_secret($username))){
-			$query = 'CALL usp_user_upd_secret(?, ?, ?)';
+			$query = 'UPDATE user SET secret=?, secret_last_updated=NOW() WHERE id=? AND username=?';
 			$stmt = $this->DB_CONN->prepare($query);
 			$hash = password_hash($new_secret, PASSWORD_BCRYPT);
-			$stmt->bind_param('iss', $user_id, $username, $hash);
+			$stmt->bind_param('sis', $hash, $user_id, $username);
 			$stmt->execute();
 			if($stmt->affected_rows == 1){
 				$user_info = $this->user_info($user_id);
@@ -1212,9 +1205,9 @@ class MYSQLHandler{
 	}
 
 	public function update_favorite_superstar($user_id, $superstar_id){
-		$query = 'CALL usp_matches_upd_favorite_superstar(?, ?)';
+		$query = 'INSERT INTO matches_favorite_superstar (user_id, superstar_id, updated) VALUES (?, ?, NOW()) ON DUPLICATE KEY UPDATE superstar_id=?, updated=NOW()';
 		$stmt = $this->DB_CONN->prepare($query);
-		$success = $stmt->bind_param('ii', $user_id, $superstar_id);
+		$success = $stmt->bind_param('iii', $user_id, $superstar_id, $superstar_id);
 		if($success){
 			$success = $stmt->execute();
 		}

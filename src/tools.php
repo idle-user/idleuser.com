@@ -85,7 +85,7 @@
 	}
 	function requires_admin(){
 		if(!$_SESSION['loggedin']){
-			redirect(0, '/login.php');
+			redirect(0, '/login');
 			exit();
 		}
 		if($_SESSION['access'] < 2){
@@ -93,10 +93,10 @@
 			exit();
 		}
 	}
-	function token_login_check(){
-		if(isset($_GET['uid']) && isset($_GET['token'])){
+	function login_token_check(){
+		if(isset($_GET['uid']) && isset($_GET['login_token'])){
 			global $db;
-			$res = $db->user_token_login($_GET['uid'], $_GET['token']);
+			$res = $db->user_token_login($_GET['uid'], $_GET['login_token']);
 			if($res){
 				$_SESSION['user_id'] = $res['id'];
 				$_SESSION['username'] = $res['username'];
@@ -104,7 +104,7 @@
 				$_SESSION['loggedin'] = true;
 				set_auth_values();
 			}
-			track("Token Login Attempt - uid:$_GET[uid]; result:".($res!=false?'1':'0'));
+			track("Login Token Attempt - uid:{$_GET['uid']}; result:".($res!=false?'1':'0'));
 			if($res!=false){
 				maybe_redirect_to();
 			}
@@ -248,10 +248,34 @@
 			<meta name="twitter:site" content="{$meta['twitter:site']}">
 		EOD;
 	}
-	function email($to, $subject, $message){
-		$from = 'no-reply@idleuser.com';
-		$header = "From: $from";
-		return mail($to, $subject, $message, $header);
+	function email($to, $subject, $content){
+		$headers = array(
+			'From: no-reply@idleuser.com',
+			'Reply-To: no-reply@idleuser.com',
+			'MIME-Version: 1.0',
+			'Content-type:text/html;charset=UTF-8',
+			'X-Mailer: PHP/' . phpversion(),
+		);
+		$headers = implode("\r\n", $headers);
+		$message = '<html><body style="font-family:Helvetica,sans-serif; font-size:13px;">';
+		$message .= $content;
+		$message .= '<div style="padding-top:20px;">';
+		$message .= '<p style="font-size:10px;">';
+		$message .= "This email message was delivered from a send-only address. Please do not reply to this automated message.";
+		$message .= '</p>';
+		$message .= '</div>';
+		$message .= '</body></html>';
+		return mail($to, $subject, $message, $headers);
+	}
+	function email_reset_password_token($to, $username, $token){
+		$subject = 'Password Reset Request';
+		$reset_url = "https://idleuser.com/reset-password?reset_token={$token}";
+		$message = "<h2>Hello, {$username}!</h2>";
+		$message .= '<div><p>';
+		$message .= "Someone requested to reset your idleuser.com account password. If it wasn't you, please ignore this email and no changes will be made to your account. However, if you have requested to reset your password, please click the link below. You will be redirected to the idleuser.com password reset form.";
+		$message .= '</p></div>';
+		$message .= "<a href='{$reset_url}'>Click here to reset your password</a>";
+		return email($to, $subject, $message);
 	}
 	function api_call($method, $route, $payload){
 		global $configs;

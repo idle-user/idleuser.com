@@ -1,55 +1,41 @@
 <?php
 	require_once $_SERVER['DOCUMENT_ROOT'] . '/../src/session.php'; set_last_page();
 
-	if(!$_SESSION['loggedin']){
-		redirect(0, '/login.php');
+  if(!isset($_GET['reset_token'])){
+		redirect(0, '/login');
 		exit();
 	}
 
 	$update_attempt = false;
   $error_message = false;
 
-
-	if( (isset($_POST['temp_secret']) || isset($_POST['old_secret'])) && isset($_POST['new_secret']) && isset($_POST['new_secret_verify']) ){
+	if(isset($_POST['reset_token']) && isset($_POST['new_secret']) && isset($_POST['new_secret_verify'])){
 		$update_attempt = true;
 
 		if(strlen($_POST["new_secret"]) < 6){
-      $error_message = "Password must contain at least 6 characters. Try again.";
-    } elseif(isset($_POST['old_secret']) && !$db->user_login($_SESSION['username'], $_POST['old_secret'])){
-      $error_message = "Incorrect Password. Try again.";
-		} elseif($_POST['new_secret'] == $_POST['new_secret_verify']){
-
-      if(isset($_POST['temp_secret'])){
-        $res = $db->user_reset_password($_SESSION['user_id'], $_SESSION['username'], $_POST['temp_secret'], $_POST['new_secret']);
+      $error_message = 'Password must contain at least 6 characters. Try again.';
+		} elseif($_POST['new_secret'] != $_POST['new_secret_verify']){
+      $error_message = 'Passwords do not match.';
+		} else {
+      $user = $db->reset_token_info($_POST['reset_token']);
+      if($user){
+        $res = $db->user_reset_password($user['id'], $_POST['reset_token'], $_POST['new_secret']);
+        if(!$res){
+          $error_message = 'Failed to update account. Try again.';
+        }
       } else {
-			  $res = $db->user_change_password($_SESSION['user_id'], $_SESSION['username'], $_POST['old_secret'], $_POST['new_secret']);
+        $error_message = 'Invalid reset token. Please try again.';
       }
 
-		} else {
-			$res = false;
-			$error_message = "Passwords do not match.";
-		}
-
-			if($res){
-				$res = $db->user_login($_SESSION['username'], $_POST['new_secret']);
-				if($res){
-					$_SESSION['user_id'] = $res['id'];
-					$_SESSION['username'] = $res['username'];
-					$_SESSION['access'] = $res['access'];
-					$_SESSION['loggedin'] = true;
-				}
-			}
-
-		track("Update Password Attempt - username:$_SESSION[username]; result:$_SESSION[loggedin]");
-
-		if(!$res && !$error_message){
-			$error_message = "Failed to update account. Try again.";
     }
 
+    $success = $error_message ? 0 : 1;
+    $attempted_by = $success ? $user['username'] : '';
+		track("Reset Password Attempt - username:{$attempted_by}; result:{$success}");
   }
 
   if($update_attempt && !$error_message){
-    redirect($delay=2, $url='/account');
+    redirect($delay=2, $url='/account/');
   }
 
 ?>
@@ -73,26 +59,14 @@
     <div class="text-center mb-4">
       <a href="/"><img class="mb-4" src="/assets/images/favicon-512x512.png" alt="" width="72" height="72"></a>
 
-      <h1 class="h3 mb-3 font-weight-normal">Change Password</h1>
-      <p>Change your account password. Use your IdleUser Account across the entire website, including <a href="/projects/matches/">Matches</a> and <a href="/projects/create-a-poll/">Create-a-Poll</a>.</p>
+      <h1 class="h3 mb-3 font-weight-normal">Reset Password</h1>
+      <p>Reset your account password. Use your IdleUser Account across the entire website, including <a href="/projects/matches/">Matches</a> and <a href="/projects/create-a-poll/">Create-a-Poll</a>.</p>
     </div>
 
     <div class="form-label-group">
-      <input type="username" id="inputUsername" class="form-control" placeholder="Username" name="username" value="<?php echo $_SESSION['username'] ?>" disabled>
-      <label for="inputUsername">Username</label>
+      <input type="text" id="inputResetToken" class="form-control d-none" placeholder="Reset Token" name="reset_token"  value="<?php echo $_GET['reset_token'] ?>" required readonly>
+      <label for="inputResetToken">Reset Token</label>
     </div>
-
-    <?php if(isset($_GET['temp_pw'])){?>
-      <div class="form-label-group">
-        <input type="text" id="inputTempSecret" class="form-control" placeholder="Temporary Password" name="temp_secret"  value="<?php echo $_GET['temp_pw'] ?>" required readonly>
-        <label for="inputOldPassword">Temporary Password</label>
-      </div>
-    <?php } else { ?>
-      <div class="form-label-group">
-        <input type="password" id="inputOldPassword" class="form-control" placeholder="Current Password" name="old_secret" autofocus required>
-        <label for="inputOldPassword">Current Password</label>
-      </div>
-    <?php } ?>
 
     <div class="form-label-group">
       <input type="password" id="inputNewPassword" class="form-control" placeholder="New Password" name="new_secret" autofocus required>
@@ -113,7 +87,7 @@
           </div>
       <?php } else {?>
           <div class="p-2 alert-success text-center alert">
-            <text>Updated Account.<br/>Redirecting you back ...</text>
+            <text>Account Password Updated.<br/>Redirecting you back ...</text>
           </div>
     <?php
         }
@@ -122,13 +96,15 @@
 
     <div class="row">
       <div class="col-lg-12">
+          <a href="/login" class="btn btn-sm text-primary font-weight-bold" type="button">Login instead</a>
+
           <button class="btn btn-lg btn-primary float-right" type="submit">Update</button>
       </div>
     </div>
 
     <p class="mt-5 mb-3 text-muted text-center small">
-      &copy; 2020 Jesus Andrade
-      <br/><a href="https://freedns.afraid.org/">Free DNS</a> | <a href="/privacy-policy.php">Privacy Policy</a>
+      &copy; 2017-2021 Jesus Andrade
+      <br/><a href="https://freedns.afraid.org/">Free DNS</a> | <a href="/privacy-policy">Privacy Policy</a>
     </p>
   </form>
 </body>

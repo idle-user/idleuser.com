@@ -53,7 +53,7 @@
 				foreach($all_contestants as $team){
 					echo ''.$team[0]['bet_multiplier'].'x<br/>';
 					foreach($team as $superstar){
-						echo '<a href="/projects/matches/superstar.php?superstar_id='.$superstar['id'].'">'.$superstar['name'].'</a><br/>';
+						echo '<a href="/projects/matches/superstar?superstar_id='.$superstar['id'].'">'.$superstar['name'].'</a><br/>';
 					}
 					echo '<br/>';
 				}?></td>
@@ -61,7 +61,7 @@
 				$winner_listed = false;
 				foreach($winner as $team){
 					foreach($team as $superstar){
-						echo '<a href="/projects/matches/superstar.php?superstar_id='.$superstar['id'].'">'.$superstar['name'].'</a><br/>';
+						echo '<a href="/projects/matches/superstar?superstar_id='.$superstar['id'].'">'.$superstar['name'].'</a><br/>';
 						$winner_listed = true;
 					}
 				}

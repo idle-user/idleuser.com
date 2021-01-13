@@ -28,9 +28,9 @@
       $_SESSION['loggedin'] = true;
 		}
 
-    track("Register Attempt - username:$_POST[username]; result:$_SESSION[loggedin]");
+    track("Register Attempt - username:{$_POST['username']}; result:{$_SESSION['loggedin']}");
     if($_SESSION['loggedin']){
-      redirect(1);
+      redirect($delay=2, $url='/account/');
     }
 
     if(!$res && !$register_error){
@@ -78,7 +78,7 @@
     </div>
 
     <div class="form-label-group">
-      <input type="username" id="inputUsername" class="form-control" placeholder="Username" name="username" maxlength="25" required autofocus>
+      <input type="username" id="inputUsername" class="form-control" placeholder="Username" name="username" maxlength="25" <?php if(isset($_POST['username'])){ echo "value='{$_POST['username']}'"; }?> required autofocus>
       <label for="inputUsername">Username</label>
     </div>
 
@@ -100,15 +100,15 @@
 
     <div class="row">
       <div class="col-lg-12">
-          <a href="/login.php" class="btn btn-sm text-primary font-weight-bold" type="button">Login instead</a>
+          <a href="/login" class="btn btn-sm text-primary font-weight-bold" type="button">Login instead</a>
           <button class="btn btn-lg btn-primary float-right" type="submit">Register</button>
       </div>
     </div>
   <?php } ?>
 
     <p class="mt-5 mb-3 text-muted text-center small">
-      &copy; 2020 Jesus Andrade
-      <br/><a href="https://freedns.afraid.org/">Free DNS</a> | <a href="/privacy-policy.php">Privacy Policy</a>
+      &copy; 2017-2021 Jesus Andrade
+      <br/><a href="https://freedns.afraid.org/">Free DNS</a> | <a href="/privacy-policy">Privacy Policy</a>
     </p>
   </form>
 </body>

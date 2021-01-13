@@ -150,7 +150,7 @@
                         </div>
                     </div>
                     <button class="btn btn-primary float-right" type="submit">Update Command</button>
-                    <a type="button" class="btn btn-primary btn-sm mt-3 float-left" href="discordbot-commands.php">Create New</a>
+                    <a type="button" class="btn btn-primary btn-sm mt-3 float-left" href="discordbot-commands">Create New</a>
                 </form>
 
             <?php } else { ?>

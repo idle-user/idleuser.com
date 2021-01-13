@@ -7,11 +7,11 @@
 	<link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-32x32.png">
 	<link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon-16x16.png">
 	<link rel="shortcut icon" href="/assets/images/favicon.ico">
-  <link rel="manifest" href="/assets/images/site.webmanifest">	
+  <link rel="manifest" href="/assets/images/site.webmanifest">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
   <link rel="stylesheet" href="assets/custom.css">
 
-  <?php 
+  <?php
     $meta = [
       "keywords" => "questionair, straw poll, poll, poll online, ask online, create poll",
       "og:title" => "Create-a-Poll",
@@ -36,11 +36,11 @@
         <h1>Create a Poll</h1>
         <p class="lead text-muted">Pineapple on pizza? Peanut butter on burgers?<br/>Whatever it may be, quickly create and share a poll with others!</p>
         <p>
-          <a href="create.php" class="btn btn-primary my-2">Create a Poll</a>
+          <a href="create" class="btn btn-primary my-2">Create a Poll</a>
           <?php if(!$_SESSION['loggedin']){ ?>
-            <a href="/login.php?<?php echo get_direct_to();?>" class="btn btn-secondary my-2">Register / Login</a>
+            <a href="/login?<?php echo get_direct_to();?>" class="btn btn-secondary my-2">Register / Login</a>
           <?php } else { ?>
-            <a href="history.php" class="btn btn-secondary my-2">Your Polls</a>
+            <a href="history" class="btn btn-secondary my-2">Your Polls</a>
           <?php } ?>
         </p>
       </div>
@@ -68,16 +68,16 @@
                 <div class="card-body">
                   <div class="d-flex justify-content-between align-items-center">
                     <div class="btn-group">
-                      <a href="vote.php?id=<?php echo $poll['id'] ?>" type="button" class="btn btn-sm btn-outline-secondary">Vote</a>
+                      <a href="vote?id=<?php echo $poll['id'] ?>" type="button" class="btn btn-sm btn-outline-secondary">Vote</a>
                     </div>
                     <small class="text-muted"><text name="countdown" value="<?php echo $poll['ending_in'] ?>"></text></small>
                   </div>
                 </div>
               </div>
             </div>
-        <?php 
+        <?php
             }
-          } 
+          }
         ?>
         </div>
       </div>
@@ -105,16 +105,16 @@
                 <div class="card-body">
                   <div class="d-flex justify-content-between align-items-center">
                     <div class="btn-group">
-                      <a href="vote.php?id=<?php echo $poll['id'] ?>" type="button" class="btn btn-sm btn-outline-secondary">Vote</a>
+                      <a href="vote?id=<?php echo $poll['id'] ?>" type="button" class="btn btn-sm btn-outline-secondary">Vote</a>
                     </div>
                     <small class="text-muted"><text name="countdown" value="<?php echo $poll['ending_in'] ?>"></text></small>
                   </div>
                 </div>
               </div>
             </div>
-        <?php 
+        <?php
             }
-          } 
+          }
         ?>
         </div>
       </div>
@@ -142,16 +142,16 @@
                 <div class="card-body">
                   <div class="d-flex justify-content-between align-items-center">
                     <div class="btn-group">
-                      <a href="vote.php?id=<?php echo $poll['id'] ?>" type="button" class="btn btn-sm btn-outline-secondary">Vote</a>
+                      <a href="vote?id=<?php echo $poll['id'] ?>" type="button" class="btn btn-sm btn-outline-secondary">Vote</a>
                     </div>
                     <small class="text-muted"><text name="countdown" value="<?php echo $poll['ending_in'] ?>"></text></small>
                   </div>
                 </div>
               </div>
             </div>
-        <?php 
+        <?php
             }
-          } 
+          }
         ?>
         </div>
       </div>
@@ -160,6 +160,6 @@
   </main>
 
   <?php include 'footer.php'; ?>
-  
+
 </body>
 </html>
