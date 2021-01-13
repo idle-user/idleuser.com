@@ -16,7 +16,7 @@
       $_SESSION['loggedin'] = true;
     }
 
-    track("Login Attempt - username:$_POST[username]; result:$_SESSION[loggedin]");
+    track("Login Attempt - username:{$_POST['username']}; result:{$_SESSION['loggedin']}");
     if($_SESSION['loggedin']){
       redirect(1);
     }
@@ -62,7 +62,7 @@
     </div>
 
     <div class="form-label-group">
-      <input type="username" id="inputUsername" class="form-control" placeholder="Username" name="username" required autofocus>
+      <input type="username" id="inputUsername" class="form-control" placeholder="Username" name="username" <?php if(isset($_POST['username'])){ echo "value='{$_POST['username']}'"; }?>required autofocus>
       <label for="inputUsername">Username</label>
     </div>
 

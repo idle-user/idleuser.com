@@ -28,9 +28,9 @@
       $_SESSION['loggedin'] = true;
 		}
 
-    track("Register Attempt - username:$_POST[username]; result:$_SESSION[loggedin]");
+    track("Register Attempt - username:{$_POST['username']}; result:{$_SESSION['loggedin']}");
     if($_SESSION['loggedin']){
-      redirect(1);
+      redirect($delay=2, $url='/account/');
     }
 
     if(!$res && !$register_error){
@@ -78,7 +78,7 @@
     </div>
 
     <div class="form-label-group">
-      <input type="username" id="inputUsername" class="form-control" placeholder="Username" name="username" maxlength="25" required autofocus>
+      <input type="username" id="inputUsername" class="form-control" placeholder="Username" name="username" maxlength="25" <?php if(isset($_POST['username'])){ echo "value='{$_POST['username']}'"; }?> required autofocus>
       <label for="inputUsername">Username</label>
     </div>
 
