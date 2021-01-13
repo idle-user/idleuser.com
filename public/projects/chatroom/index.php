@@ -125,7 +125,7 @@
 				$("#entry").attr("disabled", false);
 			}
 		}
-		alert("Polling set to 10 seconds to conserve resources. See idleuser.com/projects/matches for an enhanced version of a chatroom.");
+		alert("Polling set to 10 seconds to conserve resources.");
 	</script>
 </body>
 </html>

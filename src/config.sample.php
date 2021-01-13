@@ -1,6 +1,15 @@
 <?php
 $configs = array(
 
+    # Domain
+    'DOMAIN' => 'example.com',
+
+    # Website
+    'WEBSITE' => "https://example.com/",
+
+    # No-Reply Email
+    'NO-REPLY_EMAIL' => 'no-reply@example.com',
+
     # API
     'API_URL'=> '',
 

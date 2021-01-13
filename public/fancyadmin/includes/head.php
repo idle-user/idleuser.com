@@ -11,7 +11,7 @@
 <?php
     $meta = [
         "og:title" => $title,
-        "og:description" => "Admin page for idleuser.com"
+        "og:description" => "Admin page for " . $configs['DOMAIN']
     ];
     echo page_meta($meta);
 ?>

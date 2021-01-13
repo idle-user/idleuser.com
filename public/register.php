@@ -56,7 +56,7 @@
     "viewport" => "width=device-width, initial-scale=1, user-scalable=no",
     "keywords" => "account, login, register, logout",
     "og:title" => "IdleUser - Register",
-    "og:description" => "Account register page for idleuser.com"
+    "og:description" => "Account register page for " . $configs['DOMAIN']
     ];
     echo page_meta($meta);
   ?>

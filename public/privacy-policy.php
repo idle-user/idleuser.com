@@ -15,7 +15,7 @@
     "viewport" => "width=device-width, initial-scale=1, user-scalable=no",
     "keywords" => "account, privacy policy",
     "og:title" => "IdleUser - Privacy Policy",
-    "og:description" => "Privacy Policy page for idleuser.com"
+    "og:description" => "Privacy Policy page for " . $configs['DOMAIN']
     ];
     echo page_meta($meta);
   ?>
@@ -27,9 +27,9 @@
 
 	<main role="main">
         <div class="jumbotron container-fluid">
-            <h1>Privacy Policy of idleuser.com</h1>
+            <h1>Privacy Policy of <?php echo $configs['DOMAIN']; ?></h1>
 
-            <p>idleuser.com operates the https://idleuser.com website, which provides the SERVICE.</p>
+            <p><?php echo $configs['DOMAIN']; ?> operates the <?php echo $configs['WEBSITE']; ?> website, which provides the SERVICE.</p>
 
             <p>This page is used to inform website visitors regarding our policies with the collection, use, and disclosure of Personal Information if anyone decided to use our Service, the IdleUser website.</p>
 

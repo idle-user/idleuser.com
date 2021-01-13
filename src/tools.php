@@ -249,9 +249,11 @@
 		EOD;
 	}
 	function email($to, $subject, $content){
+		global $configs;
+
 		$headers = array(
-			'From: no-reply@idleuser.com',
-			'Reply-To: no-reply@idleuser.com',
+			'From: ' . $configs['NO-REPLY_EMAIL'],
+			'Reply-To: ' . $configs['NO-REPLY_EMAIL'],
 			'MIME-Version: 1.0',
 			'Content-type:text/html;charset=UTF-8',
 			'X-Mailer: PHP/' . phpversion(),
@@ -268,11 +270,13 @@
 		return mail($to, $subject, $message, $headers);
 	}
 	function email_reset_password_token($to, $username, $token){
+		global $configs;
+
 		$subject = 'Password Reset Request';
-		$reset_url = "https://idleuser.com/reset-password?reset_token={$token}";
+		$reset_url = "{$configs['WEBSITE']}reset-password?reset_token={$token}";
 		$message = "<h2>Hello, {$username}!</h2>";
 		$message .= '<div><p>';
-		$message .= "Someone requested to reset your idleuser.com account password. If it wasn't you, please ignore this email and no changes will be made to your account. However, if you have requested to reset your password, please click the link below. You will be redirected to the idleuser.com password reset form.";
+		$message .= "Someone requested to reset your {$configs['DOMAIN']} account password. If it wasn't you, please ignore this email and no changes will be made to your account. However, if you have requested to reset your password, please click the link below. You will be redirected to the {$configs['DOMAIN']} password reset form.";
 		$message .= '</p></div>';
 		$message .= "<a href='{$reset_url}'>Click here to reset your password</a>";
 		return email($to, $subject, $message);
