@@ -248,21 +248,6 @@
 			<meta name="twitter:site" content="{$meta['twitter:site']}">
 		EOD;
 	}
-	function email($to, $subject, $message){
-		$header = 'From: no-reply@idleuser.com';
-		$message = '<html><body>' . $message;
-		$message .=
-		$message .= '</body></html>';
-		return mail($to, $subject, $message, $header);
-	}
-	function email_reset_password_token($email, $username, $token){
-		$subject = 'Password Reset Link';
-		$reset_url = "https://idleuser.com/reset-password?reset_token=${token}";
-		$message = "<h2>Hello, ${username}!</h2>";
-		$message .= "<p>Someone requested to reset your idleuser.com account password. If it wasn't you, please ignore this email and no changes will be made to your account. However, if you have requested to reset your password, please click the link below. You will be redirected to the idleuser.com password reset form.</p>";
-		$message .= "<a href='${$reset_url}'>Click here to reset your password</a>";
-		return email($email, $subject, $message);
-	}
 	function api_call($method, $route, $payload){
 		global $configs;
 
