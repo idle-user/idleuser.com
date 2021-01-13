@@ -87,7 +87,7 @@
           </div>
       <?php } else {?>
           <div class="p-2 alert-success text-center alert">
-            <text>Updated Account.<br/>Redirecting you back ...</text>
+            <text>Account Password Updated.<br/>Redirecting you back ...</text>
           </div>
     <?php
         }
