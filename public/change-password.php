@@ -2,7 +2,7 @@
 	require_once $_SERVER['DOCUMENT_ROOT'] . '/../src/session.php'; set_last_page();
 
 	if(!$_SESSION['loggedin']){
-		redirect(0, '/login.php');
+		redirect(0, '/login');
 		exit();
 	}
 
@@ -10,27 +10,20 @@
   $error_message = false;
 
 
-	if( (isset($_POST['temp_secret']) || isset($_POST['old_secret'])) && isset($_POST['new_secret']) && isset($_POST['new_secret_verify']) ){
+	if( (isset($_POST['old_secret'])) && isset($_POST['new_secret']) && isset($_POST['new_secret_verify']) ){
 		$update_attempt = true;
 
 		if(strlen($_POST["new_secret"]) < 6){
       $error_message = "Password must contain at least 6 characters. Try again.";
     } elseif(isset($_POST['old_secret']) && !$db->user_login($_SESSION['username'], $_POST['old_secret'])){
       $error_message = "Incorrect Password. Try again.";
-		} elseif($_POST['new_secret'] == $_POST['new_secret_verify']){
-
-      if(isset($_POST['temp_secret'])){
-        $res = $db->user_reset_password($_SESSION['user_id'], $_SESSION['username'], $_POST['temp_secret'], $_POST['new_secret']);
-      } else {
-			  $res = $db->user_change_password($_SESSION['user_id'], $_SESSION['username'], $_POST['old_secret'], $_POST['new_secret']);
-      }
-
+		} elseif($_POST['new_secret'] != $_POST['new_secret_verify']){
+      $error_message = "Passwords do not match.";
 		} else {
-			$res = false;
-			$error_message = "Passwords do not match.";
+      $res = $db->user_change_password($_SESSION['user_id'], $_SESSION['username'], $_POST['old_secret'], $_POST['new_secret']);
 		}
 
-			if($res){
+			if(!$error_message){
 				$res = $db->user_login($_SESSION['username'], $_POST['new_secret']);
 				if($res){
 					$_SESSION['user_id'] = $res['id'];
@@ -49,7 +42,7 @@
   }
 
   if($update_attempt && !$error_message){
-    redirect($delay=2, $url='/account');
+    redirect($delay=2, $url='/account/');
   }
 
 ?>
@@ -82,17 +75,10 @@
       <label for="inputUsername">Username</label>
     </div>
 
-    <?php if(isset($_GET['temp_pw'])){?>
-      <div class="form-label-group">
-        <input type="text" id="inputTempSecret" class="form-control" placeholder="Temporary Password" name="temp_secret"  value="<?php echo $_GET['temp_pw'] ?>" required readonly>
-        <label for="inputOldPassword">Temporary Password</label>
-      </div>
-    <?php } else { ?>
-      <div class="form-label-group">
-        <input type="password" id="inputOldPassword" class="form-control" placeholder="Current Password" name="old_secret" autofocus required>
-        <label for="inputOldPassword">Current Password</label>
-      </div>
-    <?php } ?>
+    <div class="form-label-group">
+      <input type="password" id="inputOldPassword" class="form-control" placeholder="Current Password" name="old_secret" autofocus required>
+      <label for="inputOldPassword">Current Password</label>
+    </div>
 
     <div class="form-label-group">
       <input type="password" id="inputNewPassword" class="form-control" placeholder="New Password" name="new_secret" autofocus required>
@@ -113,7 +99,7 @@
           </div>
       <?php } else {?>
           <div class="p-2 alert-success text-center alert">
-            <text>Updated Account.<br/>Redirecting you back ...</text>
+            <text>Account Password Updated.<br/>Redirecting you back ...</text>
           </div>
     <?php
         }
