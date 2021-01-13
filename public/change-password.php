@@ -35,7 +35,7 @@
 
 		track("Update Password Attempt - username:$_SESSION[username]; result:$_SESSION[loggedin]");
 
-		if(!$res && !$error_message){
+		if(!$error_message && isset($res) && !$res){
 			$error_message = "Failed to update account. Try again.";
     }
 
