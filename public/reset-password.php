@@ -103,7 +103,7 @@
     </div>
 
     <p class="mt-5 mb-3 text-muted text-center small">
-      &copy; 2021 Jesus Andrade
+      &copy; 2017-2021 Jesus Andrade
       <br/><a href="https://freedns.afraid.org/">Free DNS</a> | <a href="/privacy-policy">Privacy Policy</a>
     </p>
   </form>
