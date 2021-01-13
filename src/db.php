@@ -112,6 +112,15 @@ class MYSQLHandler{
 		return $user;
 	}
 
+	public function login_token_info($token){
+		$query = 'SELECT * FROM user WHERE login_token=? AND login_token_exp>NOW()';
+		$stmt = $this->DB_CONN->prepare($query);
+		$stmt->bind_param('s', $token);
+		$stmt->execute();
+		$user = $stmt->get_result()->fetch_array(MYSQLI_ASSOC);
+		return $user;
+	}
+
 	public function reset_token_info($token){
 		$query = 'SELECT * FROM user WHERE temp_secret=? AND temp_secret_exp>NOW()';
 		$stmt = $this->DB_CONN->prepare($query);
@@ -157,13 +166,13 @@ class MYSQLHandler{
 		return false;
 	}
 
-	public function user_token_login($user_id, $token){
+	public function user_token_login($token){
 		$query = 'UPDATE user SET login_token_exp=NOW(), last_login=NOW() WHERE login_token=? AND login_token_exp>NOW()';
 		$stmt = $this->DB_CONN->prepare($query);
 		$stmt->bind_param('s', $token);
 		$stmt->execute();
 		if($stmt->affected_rows == 1){
-			$user_info = $this->user_info($user_id);
+			$user_info = $this->login_token_info($token);
 			return $user_info;
 		}
 		return false;
