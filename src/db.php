@@ -167,12 +167,12 @@ class MYSQLHandler{
 	}
 
 	public function user_token_login($token){
-		$query = 'UPDATE user SET login_token_exp=NOW(), last_login=NOW() WHERE login_token=? AND login_token_exp>NOW()';
-		$stmt = $this->DB_CONN->prepare($query);
-		$stmt->bind_param('s', $token);
-		$stmt->execute();
-		if($stmt->affected_rows == 1){
-			$user_info = $this->login_token_info($token);
+		$user_info = $this->login_token_info($token);
+		if($user_info){
+			$query = 'UPDATE user SET login_token_exp=NOW(), last_login=NOW() WHERE login_token=? AND login_token_exp>NOW()';
+			$stmt = $this->DB_CONN->prepare($query);
+			$stmt->bind_param('s', $token);
+			$stmt->execute();
 			return $user_info;
 		}
 		return false;
