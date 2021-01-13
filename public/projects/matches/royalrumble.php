@@ -94,7 +94,7 @@
 			?>
 				<tr>
 				<?php if($entrant['user_id']){ ?>
-					<td><a href="/projects/matches/user.php?user_id=<?php echo $entrant['user_id']; ?>"><?php echo $entrant['display_name']; ?></a></td>
+					<td><a href="/projects/matches/user?user_id=<?php echo $entrant['user_id']; ?>"><?php echo $entrant['display_name']; ?></a></td>
 				<?php } else{ ?>
 					<td><?php echo $entrant['display_name']; ?></td>
 				<?php } ?>
@@ -150,7 +150,7 @@
 			?>
 				<tr>
 				<?php if($entrant['user_id']){ ?>
-					<td><a href="/projects/matches/user.php?user_id=<?php echo $entrant['user_id']; ?>"><?php echo $entrant['display_name']; ?></a></td>
+					<td><a href="/projects/matches/user?user_id=<?php echo $entrant['user_id']; ?>"><?php echo $entrant['display_name']; ?></a></td>
 				<?php } else{ ?>
 					<td><?php echo $entrant['display_name']; ?></td>
 				<?php } ?>
@@ -204,7 +204,7 @@
 			?>
 				<tr>
 				<?php if($entrant['user_id']){ ?>
-					<td><a href="/projects/matches/user.php?user_id=<?php echo $entrant['user_id']; ?>"><?php echo $entrant['display_name']; ?></a></td>
+					<td><a href="/projects/matches/user?user_id=<?php echo $entrant['user_id']; ?>"><?php echo $entrant['display_name']; ?></a></td>
 				<?php } else{ ?>
 					<td><?php echo $entrant['display_name']; ?></td>
 				<?php } ?>

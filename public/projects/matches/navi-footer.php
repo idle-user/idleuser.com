@@ -11,8 +11,8 @@
 						<?php if(!$_SESSION['loggedin']){ ?>
 							<strong id="notifier">Please register and login to get access to more features.</strong>
 							<br/><br/>
-							<input type="button" value="Login" onclick="location.href='/login.php?<?php echo get_direct_to(); ?>';" />
-							<input type="button" value="Register" onclick="location.href='/register.php?<?php echo get_direct_to(); ?>';" />
+							<input type="button" value="Login" onclick="location.href='/login?<?php echo get_direct_to(); ?>';" />
+							<input type="button" value="Register" onclick="location.href='/register?<?php echo get_direct_to(); ?>';" />
 						<?php } ?>
 					</div>
 				</section>
@@ -21,36 +21,36 @@
 						<h2>Menu</h2>
 					</header>
 					<ul>
-						<li><a href="/projects/matches">Home</a></li>
-						<?php if(count($matches_bets_open)) echo "<li class='font-weight-bold'><a href='/projects/matches/matches.php?type=bets_open'>Matches (Bets Open)</a></li>"; ?>
-						<?php if(count($royalrumbles_open)) echo "<li><a href='/projects/matches/royalrumble.php'>Royal Rumble</a></li>"; ?>
+						<li><a href="/projects/matches/">Home</a></li>
+						<?php if(count($matches_bets_open)) echo "<li class='font-weight-bold'><a href='/projects/matches/matches?type=bets_open'>Matches (Bets Open)</a></li>"; ?>
+						<?php if(count($royalrumbles_open)) echo "<li><a href='/projects/matches/royalrumble'>Royal Rumble</a></li>"; ?>
 						<li>
 							<span class="opener">Matches</span>
 							<ul>
-								<a href="/projects/matches/matches.php?season_id=4">Season 4</a>
-								<a href="/projects/matches/matches.php?season_id=3">Season 3</a>
-								<a href="/projects/matches/matches.php?season_id=2">Season 2</a>
-								<a href="/projects/matches/matches.php?season_id=1">Season 1</a>
+								<a href="/projects/matches/matches?season_id=4">Season 4</a>
+								<a href="/projects/matches/matches?season_id=3">Season 3</a>
+								<a href="/projects/matches/matches?season_id=2">Season 2</a>
+								<a href="/projects/matches/matches?season_id=1">Season 1</a>
 							</ul>
 						</li>
 						<li>
-							<span class="opener">Rosters</span>
+							<span class="opener">Roster</span>
 							<ul>
 								<?php foreach($db->all_brands() as $brand){
-									echo '<li><a href="/projects/matches/brand.php?brand_id='.$brand['id'].'">'.$brand['name'].'</a></li>';
+									echo '<li><a href="/projects/matches/roster?brand_id='.$brand['id'].'">'.$brand['name'].'</a></li>';
 								}?>
 							</ul>
 						</li>
 						<li>
 							<span class="opener">Leaderboard</span>
 							<ul>
-								<a href="/projects/matches/leaderboard.php?season_id=4">Season 4</a>
-								<a href="/projects/matches/leaderboard.php?season_id=3">Season 3</a>
-								<a href="/projects/matches/leaderboard.php?season_id=2">Season 2</a>
-								<a href="/projects/matches/leaderboard.php?season_id=1">Season 1</a>
+								<a href="/projects/matches/leaderboard?season_id=4">Season 4</a>
+								<a href="/projects/matches/leaderboard?season_id=3">Season 3</a>
+								<a href="/projects/matches/leaderboard?season_id=2">Season 2</a>
+								<a href="/projects/matches/leaderboard?season_id=1">Season 1</a>
 							</ul>
 						</li>
-						<li><a href="/projects/matches/FAQs.php">FAQs</a></li>
+						<li><a href="/projects/matches/FAQs">FAQs</a></li>
 					</ul>
 				</nav>
 				<section>
@@ -65,7 +65,7 @@
 					<p class="copyright">
 						<ul class="alt">
 							<li>© 2017 Jesus Andrade</li>
-							<li><a href="https://freedns.afraid.org/">Free DNS</a> | <a href="/privacy-policy.php">Privacy Policy</a></li>
+							<li><a href="https://freedns.afraid.org/">Free DNS</a> | <a href="/privacy-policy">Privacy Policy</a></li>
 							<li>Design: <a href="https://html5up.net">HTML5 UP</a></li>
 						</ul>
 					</p>
@@ -95,7 +95,7 @@
 			ev.preventDefault();
 		});
 		function updateData(){
-			$.post('scripts/userData.php', {},
+			$.post('scripts/userData', {},
 				function(response){
 					data = JSON.parse(response);
 					if(data){
@@ -104,7 +104,7 @@
 							"<h3>Available Points: " + String(data.s4_available_points).replace(/\B(?=(\d{3})+(?!\d))/g, ",") +
 							"<br/>Total Points: " + String(data.s4_total_points).replace(/\B(?=(\d{3})+(?!\d))/g, ",") +
 							"</h3></hr>" +
-							`<input type="button" value="Logout" onclick="location.href='/logout.php?<?php echo get_direct_to(); ?>'" />` +
+							`<input type="button" value="Logout" onclick="location.href='/logout?<?php echo get_direct_to(); ?>'" />` +
 							`<a href="/account/" class="m-2 float-right">Account Settings</a>`
 						);
 					}
@@ -113,7 +113,7 @@
 			);
 		}
 		function updateFavorite(superstarID){
-			$.post('scripts/updateFavorite.php', {'superstarID':superstarID},
+			$.post('scripts/updateFavorite', {'superstarID':superstarID},
 				function(response){
 					response = JSON.parse(response);
 					alert(response.message);
@@ -122,7 +122,7 @@
 			return false;
 		}
 		function updateMatchRating(match_id, rating){
-			$.post('scripts/updateRating.php', {'match_id':match_id, 'rating':rating},
+			$.post('scripts/updateRating', {'match_id':match_id, 'rating':rating},
 				function(response){
 					response = JSON.parse(response);
 					alert(response.message);
@@ -137,7 +137,7 @@
 			var amount = $('#form_match_' + match_id).find("input[name=bet_amount]").val();
 			amount = amount.replace(/\,/g,'');
 			if(superstar!='Superstar' && amount>0){
-				$.post('scripts/userBet.php', {'match_id':match_id,'superstar':superstar,'bet':amount},
+				$.post('scripts/userBet', {'match_id':match_id,'superstar':superstar,'bet':amount},
 					function(response){
 						response = JSON.parse(response);
 						alert(response.message);

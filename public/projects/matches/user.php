@@ -114,7 +114,7 @@
 		<tbody>
 			<tr>
 				<td><?php echo $superstar['name']; ?></td>
-				<td><a href="/matches/brand.php?brand_id=<?php echo $superstar_brand['id']; ?>"><?php echo $superstar_brand['name']; ?></a></td>
+				<td><a href="/matches/roster?brand_id=<?php echo $superstar_brand['id']; ?>"><?php echo $superstar_brand['name']; ?></a></td>
 				<td><?php echo $superstar['height']; ?></td>
 				<td><?php echo $superstar['weight']; ?></td>
 				<td><?php echo $superstar['hometown']; ?></td>
