@@ -87,7 +87,7 @@
 
     <div class="row">
       <div class="col-lg-12">
-          <a href="/register.php" class="btn btn-sm text-primary font-weight-bold" type="button">Create account</a>
+          <a href="/register" class="btn btn-sm text-primary font-weight-bold" type="button">Create account</a>
           <button class="btn btn-lg btn-primary float-right" type="submit">Sign in</button>
       </div>
     </div>
@@ -95,7 +95,7 @@
 
     <p class="mt-5 mb-3 text-muted text-center small">
       &copy; 2020 Jesus Andrade
-      <br/><a href="https://freedns.afraid.org/">Free DNS</a> | <a href="/privacy-policy.php">Privacy Policy</a>
+      <br/><a href="https://freedns.afraid.org/">Free DNS</a> | <a href="/privacy-policy">Privacy Policy</a>
     </p>
 
   </form>

@@ -13,7 +13,7 @@
 	<link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-32x32.png">
 	<link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon-16x16.png">
 	<link rel="shortcut icon" href="/assets/images/favicon.ico">
-  	<link rel="manifest" href="/assets/images/site.webmanifest">	
+  	<link rel="manifest" href="/assets/images/site.webmanifest">
   	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
 
 	<link rel="shortcut icon" type="image/x-icon" href="/assets/images/favicon.ico" size="32x32" />
@@ -39,8 +39,8 @@
 				<div id="login-container">
 					<strong id="notifier">Please register and login to chat.</strong>
 					<br/>
-					<input type="button" value="Login" onclick="location.href='/login.php?<?php echo get_direct_to();?>';"  />
-					<input type="button" value="Register" onclick="location.href='/register.php?<?php echo get_direct_to();?>';" />
+					<input type="button" value="Login" onclick="location.href='/login?<?php echo get_direct_to();?>';"  />
+					<input type="button" value="Register" onclick="location.href='/register?<?php echo get_direct_to();?>';" />
 				</div>
 				<strong id="welcome-message"></strong>
 				<textarea placeholder="Message..." maxlength="255" disabled="true" id="entry"></textarea>

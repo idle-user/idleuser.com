@@ -21,7 +21,7 @@
 	<link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-32x32.png">
 	<link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon-16x16.png">
 	<link rel="shortcut icon" href="/assets/images/favicon.ico">
-  	<link rel="manifest" href="/assets/images/site.webmanifest">	
+  	<link rel="manifest" href="/assets/images/site.webmanifest">
   </head>
 <body>
 	<!-- Header -->
@@ -54,8 +54,8 @@
 						<div class="row uniform 50%">
 							<div class="12u$">
 								<ul class="actions">
-									<li><input type="submit" value="Login" class="special" onclick="location.href='/login.php?<?php echo get_direct_to();?>';"  /></li>
-									<li><input type="submit" value="Register" class="special" onclick="location.href='/register.php?<?php echo get_direct_to();?>';" /></li>
+									<li><input type="submit" value="Login" class="special" onclick="location.href='/login?<?php echo get_direct_to();?>';"  /></li>
+									<li><input type="submit" value="Register" class="special" onclick="location.href='/register?<?php echo get_direct_to();?>';" /></li>
 								</ul>
 							</div>
 						</div>
@@ -226,7 +226,7 @@
 					newColorData.style.backgroundColor = color;
 					newColor.appendChild(newColorData);
 					newColor.title = color;
-					newColor.onclick = function(){ 
+					newColor.onclick = function(){
 						this.childNodes[0].style.color = this.title;
 						this.childNodes[0].style.backgroundColor="";
 						vote(this.title);

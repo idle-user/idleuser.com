@@ -1,9 +1,9 @@
-<?php 
+<?php
   require_once $_SERVER['DOCUMENT_ROOT'] . '/../src/session.php';
 
   $topic_id = isset($_GET['id'])?$_GET['id']:false;
   $poll = $db->poll_info($topic_id);
-  
+
   if(!$poll){
     redirect();
   }
@@ -59,12 +59,12 @@
 	<link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-32x32.png">
 	<link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon-16x16.png">
 	<link rel="shortcut icon" href="/assets/images/favicon.ico">
-  <link rel="manifest" href="/assets/images/site.webmanifest">	
+  <link rel="manifest" href="/assets/images/site.webmanifest">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
   <link href="/assets/fontawesome-free-5.14.0-web/css/all.css" rel="stylesheet">
   <link rel="stylesheet" href="assets/custom.css">
 
-  <?php 
+  <?php
     $topic_tokens = array_filter( explode(' ', $poll['content']), function($v){ return strlen($v) > 3; });
     $topic_keywords = implode(', ', $topic_tokens);
     $meta = [
@@ -110,23 +110,23 @@
           </div>
         </p>
 
-        
+
         <?php if(!$poll_expired){ ?>
           <form class="container pb-5" method="post">
             <fieldset  class="form-group form-row">
-              <?php 
-                foreach($poll['items'] as $item){ 
+              <?php
+                foreach($poll['items'] as $item){
                   $voted_on = $already_voted && in_array($item['id'], $_SESSION['poll_votes'][$topic_id]);
               ?>
-                
+
                 <div class="form-check form-check-inline">
                   <input class="form-check-input" type="<?php echo $poll['allow_multi']?'checkbox':'radio' ?>" id="<?php echo $item['id'] ?>" name="item[]" value="<?php echo $item['id'] ?>" <?php echo $voted_on?'checked':'';?> <?php echo $already_voted?'disabled':'';?>>
                   <label class="form-check-label <?php echo $voted_on?'font-weight-bold':'' ?>" for="<?php echo $item['id'] ?>"><?php echo $item['content'] ?></label>
                 </div>
-                
+
               <?php } ?>
             </fieldset>
-            
+
             <?php if(!$_SESSION['loggedin'] && !$already_voted) { ?>
             <div class="form-group row">
               <div class="col-sm-12">
@@ -142,7 +142,7 @@
           </form>
         <?php } ?>
 
-      
+
       <?php if(!$_SESSION['loggedin']){ ?>
 
             <div class="alert alert-warning">
@@ -152,7 +152,7 @@
                   Your poll may be lost if you forget the URL.<br/>
                   Unregistered polls will automatically <b>close after 24-hours</b>.
               </p>
-              <a href="/login.php?<?php echo get_direct_to();?>" class="btn btn-secondary my-2">Register / Login</a>
+              <a href="/login?<?php echo get_direct_to();?>" class="btn btn-secondary my-2">Register / Login</a>
             </div>
           </div>
       </section>
@@ -183,16 +183,16 @@
                 <div class="card-body">
                   <div class="d-flex justify-content-between align-items-center">
                     <div class="btn-group">
-                      <a href="vote.php?id=<?php echo $poll['id'] ?>" type="button" class="btn btn-sm btn-outline-secondary">Vote</a>
+                      <a href="vote?id=<?php echo $poll['id'] ?>" type="button" class="btn btn-sm btn-outline-secondary">Vote</a>
                     </div>
                     <small class="text-muted"><text name="countdown" value="<?php echo $poll['ending_in'] ?>"></text></small>
                   </div>
                 </div>
               </div>
             </div>
-        <?php 
+        <?php
             }
-          } 
+          }
         ?>
         </div>
       </div>
@@ -203,9 +203,9 @@
         <h1>Create a Poll</h1>
         <p class="lead text-muted">Pineapple on pizza? Peanut butter on burgers?<br/>Whatever it may be, quickly create and share a poll with others!</p>
         <p>
-          <a href="create.php" class="btn btn-primary my-2">Create Your Own Poll</a>
+          <a href="create" class="btn btn-primary my-2">Create Your Own Poll</a>
           <?php if($_SESSION['loggedin']){ ?>
-            <a href="history.php" class="btn btn-secondary my-2">Your Polls</a>
+            <a href="history" class="btn btn-secondary my-2">Your Polls</a>
           <?php } ?>
         </p>
       </div>
@@ -253,7 +253,7 @@
                     padding: {
                       left: 0
                     }
-                  }, 
+                  },
                   scales: {
                     xAxes: [{
                         ticks: {
@@ -261,7 +261,7 @@
                             fixedStepSize: 1
                         }
                     }]
-                }   
+                }
               }
           });
       });

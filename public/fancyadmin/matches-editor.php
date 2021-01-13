@@ -184,7 +184,7 @@
             ?>
                 <div class="media text-muted pt-3">
                     <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
-                        <a class="d-block float-right" href="matches-editor.php?search=<?php echo $om['id'] ?>"><?php echo $om['info_last_updated'] ?></a>
+                        <a class="d-block float-right" href="matches-editor?search=<?php echo $om['id'] ?>"><?php echo $om['info_last_updated'] ?></a>
                         <strong class="d-block text-gray-dark"><?php echo $om['event'].' - '.$om['title'].' - '.$om['match_type'] ?></strong>
                         <?php echo $om['contestants'] ?><small class="float-right"><?php echo $om['info_last_updated_by_username'] ?></small>
                     </p>
@@ -194,7 +194,7 @@
             }
              ?>
             <small class="d-block text-right mt-3">
-                <a type="button" class="btn btn-primary" href="matches-editor.php">New Match</a>
+                <a type="button" class="btn btn-primary" href="matches-editor">New Match</a>
             </small>
         </div>
 

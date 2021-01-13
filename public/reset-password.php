@@ -2,7 +2,7 @@
 	require_once $_SERVER['DOCUMENT_ROOT'] . '/../src/session.php'; set_last_page();
 
   if(!isset($_GET['reset_token'])){
-		redirect(0, '/login.php');
+		redirect(0, '/login');
 		exit();
 	}
 
@@ -96,7 +96,7 @@
 
     <div class="row">
       <div class="col-lg-12">
-          <a href="/login.php" class="btn btn-sm text-primary font-weight-bold" type="button">Login instead</a>
+          <a href="/login" class="btn btn-sm text-primary font-weight-bold" type="button">Login instead</a>
 
           <button class="btn btn-lg btn-primary float-right" type="submit">Update</button>
       </div>
@@ -104,7 +104,7 @@
 
     <p class="mt-5 mb-3 text-muted text-center small">
       &copy; 2021 Jesus Andrade
-      <br/><a href="https://freedns.afraid.org/">Free DNS</a> | <a href="/privacy-policy.php">Privacy Policy</a>
+      <br/><a href="https://freedns.afraid.org/">Free DNS</a> | <a href="/privacy-policy">Privacy Policy</a>
     </p>
   </form>
 </body>

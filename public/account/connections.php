@@ -2,7 +2,7 @@
 
 
 if(!$_SESSION['loggedin']){
-    redirect(0, '/login.php');
+    redirect(0, '/login');
     exit();
 }
 

@@ -196,7 +196,7 @@
                         </div>
                     </div>
                     <button class="btn btn-primary float-right" type="submit">Update Superstar</button>
-                    <a type="button" class="btn btn-primary btn-sm mt-3 float-left" href="matches-roster.php">Create New</a>
+                    <a type="button" class="btn btn-primary btn-sm mt-3 float-left" href="matches-roster">Create New</a>
                 </form>
 
             <?php } else { ?>

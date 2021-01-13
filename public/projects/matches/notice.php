@@ -3,7 +3,7 @@
 	if(false && $curPageName!='royalrumble.php'){
 ?>
 	<div class="container alert alert-primary fade show mt-3 button">
-		<strong><a href="event.php">JOIN THE 2020 RUMBLE!</a></strong>
+		<strong><a href="event">JOIN THE 2020 RUMBLE!</a></strong>
 	</div>
 <?php
 	}
@@ -22,7 +22,7 @@
 <div class="container alert alert-info fade show mt-3 text-center" role="alert">
 	<strong class="h4">Royal Rumble Entries are Open!</strong>
 	<div class="col-12">
-		<text class="h5"><a href="/projects/matches/royalrumble.php">Enter the Royal Rumble!</a></text>
+		<text class="h5"><a href="/projects/matches/royalrumble">Enter the Royal Rumble!</a></text>
 	</div>
 </div>
 <?php } ?>

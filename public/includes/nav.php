@@ -61,7 +61,7 @@
                 </li>
             </ul>
         <?php } else { ?>
-            <a href="/login.php" class="btn btn-secondary my-2 my-sm-0">Login</a>
+            <a href="/login" class="btn btn-secondary my-2 my-sm-0">Login</a>
         <?php } ?>
     </div>
 </nav>
@@ -81,7 +81,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <a href="/logout.php" class="btn btn-primary">Logout</a>
+                <a href="/logout" class="btn btn-primary">Logout</a>
             </div>
         </div>
     </div>

@@ -20,7 +20,7 @@
     if($_SESSION['loggedin']){
       $now_dt = strtotime("+7 day", $now_dt);
     } else {
-      $now_dt = strtotime("+1 day", $now_dt);  
+      $now_dt = strtotime("+1 day", $now_dt);
     }
     $expire_value = date('Y-m-d H:i:s', $now_dt);
 
@@ -38,11 +38,11 @@
       $creation_success = false;
     }
     if($creation_success){
-      redirect(1, "vote.php?id=$topic_id");
+      redirect(1, "vote?id=$topic_id");
     }
 
   }
-  
+
 ?>
 <!doctype html>
 <html lang="en">
@@ -52,11 +52,11 @@
 	<link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-32x32.png">
 	<link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon-16x16.png">
 	<link rel="shortcut icon" href="/assets/images/favicon.ico">
-  <link rel="manifest" href="/assets/images/site.webmanifest">	
+  <link rel="manifest" href="/assets/images/site.webmanifest">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
   <link rel="stylesheet" href="assets/custom.css">
-  
-  <?php 
+
+  <?php
     $meta = [
       "keywords" => "questionair, straw poll, poll, poll online, ask online, create poll",
       "og:title" => "Create-a-Poll",
@@ -64,7 +64,7 @@
     ];
     echo page_meta($meta);
   ?>
-  
+
 </head>
 <body>
   <?php include 'header.php'; ?>
@@ -76,7 +76,7 @@
       <div class="container">
         <h1>Poll Created!</h1>
         <p class="lead text-muted">Redirecting you, please wait ...</p>
-        <a href="vote.php?id=<?php echo $topic_id ?>" class="btn btn-secondary my-2">Taking too long? Click here</a>
+        <a href="vote?id=<?php echo $topic_id ?>" class="btn btn-secondary my-2">Taking too long? Click here</a>
       </div>
     </section>
   <?php } else { ?>
@@ -92,11 +92,11 @@
                 Your poll may be lost if you forget the URL.<br/>
                 Unregistered polls will automatically <b>expire after 24-hours</b>.
             </p>
-            <a href="/login.php?<?php echo get_direct_to();?>" class="btn btn-secondary my-2">Register / Login</a>
+            <a href="/login?<?php echo get_direct_to();?>" class="btn btn-secondary my-2">Register / Login</a>
         </div>
         <?php } else { ?>
           <a href="./" class="btn btn-secondary my-2">Home</a>
-          <a href="history.php" class="btn btn-secondary my-2">Your Polls</a>
+          <a href="history" class="btn btn-secondary my-2">Your Polls</a>
         <?php } ?>
         </p>
       </div>
@@ -104,7 +104,7 @@
 
     <div class="py-5 bg-light">
       <div class="container">
-        
+
         <form method="post">
 
           <div class="form-group row">
@@ -197,7 +197,7 @@
                 </div>
               `;
               $("#inputItemList").append(newOption);
-            } 
+            }
             if(counter>=optionLimit){
               $("#additem").hide();
             }
