@@ -158,9 +158,9 @@ class MYSQLHandler{
 	}
 
 	public function user_token_login($user_id, $token){
-		$query = 'UPDATE user SET login_token_exp=NOW(), last_login=NOW() WHERE id=? AND login_token=? AND login_token_exp>NOW()';
+		$query = 'UPDATE user SET login_token_exp=NOW(), last_login=NOW() WHERE login_token=? AND login_token_exp>NOW()';
 		$stmt = $this->DB_CONN->prepare($query);
-		$stmt->bind_param('is', $user_id, $token);
+		$stmt->bind_param('s', $token);
 		$stmt->execute();
 		if($stmt->affected_rows == 1){
 			$user_info = $this->user_info($user_id);
