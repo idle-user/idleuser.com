@@ -8,11 +8,11 @@
   $login_attempt = false;
 	if(isset($_POST['username']) && isset($_POST['secret'])  && !empty($_POST['username']) && !empty($_POST['secret'])){
     $login_attempt = true;
-    $res = $db->user_login($_POST['username'], $_POST['secret']);
-    if($res){
-      $_SESSION['user_id'] = $res['id'];
-      $_SESSION['username'] = $res['username'];
-      $_SESSION['access'] = $res['access'];
+    $user = $db->user_login($_POST['username'], $_POST['secret']);
+    if($user){
+      $_SESSION['user_id'] = $user['id'];
+      $_SESSION['username'] = $user['username'];
+      $_SESSION['access'] = $user['access'];
       $_SESSION['loggedin'] = true;
     }
 
@@ -88,16 +88,18 @@
     <div class="row">
       <div class="col-lg-12">
           <button class="btn btn-lg btn-primary float-right" type="submit">Sign in</button>
-          <a href="/forgot-password" class="btn btn-sm text-primary font-weight-bold" type="button">Forgot Password?</a>
-          <br/>
-          <a href="/register" class="btn btn-sm text-primary font-weight-bold" type="button">Create account</a>
+          <div class="col-lg-12 pl-0">
+            <a href="/forgot-password" class="btn btn-sm text-primary font-weight-bold" type="button">Forgot Password?</a>
+            <a href="/forgot-username" class="btn btn-sm text-primary font-weight-bold" type="button">Forgot Username?</a>
+            <a href="/register" class="btn btn-sm text-primary font-weight-bold" type="button">Create account</a>
+          </div>
       </div>
     </div>
   <?php } ?>
 
     <p class="mt-5 mb-3 text-muted text-center small">
       &copy; 2017-2021 Jesus Andrade
-      <br/><a href="https://freedns.afraid.org/">Free DNS</a> | <a href="/privacy-policy">Privacy Policy</a>
+      <br/><a href="https://freedns.afraid.org/">Free DNS</a> | <a href="/privacy-policy">Privacy Policy</a> | <a href="/contact">Contact Me</a>
     </p>
 
   </form>

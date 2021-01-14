@@ -279,6 +279,19 @@
 		$message .= "<a href='{$reset_url}'>Click here to reset your password</a>";
 		return email($to, $subject, $message);
 	}
+	function email_username($to, $username){
+		global $configs;
+
+		$subject = 'Username Recovery Request';
+		$message = '<h2>Hello there!</h2>';
+		$message .= '<div>';
+		$message .= '<p>Forgot your username? No worries, it happens.</p>';
+		$message .= '<p>Here is your username:</p>';
+		$message .= "<a href='{$configs['WEBSITE']}/login'><strong>{$username}</strong></a>";
+		$message .= "<p style='padding-top:15px;'>If you didn't request to recover your username, you can safely ignore this email.</p>";
+		$message .= '</div>';
+		return email($to, $subject, $message);
+	}
 	function api_call($method, $route, $payload){
 		global $configs;
 

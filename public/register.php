@@ -7,24 +7,33 @@
   }
   $register_attempt = false;
   $register_error = false;
-	if(isset($_POST['username']) && isset($_POST['secret']) && isset($_POST['secret_verify'])){
+	if(isset($_POST['username']) && isset($_POST['email']) && isset($_POST['secret']) && isset($_POST['secret_verify'])){
     $register_attempt = true;
+    $user = false;
 
     if(!preg_match('/^[\w\-]+$/i', $_POST['username'])){
       $register_error = "Invalid username. Try again.";
+    } elseif($db->username_info($_POST['username'])){
+      $register_error = "Username already taken. Try again.";
+    } elseif(!empty($_POST["email"]) && !filter_var($_POST["email"], FILTER_VALIDATE_EMAIL)){
+      $register_error = "Invalid email address. Try again";
+    } elseif(filter_var($_POST["email"], FILTER_VALIDATE_EMAIL) && $db->email_info($_POST['email'])){
+      $register_error = "Email already registered.";
     } elseif(strlen($_POST["secret"]) < 6){
       $register_error = "Password must contain at least 6 characters.";
-    } elseif($_POST['secret'] == $_POST['secret_verify']){
-        $res = $db->user_register($_POST['username'], $_POST['secret']);
-    } else {
-      $res = false;
+    } elseif($_POST['secret'] != $_POST['secret_verify']){
       $register_error = "Passwords do not match.";
+    } else {
+        $user = $db->user_register($_POST['username'], $_POST['secret']);
+        if($user && filter_var($_POST["email"], FILTER_VALIDATE_EMAIL)){
+          $db->user_email_link($user['id'], $_POST["email"]);
+        }
     }
 
-		if($res){
-			$_SESSION['user_id'] = $res['id'];
-      $_SESSION['username'] = $res['username'];
-      $_SESSION['access'] = $res['access'];
+		if($user){
+			$_SESSION['user_id'] = $user['id'];
+      $_SESSION['username'] = $user['username'];
+      $_SESSION['access'] = $user['access'];
       $_SESSION['loggedin'] = true;
 		}
 
@@ -33,8 +42,8 @@
       redirect($delay=2, $url='/account/');
     }
 
-    if(!$res && !$register_error){
-      $register_error = "Failed to register.<br/>Username may already be in use. Try again.";
+    if(!$user && !$register_error){
+      $register_error = "Failed to register. Try again.<br/>If issue persists, please contact admin.";
     }
 
 	}
@@ -83,6 +92,11 @@
     </div>
 
     <div class="form-label-group">
+      <input type="email" id="inputEmail" class="form-control" placeholder="Username" name="email" <?php if(isset($_POST['email'])){ echo "value='{$_POST['email']}'"; }?>>
+      <label for="inputEmail">Email (optional)</label>
+    </div>
+
+    <div class="form-label-group">
       <input type="password" id="inputPassword" class="form-control" placeholder="Password" name="secret" required>
       <label for="inputPassword">Password</label>
     </div>
@@ -108,7 +122,7 @@
 
     <p class="mt-5 mb-3 text-muted text-center small">
       &copy; 2017-2021 Jesus Andrade
-      <br/><a href="https://freedns.afraid.org/">Free DNS</a> | <a href="/privacy-policy">Privacy Policy</a>
+      <br/><a href="https://freedns.afraid.org/">Free DNS</a> | <a href="/privacy-policy">Privacy Policy</a> | <a href="/contact">Contact Me</a>
     </p>
   </form>
 </body>

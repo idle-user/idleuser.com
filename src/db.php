@@ -112,6 +112,15 @@ class MYSQLHandler{
 		return $user;
 	}
 
+	public function email_info($email){
+		$query = 'SELECT * FROM user WHERE email=?';
+		$stmt = $this->DB_CONN->prepare($query);
+		$stmt->bind_param('s', $email);
+		$stmt->execute();
+		$user = $stmt->get_result()->fetch_array(MYSQLI_ASSOC);
+		return $user;
+	}
+
 	public function login_token_info($token){
 		$query = 'SELECT * FROM user WHERE login_token=? AND login_token_exp>NOW()';
 		$stmt = $this->DB_CONN->prepare($query);

@@ -2,7 +2,7 @@
 	require_once $_SERVER['DOCUMENT_ROOT'] . '/../src/session.php'; set_last_page();
 
   if(!isset($_GET['reset_token'])){
-		redirect(0, '/login');
+		redirect(0, '/forgot-password');
 		exit();
 	}
 
@@ -104,7 +104,7 @@
 
     <p class="mt-5 mb-3 text-muted text-center small">
       &copy; 2017-2021 Jesus Andrade
-      <br/><a href="https://freedns.afraid.org/">Free DNS</a> | <a href="/privacy-policy">Privacy Policy</a>
+      <br/><a href="https://freedns.afraid.org/">Free DNS</a> | <a href="/privacy-policy">Privacy Policy</a> | <a href="/contact">Contact Me</a>
     </p>
   </form>
 </body>
