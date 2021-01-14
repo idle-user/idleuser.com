@@ -7,24 +7,33 @@
   }
   $register_attempt = false;
   $register_error = false;
-	if(isset($_POST['username']) && isset($_POST['secret']) && isset($_POST['secret_verify'])){
+	if(isset($_POST['username']) && isset($_POST['email']) && isset($_POST['secret']) && isset($_POST['secret_verify'])){
     $register_attempt = true;
+    $user_info = false;
 
     if(!preg_match('/^[\w\-]+$/i', $_POST['username'])){
       $register_error = "Invalid username. Try again.";
+    } elseif($db->username_info($_POST['username'])){
+      $register_error = "Username already taken. Try again.";
+    } elseif(!empty($_POST["email"]) && !filter_var($_POST["email"], FILTER_VALIDATE_EMAIL)){
+      $register_error = "Invalid email. Try again";
+    } elseif(filter_var($_POST["email"], FILTER_VALIDATE_EMAIL) && $db->email_info($_POST['email'])){
+      $register_error = "Email already registered.";
     } elseif(strlen($_POST["secret"]) < 6){
       $register_error = "Password must contain at least 6 characters.";
-    } elseif($_POST['secret'] == $_POST['secret_verify']){
-        $res = $db->user_register($_POST['username'], $_POST['secret']);
-    } else {
-      $res = false;
+    } elseif($_POST['secret'] != $_POST['secret_verify']){
       $register_error = "Passwords do not match.";
+    } else {
+        $user_info = $db->user_register($_POST['username'], $_POST['secret']);
+        if($user_info && filter_var($_POST["email"], FILTER_VALIDATE_EMAIL)){
+          $db->user_email_link($user_info['id'], $_POST["email"]);
+        }
     }
 
-		if($res){
-			$_SESSION['user_id'] = $res['id'];
-      $_SESSION['username'] = $res['username'];
-      $_SESSION['access'] = $res['access'];
+		if($user_info){
+			$_SESSION['user_id'] = $user_info['id'];
+      $_SESSION['username'] = $user_info['username'];
+      $_SESSION['access'] = $user_info['access'];
       $_SESSION['loggedin'] = true;
 		}
 
@@ -33,8 +42,8 @@
       redirect($delay=2, $url='/account/');
     }
 
-    if(!$res && !$register_error){
-      $register_error = "Failed to register.<br/>Username may already be in use. Try again.";
+    if(!$user_info && !$register_error){
+      $register_error = "Failed to register. Try again.<br/>If issue persists, please contact admin.";
     }
 
 	}
@@ -80,6 +89,11 @@
     <div class="form-label-group">
       <input type="username" id="inputUsername" class="form-control" placeholder="Username" name="username" maxlength="25" <?php if(isset($_POST['username'])){ echo "value='{$_POST['username']}'"; }?> required autofocus>
       <label for="inputUsername">Username</label>
+    </div>
+
+    <div class="form-label-group">
+      <input type="email" id="inputEmail" class="form-control" placeholder="Username" name="email" <?php if(isset($_POST['email'])){ echo "value='{$_POST['email']}'"; }?>>
+      <label for="inputEmail">Email (optional)</label>
     </div>
 
     <div class="form-label-group">
