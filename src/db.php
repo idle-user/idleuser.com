@@ -49,7 +49,7 @@ class MYSQLHandler{
 
 	public function add_web_contact($fname, $lname, $email, $subject, $body, $ip, $user_id=0){
 		$id = $this->get_uuid();
-		$query = 'INSERT INTO web_contact (id, fname, lname, email, subject, body, ip, user_id, received_dt) VALUES (UUID_TO_BIN(?), ?, ?, ?, ?, ?, INET_ATON(?), ?, NOW())';
+		$query = 'INSERT INTO web_contact (id, fname, lname, email, subject, body, ip, user_id, received_dt) VALUES (UUID_TO_BIN(?), ?, ?, ?, ?, ?, ?, ?, NOW())';
 		$stmt = $this->DB_CONN->prepare($query);
 		$stmt->bind_param('sssssssi', $id, $fname, $lname, $email, $subject, $body, $ip, $user_id);
 		return $stmt->execute();
