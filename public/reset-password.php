@@ -2,7 +2,7 @@
 	require_once $_SERVER['DOCUMENT_ROOT'] . '/../src/session.php'; set_last_page();
 
   if(!isset($_GET['reset_token'])){
-		redirect(0, '/login');
+		redirect(0, '/forgot-password');
 		exit();
 	}
 
