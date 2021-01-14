@@ -8,11 +8,11 @@
   $login_attempt = false;
 	if(isset($_POST['username']) && isset($_POST['secret'])  && !empty($_POST['username']) && !empty($_POST['secret'])){
     $login_attempt = true;
-    $res = $db->user_login($_POST['username'], $_POST['secret']);
-    if($res){
-      $_SESSION['user_id'] = $res['id'];
-      $_SESSION['username'] = $res['username'];
-      $_SESSION['access'] = $res['access'];
+    $user = $db->user_login($_POST['username'], $_POST['secret']);
+    if($user){
+      $_SESSION['user_id'] = $user['id'];
+      $_SESSION['username'] = $user['username'];
+      $_SESSION['access'] = $user['access'];
       $_SESSION['loggedin'] = true;
     }
 

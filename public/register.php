@@ -9,7 +9,7 @@
   $register_error = false;
 	if(isset($_POST['username']) && isset($_POST['email']) && isset($_POST['secret']) && isset($_POST['secret_verify'])){
     $register_attempt = true;
-    $user_info = false;
+    $user = false;
 
     if(!preg_match('/^[\w\-]+$/i', $_POST['username'])){
       $register_error = "Invalid username. Try again.";
@@ -24,16 +24,16 @@
     } elseif($_POST['secret'] != $_POST['secret_verify']){
       $register_error = "Passwords do not match.";
     } else {
-        $user_info = $db->user_register($_POST['username'], $_POST['secret']);
-        if($user_info && filter_var($_POST["email"], FILTER_VALIDATE_EMAIL)){
-          $db->user_email_link($user_info['id'], $_POST["email"]);
+        $user = $db->user_register($_POST['username'], $_POST['secret']);
+        if($user && filter_var($_POST["email"], FILTER_VALIDATE_EMAIL)){
+          $db->user_email_link($user['id'], $_POST["email"]);
         }
     }
 
-		if($user_info){
-			$_SESSION['user_id'] = $user_info['id'];
-      $_SESSION['username'] = $user_info['username'];
-      $_SESSION['access'] = $user_info['access'];
+		if($user){
+			$_SESSION['user_id'] = $user['id'];
+      $_SESSION['username'] = $user['username'];
+      $_SESSION['access'] = $user['access'];
       $_SESSION['loggedin'] = true;
 		}
 
@@ -42,7 +42,7 @@
       redirect($delay=2, $url='/account/');
     }
 
-    if(!$user_info && !$register_error){
+    if(!$user && !$register_error){
       $register_error = "Failed to register. Try again.<br/>If issue persists, please contact admin.";
     }
 
