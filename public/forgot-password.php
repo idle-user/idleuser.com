@@ -101,7 +101,7 @@
 
     <p class="mt-5 mb-3 text-muted text-center small">
       &copy; 2017-2021 Jesus Andrade
-      <br/><a href="https://freedns.afraid.org/">Free DNS</a> | <a href="/privacy-policy">Privacy Policy</a>
+      <br/><a href="https://freedns.afraid.org/">Free DNS</a> | <a href="/privacy-policy">Privacy Policy</a> | <a href="/contact">Contact Me</a>
     </p>
   </form>
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>

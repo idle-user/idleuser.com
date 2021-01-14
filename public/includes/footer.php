@@ -4,7 +4,8 @@
         <p class="small">&copy; 2017-2021 Jesus Andrade</a></p>
         <p class="small">
             <a href="https://freedns.afraid.org/">Free DNS</a>  |
-            <a href="/privacy-policy">Privacy Policy</a>
+            <a href="/privacy-policy">Privacy Policy</a>  |
+            <a href="/contact">Contact Me</a>
         </p>
     </div>
 </footer>
