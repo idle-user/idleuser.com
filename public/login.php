@@ -88,9 +88,11 @@
     <div class="row">
       <div class="col-lg-12">
           <button class="btn btn-lg btn-primary float-right" type="submit">Sign in</button>
-          <a href="/forgot-password" class="btn btn-sm text-primary font-weight-bold" type="button">Forgot Password?</a>
-          <br/>
-          <a href="/register" class="btn btn-sm text-primary font-weight-bold" type="button">Create account</a>
+          <div class="col-lg-12 pl-0">
+            <a href="/forgot-password" class="btn btn-sm text-primary font-weight-bold" type="button">Forgot Password?</a>
+            <a href="/forgot-username" class="btn btn-sm text-primary font-weight-bold" type="button">Forgot Username?</a>
+            <a href="/register" class="btn btn-sm text-primary font-weight-bold" type="button">Create account</a>
+          </div>
       </div>
     </div>
   <?php } ?>
