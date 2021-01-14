@@ -16,7 +16,7 @@
     } elseif($db->username_info($_POST['username'])){
       $register_error = "Username already taken. Try again.";
     } elseif(!empty($_POST["email"]) && !filter_var($_POST["email"], FILTER_VALIDATE_EMAIL)){
-      $register_error = "Invalid email. Try again";
+      $register_error = "Invalid email address. Try again";
     } elseif(filter_var($_POST["email"], FILTER_VALIDATE_EMAIL) && $db->email_info($_POST['email'])){
       $register_error = "Email already registered.";
     } elseif(strlen($_POST["secret"]) < 6){
