@@ -91,7 +91,7 @@
       <div class="pb-4 small container col-md-4">
         <label class="form-control-label" for="share_poll">Share this poll</label>
         <div class="input-group shadow input-group-sm">
-          <input class="form-control form-control-sm" id="share_poll" value="https://<?php echo "$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]" ?>" type="text">
+          <input class="form-control form-control-sm" id="share_poll" value="https://<?php echo $configs['DOMAIN'].$_SERVER['REQUEST_URI']; ?>" type="text">
           <button class="btn btn-sm btn-secondary" data-clipboard-target="#share_poll" title="Copy URL" ><i class="fas fa-clipboard"></i></button>
         </div>
       </div>
