@@ -151,8 +151,8 @@ class MYSQLHandler{
 		$user_info = $this->user_info($username);
 		if(!$user_info){
 			$query = '
-				INSERT INTO user (username, secret, date_created, last_login)
-				VALUES (?, ?, NOW(), NOW())';
+				INSERT INTO user (username, secret, date_created, secret_last_updated, last_login)
+				VALUES (?, ?, NOW(), NOW(), NOW())';
 			$stmt = $this->DB_CONN->prepare($query);
 			$hash = password_hash($secret, PASSWORD_BCRYPT);
 			$stmt->bind_param('ss', $username, $hash);
