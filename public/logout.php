@@ -33,10 +33,7 @@
       <h1 class="h3 mb-3 font-weight-normal">Logout Successful</h1>
       <p>Redirecting you ...</p>
       <input type="button" value="Return to previous page" onclick="javascript:history.go(-1)" >
-      <p class="mt-5 mb-3 text-muted text-center small">
-      &copy; 2017-2021 Jesus Andrade
-      <br/><a href="https://freedns.afraid.org/">Free DNS</a> | <a href="/privacy-policy">Privacy Policy</a> | <a href="/contact">Contact Me</a>
-    </p>
+      <?php include 'includes/footer.php'; ?>
   </form>
 </body>
 </html>
