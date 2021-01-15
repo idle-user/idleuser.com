@@ -34,7 +34,7 @@ $response = maybe_process_form();
           <label for="usernameFormControlInput">Username</label>
           <div>
             <span class="small text-muted">You can change your username every 2 weeks.</span>
-            <span class="small text-muted float-right">Last Updated: <?php echo $userInfo['username_last_updated'];?></span>
+            <span class="small text-muted float-right">Last Updated: <?php echo $userInfo['username_last_updated']?$userInfo['username_last_updated']:'Never'; ?></span>
           </div>
           <div class="input-group mb-3">
             <input type="text" class="form-control" id="usernameFormControlInput" name="username" value="<?php echo $_SESSION['username']; ?>">
@@ -48,7 +48,7 @@ $response = maybe_process_form();
       <form  method="post">
         <div class="form-group">
           <label for="emailFormControlInput">Email Address</label>
-          <span class="small text-muted float-right pt-3">Last Updated: <?php echo $userInfo['email_last_updated'];?></span>
+          <span class="small text-muted float-right pt-3">Last Updated: <?php echo $userInfo['email_last_updated']?$userInfo['email_last_updated']:'Never'; ?></span>
           <div class="input-group mb-3">
             <input type="email" class="form-control" id="emailFormControlInput" name="email" value="<?php echo $db->user_email($_SESSION['user_id'])['email']; ?>">
             <div class="input-group-append">
@@ -58,7 +58,13 @@ $response = maybe_process_form();
         </div>
       </form>
 
-      <a class="btn btn-primary mt-5" type="button" href="/change-password">Change Password</a>
+
+        <div>
+        <a class="btn btn-primary mt-5" type="button" href="/change-password">Change Password</a>
+        </div>
+        <text class="small text-muted">Last Updated: <?php echo $userInfo['secret_last_updated']?$userInfo['secret_last_updated']:'Never'; ?></text>
+
+
 
       <?php include 'includes/footer.php'; ?>
     </main>

@@ -32,7 +32,7 @@ $response = maybe_process_form();
       <form method="post">
         <div class="form-group">
           <label for="discordFormControlInput">Discord ID</label>
-          <span class="small text-muted float-right pt-3">Last Updated: <?php echo $discordInfo['discord_last_updated'];?></span>
+          <span class="small text-muted float-right pt-3">Last Updated: <?php echo $discordInfo['discord_last_updated']?$discordInfo['discord_last_updated']:'Never'; ?></span>
           <div class="input-group mb-3">
             <input type="text" class="form-control" id="discordFormControlInput" name="discord_id" value="<?php echo $discordInfo['discord_id']; ?>">
             <div class="input-group-append">
@@ -46,7 +46,7 @@ $response = maybe_process_form();
       <form method="post">
         <div class="form-group">
           <label for="chatangoFormControlInput">Chatango Username</label>
-          <span class="small text-muted float-right pt-3">Last Updated: <?php echo $chatangoInfo['chatango_last_updated'];?></span>
+          <span class="small text-muted float-right pt-3">Last Updated: <?php echo $chatangoInfo['chatango_last_updated']?$chatangoInfo['chatango_last_updated']:'Never'; ?></span>
           <div class="input-group mb-3">
             <input type="text" class="form-control" id="chatangoFormControlInput" name="chatango_id" value="<?php echo $chatangoInfo['chatango_id']; ?>">
             <div class="input-group-append">
@@ -59,7 +59,7 @@ $response = maybe_process_form();
       <form method="post" class="mb-3">
         <div class="form-group">
           <label for="twitterFormControlInput">Twitter ID</label>
-          <span class="small text-muted float-right pt-3">Last Updated: <?php echo $twitterInfo['twitter_last_updated'];?></span>
+          <span class="small text-muted float-right pt-3">Last Updated: <?php echo $twitterInfo['twitter_last_updated']?$twitterInfo['twitter_last_updated']:'Never'; ?></span>
           <div class="input-group mb-3">
             <input type="text" class="form-control" id="twitterFormControlInput" name="twitter_id" value="<?php echo $twitterInfo['twitter_id']; ?>">
             <div class="input-group-append">
