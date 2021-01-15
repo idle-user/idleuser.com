@@ -36,7 +36,7 @@
 	<link rel="shortcut icon" href="/assets/images/favicon.ico">
   <link rel="manifest" href="/assets/images/site.webmanifest">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-  <link href="/assets/css/form.css" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/form.css">
 
   <?php
     $meta = [
@@ -50,61 +50,62 @@
 
 </head>
 <body>
-  <form class="form-signin" method="post">
-    <div class="text-center mb-4">
-      <a href="/"><img class="mb-4" src="/assets/images/favicon-512x512.png" alt="" width="72" height="72"></a>
 
-      <h1 class="h3 mb-3 font-weight-normal">Forgot Username</h1>
+  <?php include 'includes/nav.php'; ?>
+
+  <div class="main">
+    <form class="form-signin" method="post">
+      <div class="text-center mb-4">
+        <a href="/"><img class="mb-4" src="/assets/images/favicon-512x512.png" alt="" width="72" height="72"></a>
+
+        <h1 class="h3 mb-3 font-weight-normal">Forgot Username</h1>
+        <?php if(!$submit_attempt || $error_message) { ?>
+          <p>Recover your account.<br/>Please enter your email to begin the process.</p>
+        <?php } ?>
+      </div>
+
       <?php if(!$submit_attempt || $error_message) { ?>
-        <p>Recover your account.<br/>Please enter your email to begin the process.</p>
+        <div class="form-label-group">
+          <input type="email" id="inpuEmail" class="form-control" placeholder="Email" name="email">
+          <label for="inputEmail">Email</label>
+        </div>
       <?php } ?>
-    </div>
+
+
+      <?php
+        if($submit_attempt) {
+          if($error_message){
+      ?>
+            <div class="p-2 alert-danger text-center alert">
+              <text><?php echo $error_message ?></text>
+            </div>
+        <?php } else {?>
+            <div class="p-2 alert-success text-center alert">
+              <p>If there is an account associated with that email address, you'll get an email with your username shorty.</p>
+            </div>
+      <?php
+          }
+        }
+      ?>
 
     <?php if(!$submit_attempt || $error_message) { ?>
-      <div class="form-label-group">
-        <input type="email" id="inpuEmail" class="form-control" placeholder="Email" name="email">
-        <label for="inputEmail">Email</label>
+      <div class="form-row">
+        <div class="col-md-8 mb-3">
+          <div class="g-recaptcha" data-callback="recaptchaCallback" data-expired-callback="expiredRecaptchaCallback" data-sitekey="<?php echo get_recaptchav2_sitekey() ?>" id="recaptchaDiv"></div>
+        </div>
+        <div class="col-md-4 mb-3">
+          <button class="btn btn-lg btn-primary float-right" type="submit" id="recaptchaSubmitBtn">Send</button>
+        </div>
+        <a href="/register" class="btn btn-sm text-primary font-weight-bold" type="button">Register instead</a>
       </div>
     <?php } ?>
 
+      <?php include 'includes/footer.php'; ?>
 
-    <?php
-      if($submit_attempt) {
-        if($error_message){
-    ?>
-          <div class="p-2 alert-danger text-center alert">
-            <text><?php echo $error_message ?></text>
-          </div>
-      <?php } else {?>
-          <div class="p-2 alert-success text-center alert">
-            <p>If there is an account associated with that email address, you'll get an email with your username shorty.</p>
-          </div>
-    <?php
-        }
-      }
-    ?>
+    </form>
 
-<?php if(!$submit_attempt || $error_message) { ?>
-    <div class="form-row">
-      <div class="col-md-8 mb-3">
-        <div class="g-recaptcha" data-callback="recaptchaCallback" data-expired-callback="expiredRecaptchaCallback" data-sitekey="<?php echo get_recaptchav2_sitekey() ?>" id="recaptchaDiv"></div>
-      </div>
-      <div class="col-md-4 mb-3">
-        <button class="btn btn-lg btn-primary float-right" type="submit" id="recaptchaSubmitBtn">Send</button>
-      </div>
-      <a href="/register" class="btn btn-sm text-primary font-weight-bold" type="button">Register instead</a>
-    </div>
-  <?php } ?>
+  </div>
 
-
-    <p class="mt-5 mb-3 text-muted text-center small">
-      &copy; 2017-2021 Jesus Andrade
-      <br/><a href="https://freedns.afraid.org/">Free DNS</a> | <a href="/privacy-policy">Privacy Policy</a> | <a href="/contact">Contact Me</a>
-    </p>
-  </form>
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-  <script src='https://www.google.com/recaptcha/api.js'></script>
-  <script src='/assets/js/recaptcha.js'></script>
 </body>
 </html>
 

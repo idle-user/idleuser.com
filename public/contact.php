@@ -45,7 +45,7 @@
 	<link rel="shortcut icon" href="/assets/images/favicon.ico">
   <link rel="manifest" href="/assets/images/site.webmanifest">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-  <link href="/assets/css/form.css" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/form.css">
 
   <?php
     $meta = [
@@ -59,82 +59,79 @@
 
 </head>
 <body>
-  <form class="form-signin" method="post">
 
-    <div class="text-center mb-4">
-      <a href="/"><img class="mb-4" src="/assets/images/favicon-512x512.png" alt="" width="72" height="72"></a>
-      <h1 class="h3 mb-3 font-weight-normal">Contact Me</h1>
-      <p></p>
-    </div>
+  <?php include 'includes/nav.php'; ?>
 
-    <?php
-      if($contact_attempt) {
-        if($is_success) {
-    ?>
-          <div class="p-2 alert-success text-center alert">
-    <?php } else { ?>
-          <div class="p-2 alert-danger text-center alert">
-    <?php } ?>
-        <text><?php echo $alert_message ?></label>
+  <div class="main">
+    <form class="form-signin" method="post">
+
+      <div class="text-center mb-4">
+        <a href="/"><img class="mb-4" src="/assets/images/favicon-512x512.png" alt="" width="72" height="72"></a>
+        <h1 class="h3 mb-3 font-weight-normal">Contact Me</h1>
+        <p></p>
       </div>
-    <?php
-      }
-    ?>
 
-    <div class="form-row">
-      <div class="col-md-6 mb-3">
-        <label for="inputFName">First name</label>
-        <input type="fname" id="inputName" class="form-control" placeholder="First name" name="fname" maxlength="45" autofocus required>
-      </div>
-      <div class="col-md-6 mb-3">
-        <label for="inputLName">Last name</label>
-        <input type="lname" id="inputLName" class="form-control" placeholder="Last name" name="lname" maxlength="45" required>
-      </div>
-    </div>
-
-    <div class="form-row">
-      <div class="col-md-12 mb-3">
-        <label for="inputEmail">Email</label>
-        <input type="email" id="inputEmail" class="form-control" placeholder="Email" name="email" required>
-      </div>
-    </div>
-
-    <div class="form-row">
-      <div class="col-md-12 mb-3">
-        <label for="inputSubject">Subject</label>
-        <input type="text" id="inputSubject" class="form-control" placeholder="Subject" name="subject" maxlength="120" required>
-      </div>
-    </div>
-
-    <div class="form-row">
-      <div class="col-md-12 mb-3">
-        <label for="inputBody">Message</label>
-        <textarea rows="10" id="inputBody" class="form-control" placeholder="Message" name="body" required></textarea>
-      </div>
-    </div>
-
-  <div class="form-row">
-    <div class="col-md-8 mb-3">
-      <?php if(!$_SESSION['loggedin']) { ?>
-        <div class="g-recaptcha" data-callback="recaptchaCallback" data-expired-callback="expiredRecaptchaCallback" data-sitekey="<?php echo get_recaptchav2_sitekey() ?>" id="recaptchaDiv"></div>
+      <?php
+        if($contact_attempt) {
+          if($is_success) {
+      ?>
+            <div class="p-2 alert-success text-center alert">
+      <?php } else { ?>
+            <div class="p-2 alert-danger text-center alert">
       <?php } ?>
+          <text><?php echo $alert_message ?></label>
+        </div>
+      <?php
+        }
+      ?>
+
+      <div class="form-row">
+        <div class="col-md-6 mb-3">
+          <label for="inputFName">First name</label>
+          <input type="fname" id="inputName" class="form-control" placeholder="First name" name="fname" maxlength="45" autofocus required>
+        </div>
+        <div class="col-md-6 mb-3">
+          <label for="inputLName">Last name</label>
+          <input type="lname" id="inputLName" class="form-control" placeholder="Last name" name="lname" maxlength="45" required>
+        </div>
       </div>
-      <div class="col-md-4 mb-3">
-        <button class="btn btn-lg btn-primary float-right" type="submit" id="recaptchaSubmitBtn">Send</button>
+
+      <div class="form-row">
+        <div class="col-md-12 mb-3">
+          <label for="inputEmail">Email</label>
+          <input type="email" id="inputEmail" class="form-control" placeholder="Email" name="email" required>
+        </div>
       </div>
-    </div>
-  </div>
 
+      <div class="form-row">
+        <div class="col-md-12 mb-3">
+          <label for="inputSubject">Subject</label>
+          <input type="text" id="inputSubject" class="form-control" placeholder="Subject" name="subject" maxlength="120" required>
+        </div>
+      </div>
 
-    <p class="mt-5 mb-3 text-muted text-center small">
-      &copy; 2017-2021 Jesus Andrade
-      <br/><a href="https://freedns.afraid.org/">Free DNS</a> | <a href="/privacy-policy">Privacy Policy</a>
-    </p>
+      <div class="form-row">
+        <div class="col-md-12 mb-3">
+          <label for="inputBody">Message</label>
+          <textarea rows="10" id="inputBody" class="form-control" placeholder="Message" name="body" required></textarea>
+        </div>
+      </div>
 
-  </form>
+      <div class="form-row">
+        <div class="col-md-8 mb-3">
+          <?php if(!$_SESSION['loggedin']) { ?>
+            <div class="g-recaptcha" data-callback="recaptchaCallback" data-expired-callback="expiredRecaptchaCallback" data-sitekey="<?php echo get_recaptchav2_sitekey() ?>" id="recaptchaDiv"></div>
+          <?php } ?>
+        </div>
+        <div class="col-md-4 mb-3">
+            <button class="btn btn-lg btn-primary float-right" type="submit" id="recaptchaSubmitBtn">Send</button>
+        </div>
+      </div>
 
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-  <script src='https://www.google.com/recaptcha/api.js'></script>
-  <script src='/assets/js/recaptcha.js'></script>
+    <?php include 'includes/footer.php'; ?>
+
+    </form>
+  <div>
+
 </body>
 </html>

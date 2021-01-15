@@ -5,7 +5,7 @@
         <li class="nav-item">
             <a class="nav-link dropdown-toggle" id="settingsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Settings</a>
             <div class="dropdown-menu" aria-labelledby="settingsDropdown">
-                <a class="nav-link" href="/acount/">Account</a>
+                <a class="nav-link" href="/account/">Account</a>
                 <a class="nav-link" href="connections">Connections</a>
                 <a class="nav-link" href="api">API</a>
             </div>
