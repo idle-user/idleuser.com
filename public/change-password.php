@@ -120,6 +120,7 @@
 
       <div class="row">
         <div class="col-lg-12">
+            <a href="/forgot-password" class="btn btn-sm text-primary font-weight-bold" type="button">Forgot Password?</a>
             <button class="btn btn-lg btn-primary float-right" type="submit">Update</button>
         </div>
       </div>
