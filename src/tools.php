@@ -91,94 +91,54 @@
 			exit();
 		}
 	}
-	function login_token_check(){
-		if(isset($_GET['login_token'])){
-			global $db;
-			$res = $db->user_token_login($_GET['login_token']);
-			if($res){
-				$_SESSION['user_id'] = $res['id'];
-				$_SESSION['username'] = $res['username'];
-				$_SESSION['access'] = $res['access'];
-				$_SESSION['loggedin'] = true;
-				set_auth_values();
-			}
-			track("Login Token Attempt - result:".($res!=false?'1':'0'));
-			if($res!=false){
-				maybe_redirect_to();
-			}
-		}
-	}
-	function defaults_check(){
-		if(!isset($_SESSION['user_id'])){
-			$_SESSION['user_id'] = 0;
-			$_SESSION['username'] = '';
-			$_SESSION['access'] = 1;
-			$_SESSION['loggedin'] = false;
-			$_SESSION['auth_token'] = false;
-			$_SESSION['auth_token_exp'] = false;
-		}
-		$_SESSION['loggedin'] = $_SESSION['user_id'] && !empty($_SESSION['username']);
-		if($_SESSION['loggedin'] && !$_SESSION['auth_token']){
-			set_auth_values();
-		}
-		if(!$_SESSION['loggedin']){
-			auth_login();
-		} else {
-			auth_validate();
-		}
-	}
-	function update_user_values(){
+	function set_session_values($user){
 		global $db;
-
-		$user = $db->user_info($_SESSION['user_id']);
-		$_SESSION['username'] = $user['username'];
-		$_SESSION['access'] = $user['access'];
-		set_auth_values();
-	}
-	function set_auth_values(){
-		global $db;
-
-		$auth = $db->auth_by_user_id($_SESSION['user_id']);
-		if(!$auth){
-			$auth_token = $db->add_auth_token($_SESSION['user_id']);
-			$auth = $db->auth_by_token(bin2hex($auth_token));
-		}
-		$_SESSION['auth_token'] = bin2hex($auth['auth_token']);
-		$_SESSION['auth_token_exp'] = $auth['auth_token_exp'];
-	}
-	function auth_login(){
-		global $db;
-
-		$token = $_SESSION['auth_token'];
-		if($token){
-			$auth = $db->auth_by_token(hex2bin($token));
-			if($auth){
-				$user = $db->user_info($auth['user_id']);
-				$_SESSION['user_id'] = $user['user_id'];
-				$_SESSION['username'] = $user['username'];
-				$_SESSION['access'] = $user['access'];
-				$_SESSION['loggedin'] = true;
-				$_SESSION['auth_token'] = bin2hex($auth['auth_token']);
-				$_SESSION['auth_token_exp'] = $auth['auth_token_exp'];
-				redirect(0);
-			}
-		}
-	}
-	function auth_validate(){
-		global $db;
-
-		$token = $_SESSION['auth_token'];
-		if($token){
-			$auth = $db->auth_by_token(hex2bin($token));
+		if($user){
+			$_SESSION['loggedin'] = true;
+			$_SESSION['user_id'] = $user['id'];
+			$_SESSION['username'] = $user['username'];
+			$_SESSION['access'] = $user['access'];
+			$auth = $db->auth_by_user_id($user['id']);
 			if(!$auth){
-				logout();
+				$token = $db->add_auth_token($user['id']);
+				$auth = $db->auth_by_token($token);
 			}
+			$_SESSION['auth_token'] = bin2hex($auth['auth_token']);
+			$_SESSION['auth_token_exp'] = $auth['auth_token_exp'];
 		}
+	}
+	function refresh_session_values(){
+		global $db;
+		$user = $db->user_info($_SESSION['user_id']);
+		set_session_values($user);
+	}
+	function register($username, $secret){
+		global $db;
+		$user = $db->user_register($username, $secret);
+		set_session_values($user);
+		track("Register Attempt - username:{$username}; result:{$_SESSION['loggedin']}");
+	}
+	function login($username, $secret){
+		global $db;
+		$user = $db->user_login($username, $secret);
+		set_session_values($user);
+		track("Login Attempt - username:{$username}; result:{$_SESSION['loggedin']}");
 	}
 	function logout(){
 		$uid = $_SESSION['user_id'];
 		session_destroy();
 		track("Logout - uid:$uid");
+	}
+	function login_token_check(){
+		if(isset($_GET['login_token'])){
+			global $db;
+			$user = $db->user_token_login($_GET['login_token']);
+			set_session_values($user);
+			track("Login Token Attempt - result:{$_SESSION['loggedin']}");
+			if($_SESSION['loggedin']){
+				maybe_redirect_to();
+			}
+		}
 	}
 	function page_meta($meta){
 		$DEFAULT_META = [
@@ -337,18 +297,18 @@
 		if($_SERVER['REQUEST_METHOD'] === 'POST'){
 			$method = false;
 			$route = false;
-			$sessionUpdate = false;
+			$userUpdate = false;
 
 			if(isset($_POST['api-update'])){
 				$method = 'POST';
 				$route = "auth";
-				$sessionUpdate = true;
+				$userUpdate = true;
 			}
 
 			elseif(isset($_POST['username-update'])){
 				$method = 'PATCH';
 				$route = "users/{$_SESSION['user_id']}/username";
-				$sessionUpdate = true;
+				$userUpdate = true;
 			}
 
 			elseif(isset($_POST['email-update'])){
@@ -379,8 +339,8 @@
 
 			if($method && $route){
 				$response = api_call($method, $route, json_encode($_POST));
-				if($sessionUpdate){
-					update_user_values();
+				if($userUpdate){
+					refresh_session_values();
 				}
 				return json_decode($response, true);
 			}

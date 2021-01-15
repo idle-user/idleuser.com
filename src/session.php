@@ -11,7 +11,15 @@
 	$db = new MYSQLHandler($configs);
 	$db->connect();
 
+	if(!isset($_SESSION['loggedin'])){
+		$_SESSION['loggedin'] = false;
+		$_SESSION['user_id'] = null;
+		$_SESSION['username'] = null;
+		$_SESSION['access'] = 1;
+		$_SESSION['auth_token'] = false;
+		$_SESSION['auth_token_exp'] = false;
+	}
+
 	login_token_check();
-	defaults_check();
 	track();
 ?>

@@ -1,6 +1,6 @@
 <?php
 	require_once $_SERVER['DOCUMENT_ROOT'] . '/../src/session.php';
-	session_destroy();
+	logout();
 	redirect(1);
 ?>
 <!doctype html>
