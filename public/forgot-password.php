@@ -68,7 +68,7 @@
 
       <?php if(!$submit_attempt || $error_message) { ?>
         <div class="form-label-group">
-          <input type="username" id="inputUsername" class="form-control" placeholder="Username" name="username">
+          <input type="username" id="inputUsername" class="form-control" placeholder="Username" name="username" <?php if($_SESSION['loggedin']){ echo "value='{$_SESSION['username']}' readonly"; }?>>
           <label for="inputUsername">Username</label>
         </div>
       <?php } ?>
