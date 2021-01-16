@@ -1,32 +1,33 @@
 <?php
 	require_once $_SERVER['DOCUMENT_ROOT'] . '/../src/session.php';
 
-	$cnt = 1;
-	if(isset($_GET['season_id']) && !empty($_GET['season_id'])){
-		$season_id = htmlspecialchars($_GET['season_id']);
+	if(isset($_GET['season']) && !empty($_GET['season'])){
+		$season = htmlspecialchars($_GET['season']);
+	} else {
+		$season = 0;
 	}
-	if($season_id == 1){
+	if($season == 1){
 		$leaderboard = $db->s1_leaderboard();
-	} else if($season_id == 2) {
-		$season_id = 2;
+	} elseif($season == 2) {
+		$season = 2;
 		$leaderboard = $db->s2_leaderboard();
-	} else if($season_id == 3){
-		$season_id = 3;
+	} elseif($season == 3){
+		$season = 3;
 		$leaderboard = $db->s3_leaderboard();
 	} else {
-		$season_id = 4;
+		$season = 4;
 		$leaderboard = $db->s4_leaderboard();
 	}
 
 	$meta = [
-		"keywords" => "Season {$season_id}, watchwrestling, WWE, AEW, NJPW, ROH, IMPACT, wrestling, bet, points, fjbot, chatroom, streams, watch online, wrestling discord, discord",
-		"og:title" => "WatchWrestling Leaderboard - Season {$season_id}",
+		"keywords" => "Season {$season}, watchwrestling, WWE, AEW, NJPW, ROH, IMPACT, wrestling, bet, points, fjbot, chatroom, streams, watch online, wrestling discord, discord",
+		"og:title" => "WatchWrestling Leaderboard - Season {$season}",
 	];
 	include 'header.php';
 
 ?>
 <header class="main">
-	<h1>Leaderboard (Season <?php echo $season_id; ?>)</h1>
+	<h1>Leaderboard (Season <?php echo $season; ?>)</h1>
 </header>
 <span class="image main"><img src="" alt="" /></span>
 <div class="table-wrapper">
@@ -42,7 +43,7 @@
 			</tr>
 		</thead>
 		<tbody>
-	<?php foreach($leaderboard as $user){ ?>
+	<?php $cnt = 1; foreach($leaderboard as $user){ ?>
 			<tr>
 				<td><?php echo $cnt; ?></td>
 				<td><a href="/projects/matches/user?user_id=<?php echo $user['user_id']; ?>"><?php echo $user['username']; ?></a></td>
