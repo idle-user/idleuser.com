@@ -3,7 +3,7 @@
 
 	$brands = $db->all_brands();
 	$titles = $db->all_titles();
-	$header = 'All Matches';
+	$header = '';
 	$matches = [];
 	if(isset($_GET['match_id']) && !empty($_GET['match_id'])){
 		$match_id = htmlspecialchars($_GET['match_id']);
@@ -28,27 +28,27 @@
 			$header = "Today's Matches";
 		}
 	}
-	if(empty($matches)){
+	if(empty($header)){
 		if(isset($_GET['season']) && !empty($_GET['season'])){
 			$season = htmlspecialchars($_GET['season']);
 		} else {
 			$season = 0;
 		}
 		if($season == 1){
-				$matches = $db->s1_matches();
+			$matches = $db->s1_matches();
 		$header = 'Matches (Season 1)';
 		} else if($season == 2){
-				$matches = $db->s2_matches();
+			$matches = $db->s2_matches();
 		$header = 'Matches (Season 2)';
 		} else if($season == 3){
-				$matches = $db->s3_matches();
+			$matches = $db->s3_matches();
 		$header = 'Matches (Season 3)';
 		} else if($season == 4 || !$season){
-				$matches = $db->s4_matches();
+			$matches = $db->s4_matches();
 		$header = 'Matches (Season 4)';
 		} else {
-		$matches = $db->all_matches();
-		$header = 'All Matches';
+			$matches = $db->all_matches();
+			$header = 'All Matches';
 		}
 	}
 
@@ -59,7 +59,7 @@
 	include 'header.php';
 
 	if(isset($_GET['type'])){
-		if($header == 'Open Bet Matches'){
+		if($header == "Open Bet Matches"){
 			$matches = $matches_bets_open;
 		}
 		elseif($header == "Today's Matches"){
