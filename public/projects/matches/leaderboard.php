@@ -1,16 +1,18 @@
 <?php
 	require_once $_SERVER['DOCUMENT_ROOT'] . '/../src/session.php';
 
-	$cnt = 1;
+
 	if(isset($_GET['season_id']) && !empty($_GET['season_id'])){
 		$season_id = htmlspecialchars($_GET['season_id']);
+	} else {
+		$season_id = 0;
 	}
 	if($season_id == 1){
 		$leaderboard = $db->s1_leaderboard();
-	} else if($season_id == 2) {
+	} elseif($season_id == 2) {
 		$season_id = 2;
 		$leaderboard = $db->s2_leaderboard();
-	} else if($season_id == 3){
+	} elseif($season_id == 3){
 		$season_id = 3;
 		$leaderboard = $db->s3_leaderboard();
 	} else {
@@ -42,7 +44,7 @@
 			</tr>
 		</thead>
 		<tbody>
-	<?php foreach($leaderboard as $user){ ?>
+	<?php $cnt = 1; foreach($leaderboard as $user){ ?>
 			<tr>
 				<td><?php echo $cnt; ?></td>
 				<td><a href="/projects/matches/user?user_id=<?php echo $user['user_id']; ?>"><?php echo $user['username']; ?></a></td>
