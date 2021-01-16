@@ -22,11 +22,9 @@
 	}
 	elseif(isset($_GET['type'])){
 		if($_GET['type']=='bets_open'){
-			$matches = $matches_bets_open;
 			$header = 'Open Bet Matches';
 		}
 		elseif($_GET['type']=='today'){
-			$matches = $matches_today;
 			$header = "Today's Matches";
 		}
 	}
@@ -53,11 +51,21 @@
 		$header = 'All Matches';
 		}
 	}
+
 	$meta = [
 		"keywords" => "{$header}, watchwrestling, WWE, AEW, NJPW, ROH, IMPACT, wrestling, bet, points, fjbot, chatroom, streams, watch online, wrestling discord, discord",
 		"og:title" => "WatchWrestling - {$header}",
 	];
 	include 'header.php';
+
+	if(isset($_GET['type'])){
+		if($header == 'Open Bet Matches'){
+			$matches = $matches_bets_open;
+		}
+		elseif($header == "Today's Matches"){
+			$matches = $matches_today;
+		}
+	}
 
 	$header = '<h1>'.$header.'</h1>';
 	include 'matchlist.php';
