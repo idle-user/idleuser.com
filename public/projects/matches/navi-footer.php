@@ -27,10 +27,10 @@
 						<li>
 							<span class="opener">Matches</span>
 							<ul>
-								<a href="/projects/matches/matches?season_id=4">Season 4</a>
-								<a href="/projects/matches/matches?season_id=3">Season 3</a>
-								<a href="/projects/matches/matches?season_id=2">Season 2</a>
-								<a href="/projects/matches/matches?season_id=1">Season 1</a>
+								<a href="/projects/matches/matches?season=4">Season 4</a>
+								<a href="/projects/matches/matches?season=3">Season 3</a>
+								<a href="/projects/matches/matches?season=2">Season 2</a>
+								<a href="/projects/matches/matches?season=1">Season 1</a>
 							</ul>
 						</li>
 						<li>
@@ -44,10 +44,10 @@
 						<li>
 							<span class="opener">Leaderboard</span>
 							<ul>
-								<a href="/projects/matches/leaderboard?season_id=4">Season 4</a>
-								<a href="/projects/matches/leaderboard?season_id=3">Season 3</a>
-								<a href="/projects/matches/leaderboard?season_id=2">Season 2</a>
-								<a href="/projects/matches/leaderboard?season_id=1">Season 1</a>
+								<a href="/projects/matches/leaderboard?season=4">Season 4</a>
+								<a href="/projects/matches/leaderboard?season=3">Season 3</a>
+								<a href="/projects/matches/leaderboard?season=2">Season 2</a>
+								<a href="/projects/matches/leaderboard?season=1">Season 1</a>
 							</ul>
 						</li>
 						<li><a href="/projects/matches/FAQs">FAQs</a></li>
