@@ -27,13 +27,15 @@
 
 </head>
 <body>
-  <form class="form-signin" method="post">
-    <div class="text-center mb-4">
-      <a href="/"><img class="mb-4" src="/assets/images/favicon-512x512.png" alt="" width="72" height="72"></a>
-      <h1 class="h3 mb-3 font-weight-normal">Logout Successful</h1>
-      <p>Redirecting you ...</p>
-      <input type="button" value="Return to previous page" onclick="javascript:history.go(-1)" >
-      <?php include 'includes/footer.php'; ?>
-  </form>
+  <div class="main">
+    <form class="form-signin" method="post">
+      <div class="text-center mb-4">
+        <a href="/"><img class="mb-4" src="/assets/images/favicon-512x512.png" alt="" width="72" height="72"></a>
+        <h1 class="h3 mb-3 font-weight-normal">Logout Successful</h1>
+        <p>Redirecting you ...</p>
+        <input type="button" value="Return to previous page" onclick="javascript:history.go(-1)" >
+        <?php include 'includes/footer.php'; ?>
+    </form>
+  </div>
 </body>
 </html>
