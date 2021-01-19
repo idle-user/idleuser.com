@@ -4,16 +4,22 @@
 		<div id="sidebar">
 			<div class="inner">
 				<section>
-					<header class="major">
-						<h2 id="user-welcome">Welcome</h2>
-					</header>
 					<div id="user-container">
 						<?php if(!$_SESSION['loggedin']){ ?>
+							<header class="major">
+								<h2>Welcome</h2>
+							</header>
 							<strong id="notifier">Please register and login to get access to more features.</strong>
 							<br/><br/>
 							<input type="button" value="Login" onclick="location.href='/login?<?php echo get_direct_to(); ?>';" />
 							<input type="button" value="Register" onclick="location.href='/register?<?php echo get_direct_to(); ?>';" />
-						<?php } ?>
+						<?php }  else {
+							echo "<header class='major'><h2>Welcome, {$_SESSION['username']}</h2></header>";
+							echo "<h3>Available Points: {$pointsAvailable}<br/>Total Points: {$pointsTotal}</h3></hr>";
+							echo '<input type="button" value="Logout" onclick="location.href=`/logout`"' . get_direct_to() . '`" />';
+							echo '<a href="/account/" class="m-2 float-right">Account Settings</a>';
+						}
+						 ?>
 					</div>
 				</section>
 				<nav id="menu">
@@ -94,24 +100,6 @@
 			});
 			ev.preventDefault();
 		});
-		function updateData(){
-			$.post('scripts/userData', {},
-				function(response){
-					data = JSON.parse(response);
-					if(data){
-						$("#user-welcome").html("Welcome, "+data.username);
-						$("#user-container").html(
-							"<h3>Available Points: " + String(data.s4_available_points).replace(/\B(?=(\d{3})+(?!\d))/g, ",") +
-							"<br/>Total Points: " + String(data.s4_total_points).replace(/\B(?=(\d{3})+(?!\d))/g, ",") +
-							"</h3></hr>" +
-							`<input type="button" value="Logout" onclick="location.href='/logout?<?php echo get_direct_to(); ?>'" />` +
-							`<a href="/account/" class="m-2 float-right">Account Settings</a>`
-						);
-					}
-					document.querySelector("#sidebar > a").text = ""; // yeah, idk why it puts "Toggle"
-				}
-			);
-		}
 		function updateFavorite(superstarID){
 			$.post('scripts/updateFavorite', {'superstarID':superstarID},
 				function(response){
@@ -157,7 +145,6 @@
 			console.log(newURI);
 			window.history.replaceState("", "", newURI);
 		}
-		updateData();
 	</script>
 </body>
 </html>
