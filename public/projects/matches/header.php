@@ -7,6 +7,12 @@
 	$matches_bets_open = $db->open_matches();
 	$royalrumbles_open = $db->open_royalrumbles();
 
+	if($_SESSION['loggedin']){
+		$userStats = $db->user_stats($_SESSION['user_id']);
+		$pointsAvailable = number_format($userStats['s4_available_points']);
+		$pointsTotal = number_format($userStats['s4_total_points']);
+	}
+
     $default_meta = [
 	  "viewport" => "width=device-width, initial-scale=1, user-scalable=no",
 	  "keywords" => "watchwrestling, WWE, AEW, NJPW, ROH, IMPACT, wrestling, bet, points, fjbot, chatroom, streams, watch online, wrestling discord, discord",
@@ -18,6 +24,7 @@
 	} else {
 		$meta = $default_meta;
 	}
+
 ?>
 <!DOCTYPE HTML>
 <html lang="en">

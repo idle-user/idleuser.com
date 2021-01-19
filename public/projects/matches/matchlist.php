@@ -1,8 +1,24 @@
 <header class="main">
 	<?php echo $header;?>
 </header>
-<?php if(empty($matches)){ echo 'NO MATCHES FOUND'; return; } if(!isset($user)){$user['user_id']=$_SESSION['user_id']; $user['username']='You';} ?>
+<?php
+	$showPoints = false;
+	if(empty($matches)) {
+		echo 'NO MATCHES FOUND';
+		return;
+	}
+	if(!isset($user)) {
+		$showPoints = count($matches_bets_open);
+		$user['user_id'] = $_SESSION['user_id'];
+		$user['username'] = 'You';
+	}
+?>
 <div class="table-wrapper">
+<?php
+	if($_SESSION['loggedin'] &&  $showPoints) {
+		echo "<div class='float-right'><h3>Points Available: {$pointsAvailable}</h3></div>";
+	}
+?>
 	<table class="alt">
 		<thead>
 			<tr>
@@ -10,8 +26,8 @@
 				<th>Match</th>
 				<th>Contestants</th>
 				<th>Winner</th>
-				<th><center>Pot</center></th>
-				<th><center>Bet</center></th>
+				<th class="text-center">Pot</th>
+				<th class="text-center">Bet</th>
 			</tr>
 		</thead>
 		<tbody>
