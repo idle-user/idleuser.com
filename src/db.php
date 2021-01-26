@@ -139,10 +139,18 @@ class MYSQLHandler{
 		return $user;
 	}
 
-	public function user_secret($username){
+	public function username_secret($username){
 		$query = 'SELECT secret FROM user WHERE username=?';
 		$stmt = $this->DB_CONN->prepare($query);
 		$stmt->bind_param('s', $username);
+		$stmt->execute();
+		return $stmt->get_result()->fetch_array(MYSQLI_ASSOC)['secret'];
+	}
+
+	public function email_secret($email){
+		$query = 'SELECT secret FROM user WHERE email=?';
+		$stmt = $this->DB_CONN->prepare($query);
+		$stmt->bind_param('s', $email);
 		$stmt->execute();
 		return $stmt->get_result()->fetch_array(MYSQLI_ASSOC)['secret'];
 	}
@@ -163,13 +171,25 @@ class MYSQLHandler{
 		return false;
 	}
 
-	public function user_login($username, $secret){
-		if(password_verify($secret, $this->user_secret($username))){
+	public function username_login($username, $secret){
+		if(password_verify($secret, $this->username_secret($username))){
 			$query = 'UPDATE user SET last_login=NOW() WHERE username=?';
 			$stmt = $this->DB_CONN->prepare($query);
 			$stmt->bind_param('s', $username);
 			$stmt->execute();
 			$user_info = $this->username_info($username);
+			return $user_info;
+		}
+		return false;
+	}
+
+	public function email_login($email, $secret){
+		if(password_verify($secret, $this->email_secret($email))){
+			$query = 'UPDATE user SET last_login=NOW() WHERE email=?';
+			$stmt = $this->DB_CONN->prepare($query);
+			$stmt->bind_param('s', $email);
+			$stmt->execute();
+			$user_info = $this->email_info($email);
 			return $user_info;
 		}
 		return false;
@@ -223,7 +243,7 @@ class MYSQLHandler{
 	}
 
 	public function user_change_password($user_id, $username, $old_secret, $new_secret){
-		if(password_verify($old_secret, $this->user_secret($username))){
+		if(password_verify($old_secret, $this->username_secret($username))){
 			$query = 'UPDATE user SET secret=?, secret_last_updated=NOW() WHERE id=? AND username=?';
 			$stmt = $this->DB_CONN->prepare($query);
 			$hash = password_hash($new_secret, PASSWORD_BCRYPT);

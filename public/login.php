@@ -8,8 +8,13 @@
   $login_attempt = false;
 	if(isset($_POST['username']) && isset($_POST['secret'])  && !empty($_POST['username']) && !empty($_POST['secret'])){
     $login_attempt = true;
+    $username = trim($_POST['username']);
 
-    login($_POST['username'], $_POST['secret']);
+    if (filter_var($username, FILTER_VALIDATE_EMAIL)) {
+      email_login($username, $_POST['secret']);
+    } else {
+      username_login($username, $_POST['secret']);
+    }
 
     if($_SESSION['loggedin']){
       redirect(1);
@@ -60,8 +65,8 @@
       </div>
 
       <div class="form-label-group">
-        <input type="username" id="inputUsername" class="form-control" placeholder="Username" name="username" <?php if(isset($_POST['username'])){ echo "value='{$_POST['username']}'"; }?>required autofocus>
-        <label for="inputUsername">Username</label>
+        <input type="username" id="inputUsername" class="form-control" placeholder="Username/Email" name="username" <?php if(isset($_POST['username'])){ echo "value='{$_POST['username']}'"; }?>required autofocus>
+        <label for="inputUsername">Username/Email</label>
       </div>
 
       <div class="form-label-group">
@@ -79,7 +84,7 @@
 
       <?php if($login_attempt) { ?>
       <div class="p-2 alert-danger text-center alert">
-        <text>Invalid username or password. Try again.</label>
+        <text>Invalid credentials. Please try again.</label>
       </div>
       <?php } ?>
 
