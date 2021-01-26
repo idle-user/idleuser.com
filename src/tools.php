@@ -118,11 +118,17 @@
 		set_session_values($user);
 		track("Register Attempt - username:{$username}; result:{$_SESSION['loggedin']}");
 	}
-	function login($username, $secret){
+	function username_login($username, $secret){
 		global $db;
-		$user = $db->user_login($username, $secret);
+		$user = $db->username_login($username, $secret);
 		set_session_values($user);
 		track("Login Attempt - username:{$username}; result:{$_SESSION['loggedin']}");
+	}
+	function email_login($email, $secret){
+		global $db;
+		$user = $db->email_login($email, $secret);
+		set_session_values($user);
+		track("Login Attempt - email:{$email}; result:{$_SESSION['loggedin']}");
 	}
 	function logout(){
 		$uid = $_SESSION['user_id'];
