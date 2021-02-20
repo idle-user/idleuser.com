@@ -158,15 +158,22 @@
     <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.bundle.min.js'></script>
     <script type="text/javascript">
         $(document).ready(function() {
+            var user_data = <?php echo json_encode($db->registered_user_dates()); ?>;
+            var user_k = [];
+            var user_v = [];
+            for (var key in user_data) {
+                user_k.push(key);
+                user_v.push(user_data[key]['subtotal']);
+            }
             var user_ctx = $("#chart-user");
             var traffic_ctx =  $("#chart-traffic");
             var myLineChart = new Chart(user_ctx, {
-                type: 'horizontalBar',
+                type: 'line',
                 data: {
-                    labels: ['a', 'b', 'c'],
+                    labels: user_k,
                     datasets: [{
-                        data: [1,2,3],
-                        label: "Traffic",
+                        data: user_v,
+                        label: "User Registrations",
                         borderColor: "#43bac7",
                         backgroundColor: '#43bac7',
                         fill: false

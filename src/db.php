@@ -82,16 +82,26 @@ class MYSQLHandler{
 		return $token;
 	}
 
+	// ANALYTICS
+
+	public function registered_user_dates(){
+		$query = 'SELECT DATE(date_created) AS date, COUNT(*) AS new  FROM user group by DATE(date_created) ORDER BY DATE(date_created) ASC';
+		$data = $this->DB_CONN->query($query);
+		$result = [];
+		$subtotal = 0;
+		while($r = $data->fetch_array(MYSQLI_ASSOC)){
+			$subtotal = $subtotal + $r['new'];
+			$result[$r['date']] = ['new'=>$r['new'], 'subtotal'=>$subtotal];
+		}
+		return $result;
+	}
+
 	// USER
 
 	public function all_recent_users(){
 		$query = 'SELECT id, username, discord_id, chatango_id, date_created FROM user ORDER BY date_created DESC';
 		$data = $this->DB_CONN->query($query);
-		$result = [];
-		while($r = $data->fetch_array(MYSQLI_ASSOC)){
-			$result[$r['id']] = $r;
-		}
-		return $result;
+		return $data->fetch_array(MYSQLI_ASSOC);
 	}
 
 	public function user_info($id){
