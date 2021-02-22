@@ -9,5 +9,7 @@
         <a class="nav-link" href="matches-royalrumble">Matches Royal Rumble</a>
         <a class="nav-link" href="discordbot-commands">IdleBot Commands</a>
         <a class="nav-link" href="discordbot-scheduler">IdleBot Scheduler</a>
+        <a class="nav-link" href="analytics">Analytics</a>
+
     </nav>
 </div>
