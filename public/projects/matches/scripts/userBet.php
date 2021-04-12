@@ -16,7 +16,7 @@
 		$user = $db->user_stats($_SESSION['user_id']);
 		if(!$match['bet_open']){
 			$response['message'] = "Open bets for this match are closed.";
-		} else if($user['s4_available_points'] < $_POST['bet']){
+		} else if($user['s5_available_points'] < $_POST['bet']){
 				$response['message'] = "You do not have enough points to place this bet.";
 		} else {
 			try {

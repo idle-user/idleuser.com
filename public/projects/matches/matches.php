@@ -36,16 +36,19 @@
 		}
 		if($season == 1){
 			$matches = $db->s1_matches();
-		$header = 'Matches (Season 1)';
+			$header = 'Matches (Season 1)';
 		} else if($season == 2){
 			$matches = $db->s2_matches();
-		$header = 'Matches (Season 2)';
+			$header = 'Matches (Season 2)';
 		} else if($season == 3){
 			$matches = $db->s3_matches();
-		$header = 'Matches (Season 3)';
-		} else if($season == 4 || !$season){
+			$header = 'Matches (Season 3)';
+		} else if($season == 4){
 			$matches = $db->s4_matches();
-		$header = 'Matches (Season 4)';
+			$header = 'Matches (Season 4)';
+		} else if($season == 5 || !$season){
+			$matches = $db->s5_matches();
+			$header = 'Matches (Season 5)';
 		} else {
 			$matches = $db->all_matches();
 			$header = 'All Matches';

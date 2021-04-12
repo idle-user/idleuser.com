@@ -14,9 +14,12 @@
 	} elseif($season == 3){
 		$season = 3;
 		$leaderboard = $db->s3_leaderboard();
-	} else {
+	} elseif($season == 4){
 		$season = 4;
 		$leaderboard = $db->s4_leaderboard();
+	} else {
+		$season = 5;
+		$leaderboard = $db->s5_leaderboard();
 	}
 
 	$meta = [

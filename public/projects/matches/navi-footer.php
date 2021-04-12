@@ -33,6 +33,7 @@
 						<li>
 							<span class="opener">Matches</span>
 							<ul>
+								<a href="/projects/matches/matches?season=5">Season 5</a>
 								<a href="/projects/matches/matches?season=4">Season 4</a>
 								<a href="/projects/matches/matches?season=3">Season 3</a>
 								<a href="/projects/matches/matches?season=2">Season 2</a>
@@ -50,6 +51,7 @@
 						<li>
 							<span class="opener">Leaderboard</span>
 							<ul>
+								<a href="/projects/matches/leaderboard?season=5">Season 5</a>
 								<a href="/projects/matches/leaderboard?season=4">Season 4</a>
 								<a href="/projects/matches/leaderboard?season=3">Season 3</a>
 								<a href="/projects/matches/leaderboard?season=2">Season 2</a>

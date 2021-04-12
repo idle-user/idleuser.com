@@ -638,6 +638,18 @@ class MYSQLHandler{
 		return $result;
 	}
 
+	public function s5_matches(){
+		$data = $this->DB_CONN->query('
+			SELECT * FROM uv_matches
+			WHERE id > 1104
+			ORDER BY date DESC, bet_open DESC, base_pot DESC, id DESC');
+		$result = [];
+		while($r = $data->fetch_array(MYSQLI_ASSOC)){
+			$result[$r['id']] = $r;
+		}
+		return $result;
+	}
+
 	public function match($match_id){
 		$query = '
 			SELECT *
@@ -830,6 +842,25 @@ class MYSQLHandler{
 				,vus.s4_total_points as points
 			FROM uv_matches_stats vus
 			WHERE s4_wins+s4_losses > 0
+			ORDER BY points DESC');
+		$result = [];
+		while($r = $data->fetch_array(MYSQLI_ASSOC)){
+			$result[] = $r;
+		}
+		return $result;
+	}
+
+	public function s5_leaderboard(){
+		$data = $this->DB_CONN->query('
+			SELECT
+				vus.user_id
+				,vus.username
+				,vus.favorite_superstar_id
+				,vus.s5_wins as wins
+				,vus.s5_losses as losses
+				,vus.s5_total_points as points
+			FROM uv_matches_stats vus
+			WHERE s5_wins+s5_losses > 0
 			ORDER BY points DESC');
 		$result = [];
 		while($r = $data->fetch_array(MYSQLI_ASSOC)){

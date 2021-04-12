@@ -30,6 +30,23 @@
 <div class="table-wrapper">
 	<table class="alt">
 		<thead>
+			<th>Season 5</th>
+			<tr>
+				<th width="33%">Wins</th>
+				<th width="33%">Losses</th>
+				<th width="33%">Points</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td><?php echo $user['s5_wins'] ? $user['s5_wins'] : '0'; ?></td>
+				<td><?php echo $user['s5_losses'] ? $user['s5_losses'] : '0'; ?></td>
+				<td><?php echo number_format($user['s5_total_points'], 0, '', ',')?:'0'; ?></td>
+			</tr>
+		</tbody>
+	</table>
+	<table class="alt">
+		<thead>
 			<th>Season 4</th>
 			<tr>
 				<th width="33%">Wins</th>
