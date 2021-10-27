@@ -73,7 +73,7 @@
 					<p class="copyright">
 						<ul class="alt">
 							<li>&copy; 2017-2021 Jesus Andrade</li>
-							<li><a href="https://freedns.afraid.org/">Free DNS</a> | <a href="/privacy-policy">Privacy Policy</a></li>
+							<li><a href="/privacy-policy">Privacy Policy</a></li>
 							<li>Design: <a href="https://html5up.net">HTML5 UP</a></li>
 						</ul>
 					</p>

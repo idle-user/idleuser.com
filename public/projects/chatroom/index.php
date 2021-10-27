@@ -57,7 +57,6 @@
 					</ul>
 					<ul>
 						<li>&copy; 2017-2021 Jesus Andrade</li>
-						<li>DNS: <a href="https://freedns.afraid.org/">Free DNS</a></li>
 						<li>Page Last Updated: <?php echo date("Y.m.d H:i:s.", getlastmod()); ?></li>
 					</ul>
 				</div>
