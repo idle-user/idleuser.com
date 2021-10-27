@@ -3,7 +3,7 @@
         <p class="float-right d-none" id="backToTop"><a href="#">Back to top</a></p>
         <p class="mt-5 mb-3 text-muted text-center small">
         &copy; 2017-2021 Jesus Andrade
-        <br/><a href="https://freedns.afraid.org/">Free DNS</a> | <a href="/privacy-policy">Privacy Policy</a> | <a href="/contact">Contact Me</a>
+        <br/><a href="/privacy-policy">Privacy Policy</a> | <a href="/contact">Contact Me</a>
       </p>
     </div>
 </footer>
