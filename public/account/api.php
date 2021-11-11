@@ -36,10 +36,39 @@ $response = maybe_process_form();
       <div class="input-group mb-3">
         <input type="password" class="form-control" id="authTokenInput" value="<?php echo $_SESSION['auth_token'] ?>" readonly>
         <div class="input-group-append">
-          <button class="btn btn-outline-secondary" type="button" id="showHideButton" onclick="showHide()">Show</button>
+          <button class="btn btn-outline-secondary" type="button" id="showHideButton" onclick="showHide()" title='hide password'><i class="fas fa-eye"></i></button>
+          <a class="btn btn-outline-primary float-right" type="button" data-toggle="modal" data-target="#newTokenModal" title="New Token"><i class="fas fa-sync"></i></a>
         </div>
       </div>
-      <!--a class="btn btn-outline-primary float-right" type="button" href="">Regenerate</a-->
+
+      <div class="modal fade" id="newTokenModal" tabindex="-1" role="dialog" aria-labelledby="newTokenModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="newTokenModalLabel">Request New API Token</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <form method="post">
+              <div class="modal-body">
+                <p>Any applications tied to existing token will need to be updated with the new token.</p></br>
+                <p>Are you sure you want to request a new API Token?</p>
+                <div class="form-label-group">
+                  <input type="username" id="inputUsername" class="form-control" placeholder="Username" name="username" <?php echo "value='{$_SESSION['username']}'";?>  hidden readonly>
+                </div>
+                <div class="form-label-group">
+                  <input type="password" id="inputPassword" class="form-control" placeholder="Confirm Password" name="secret" required autofocus>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button class="btn btn-primary" type="submit" name="api-update">New Token</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
 
       <?php include 'includes/footer.php'; ?>
     </main>
@@ -51,10 +80,13 @@ $response = maybe_process_form();
         showHideButton
         if (x.type === "password") {
           x.type = "text";
-          y.textContent = "Hide";
+          y.firstElementChild.classList="fas fa-eye-slash";
+          y.title="hide token"
         } else {
           x.type = "password";
-          y.textContent = "Show";
+          y.firstElementChild.classList="fas fa-eye";
+          y.title="show token"
+
         }
       }
     </script>
