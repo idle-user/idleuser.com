@@ -48,7 +48,7 @@ class MYSQLHandler{
 	}
 
 	public function add_web_contact($fname, $lname, $email, $subject, $body, $ip, $user_id){
-		$user_id = $user_id ?? 0;	
+		$user_id = $user_id ?? 0;
 		$id = $this->get_uuid();
 		$query = 'INSERT INTO web_contact (id, fname, lname, email, subject, body, ip, user_id, received_dt) VALUES (UUID_TO_BIN(?), ?, ?, ?, ?, ?, ?, ?, NOW())';
 		$stmt = $this->DB_CONN->prepare($query);
@@ -1436,6 +1436,19 @@ class MYSQLHandler{
 		$result = [];
 		while($r = $data->fetch_array(MYSQLI_ASSOC)){
 			$result[$r['id']] = $r;
+		}
+		return $result;
+	}
+
+	public function all_user_polls($user_id){
+		$query ='SELECT * FROM uv_poll_info WHERE user_id=? ORDER BY created_dt DESC';
+		$stmt = $this->DB_CONN->prepare($query);
+		$stmt->bind_param('i', $user_id);
+		$stmt->execute();
+		$data = $stmt->get_result();
+		$result = [];
+		while($r = $data->fetch_array(MYSQLI_ASSOC)){
+			$result[] = $r;
 		}
 		return $result;
 	}
