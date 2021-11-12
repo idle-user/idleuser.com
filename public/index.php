@@ -121,7 +121,7 @@ set_last_page();
         </div>
         <div class="col-lg-4">
           <h2>Discord Bot</h2>
-          <p>Discord chat is on the rise. Start your own Discord server and include your own <strong>custom bot</strong> to fit your needs - whatever they may be. User roll mangement, customized greetings, channel chat logs, scheduled alerts, and much more can be offered.</p>
+          <p>Discord chat is on the rise. Start your own Discord server and include your own <strong>custom bot</strong> to fit your needs - whatever they may be. User mangement, customized greetings, channel chat logs, scheduled alerts, and much more can be offered.</p>
         </div>
         <p class="container pt-3">
           <a class="btn btn-secondary btn-lg shadow" href="/contact" role="button">Contact Me</a>
