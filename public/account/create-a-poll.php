@@ -38,7 +38,7 @@ if(!$_SESSION['loggedin']){
                 <?php
                   $poll_list = $db->all_user_polls($_SESSION['user_id']);
                   if(empty($poll_list)){
-                    echo '<p class="card-body">No active polls found.</p>';
+                    echo '<p>No active polls found.</p>';
                   } else {
                     foreach($poll_list as $poll){
                 ?>
