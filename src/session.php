@@ -8,6 +8,8 @@
 	require_once 'db.php';
 	require_once 'tools.php';
 
+	date_default_timezone_set($configs['TIMEZONE']);
+
 	$db = new MYSQLHandler($configs);
 	$db->connect();
 
