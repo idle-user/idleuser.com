@@ -1,6 +1,9 @@
 <?php
 $configs = array(
 
+    # TIMEZONE
+    'TIMEZONE' => isset($_ENV['TZ']) ? $_ENV['TZ'] : date_default_timezone_get(),
+
     # Domain
     'DOMAIN' => 'example.com',
 
