@@ -7,10 +7,10 @@
     <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="matchesDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ignore-smoothscroll>Matches</a>
         <div class="dropdown-menu" aria-labelledby="matchesDropdown">
-            <a class="nav-link" href="matches-editor">Matches Editor</a>
-            <a class="nav-link" href="matches-metadata">Matches Metadata</a>
-            <a class="nav-link" href="matches-roster">Matches Roster</a>
-            <a class="nav-link" href="matches-royalrumble">Matches Royal Rumble</a>
+            <a class="nav-link" href="matches-editor">Match Editor</a>
+            <a class="nav-link" href="matches-roster">Roster</a>
+            <a class="nav-link" href="matches-metadata">Metadata</a>
+            <a class="nav-link" href="matches-royalrumble">Royal Rumble</a>
         </div>
     </li>
 
