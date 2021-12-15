@@ -15,9 +15,11 @@
     $recaptcha_check = $_SESSION['loggedin'] || (isset($_POST['g-recaptcha-response']) && validate_recaptchaV2());
 
     if($recaptcha_check){
-      $is_success = $db->add_web_contact($fname, $lname, $email, $subject, $body, get_ip(), $_SESSION['user_id']);
+      $user_ip = get_ip();
+      $is_success = $db->add_web_contact($fname, $lname, $email, $subject, $body, $user_ip, $_SESSION['user_id']);
       if($is_success){
         $alert_message = "Contact information sent!<br/>Will get back to you when possible.";
+        email_admin_contact_alert($fname, $lname, $email, $subject, $body, $user_ip, $_SESSION['user_id']);
       } else {
         $alert_message = "Failed to send contact information<br/>Please try contacting me through Twitter or Discord.";
       }

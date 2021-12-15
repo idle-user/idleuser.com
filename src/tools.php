@@ -233,6 +233,19 @@
 		$message .= '</body></html>';
 		return mail($to, $subject, $message, $headers);
 	}
+	function email_admin_contact_alert($fname, $lname, $email, $subject, $body, $user_ip, $user_id){
+		global $configs;
+
+		$subject = "Contact Request Received - {$configs['DOMAIN']} - $subject";
+		$message = "<h2>A contact request was received on {$configs['DOMAIN']}.</h2>";
+		$message .= "<div>Name:<pre>$fname $lname</pre><div>";
+		$message .= "<div>Email:<pre>$email</pre><div>";
+		$message .= "<div>IP:<pre>$user_ip</pre><div>";
+		$message .= "<div>Is Registered:<pre>$user_id</pre><div>";
+		$message .= "<div>Subject:<pre>$subject</pre><div>";
+		$message .= "<div>Body:<pre>$body</pre><div>";
+		return email($configs['ADMIN_EMAIL'], $subject, $message);
+	}
 	function email_reset_password_token($to, $username, $token){
 		global $configs;
 
