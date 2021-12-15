@@ -239,16 +239,16 @@
 		$message .= '</body></html>';
 		return mail($to, $subject, $message, $headers);
 	}
-	function email_admin_contact_alert($fname, $lname, $email, $subject, $body, $user_ip, $user_id){
+	function email_admin_contact_alert($fname, $lname, $email, $user_subject, $body, $user_ip, $user_id){
 		global $configs;
 
-		$subject = "Contact Request Received - {$configs['DOMAIN']} - $subject";
+		$subject = "Contact Request Received - {$configs['DOMAIN']} - $user_subject";
 		$message = "<h2>A contact request was received on {$configs['DOMAIN']}.</h2>";
 		$message .= "<div>Name:<pre>$fname $lname</pre><div>";
 		$message .= "<div>Email:<pre>$email</pre><div>";
 		$message .= "<div>IP:<pre>$user_ip</pre><div>";
-		$message .= "<div>Is Registered:<pre>$user_id</pre><div>";
-		$message .= "<div>Subject:<pre>$subject</pre><div>";
+		$message .= "<div>Is Registered:<pre>".($user_id?:'0')."</pre><div>";
+		$message .= "<div>Subject:<pre>$user_subject</pre><div>";
 		$message .= "<div>Body:<pre>$body</pre><div>";
 		return email($configs['ADMIN_EMAIL'], $subject, $message);
 	}
