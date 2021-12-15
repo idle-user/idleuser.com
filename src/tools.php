@@ -28,6 +28,12 @@
 		return $response->isSuccess();
 	}
 	function get_ip(){
+
+		# check cloudflare
+		if (isset($_SERVER['HTTP_CF_CONNECTING_IP'])){
+			return $_SERVER['HTTP_CF_CONNECTING_IP'];
+		}
+
 		if(!empty($_SERVER['HTTP_CLIENT_IP'])){
 			$ip = $_SERVER['HTTP_CLIENT_IP'];
 		} else if(!empty($_SERVER['HTTP_X_FORWARDED_FOR'])){
@@ -232,6 +238,19 @@
 		$message .= '</div>';
 		$message .= '</body></html>';
 		return mail($to, $subject, $message, $headers);
+	}
+	function email_admin_contact_alert($fname, $lname, $email, $subject, $body, $user_ip, $user_id){
+		global $configs;
+
+		$subject = "Contact Request Received - {$configs['DOMAIN']} - $subject";
+		$message = "<h2>A contact request was received on {$configs['DOMAIN']}.</h2>";
+		$message .= "<div>Name:<pre>$fname $lname</pre><div>";
+		$message .= "<div>Email:<pre>$email</pre><div>";
+		$message .= "<div>IP:<pre>$user_ip</pre><div>";
+		$message .= "<div>Is Registered:<pre>$user_id</pre><div>";
+		$message .= "<div>Subject:<pre>$subject</pre><div>";
+		$message .= "<div>Body:<pre>$body</pre><div>";
+		return email($configs['ADMIN_EMAIL'], $subject, $message);
 	}
 	function email_reset_password_token($to, $username, $token){
 		global $configs;
