@@ -53,7 +53,7 @@
                     <a class="nav-link dropdown-toggle" href="#" id="accountDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?php echo $_SESSION['username'] ?></a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="accountDropdown">
                         <?php if($_SESSION['access']>1) { ?>
-                            <a class="dropdown-item" href="/fancyadmin/">Admin</a>
+                            <a class="dropdown-item" href="/admin/">Admin</a>
                         <?php } ?>
                         <a class="dropdown-item" href="/account/">Settings</a>
                         <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">Logout</a>
