@@ -324,7 +324,7 @@
 			$route = false;
 			$userUpdate = false;
 
-			if(isset($_POST['api-update'])){
+			if(isset($_POST['auth-token-update'])){
 				$method = 'POST';
 				$route = "auth";
 				$userUpdate = true;
