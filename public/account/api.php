@@ -63,7 +63,7 @@ $response = maybe_process_form();
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button class="btn btn-primary" type="submit" name="api-update">New Token</button>
+                <button class="btn btn-primary" type="submit" name="auth-token-update">New Token</button>
               </div>
             </form>
           </div>

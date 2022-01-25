@@ -18,8 +18,9 @@
 	<h2>Enter the Rumble!</h2>
 	<p>
 		Enter a display name, leave a comment for everyone to see, and enter the Royal Rumble Pool!
-		<br/>Signed-in users will have their username prefilled and have a chance at up to <u><b>50 billion</b></u> points per event!
+		<br/>Signed-in users will have their username prefilled and have a chance to win points per event!
 	</p>
+	<p class="small font-italic">Points earned are based off current leaderboard.</p>
 	<form id="entryForm" method="post">
 		<div class="row uniform">
 			<div class="12u row">
