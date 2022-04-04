@@ -33,11 +33,9 @@
 						<li>
 							<span class="opener">Matches</span>
 							<ul>
-								<a href="/projects/matches/matches?season=5">Season 5</a>
-								<a href="/projects/matches/matches?season=4">Season 4</a>
-								<a href="/projects/matches/matches?season=3">Season 3</a>
-								<a href="/projects/matches/matches?season=2">Season 2</a>
-								<a href="/projects/matches/matches?season=1">Season 1</a>
+							<?php foreach($all_seasons as $season) {?>
+								<a href="/projects/matches/matches?season=<?php echo $season['season'];?>">Season <?php echo $season['season']; ?></a>
+							<?php } ?>
 							</ul>
 						</li>
 						<li>
@@ -51,11 +49,9 @@
 						<li>
 							<span class="opener">Leaderboard</span>
 							<ul>
-								<a href="/projects/matches/leaderboard?season=5">Season 5</a>
-								<a href="/projects/matches/leaderboard?season=4">Season 4</a>
-								<a href="/projects/matches/leaderboard?season=3">Season 3</a>
-								<a href="/projects/matches/leaderboard?season=2">Season 2</a>
-								<a href="/projects/matches/leaderboard?season=1">Season 1</a>
+								<?php foreach($all_seasons as $season) {?>
+									<a href="/projects/matches/leaderboard?season=<?php echo $season['season'];?>">Season <?php echo $season['season']; ?></a>
+								<?php } ?>
 							</ul>
 						</li>
 						<li><a href="/projects/matches/FAQs">FAQs</a></li>
@@ -72,7 +68,7 @@
 				<footer id="footer">
 					<p class="copyright">
 						<ul class="alt">
-							<li>&copy; 2017-2021 Jesus Andrade</li>
+							<li>&copy; 2017-2022 Jesus Andrade</li>
 							<li><a href="/privacy-policy">Privacy Policy</a></li>
 							<li>Design: <a href="https://html5up.net">HTML5 UP</a></li>
 						</ul>
