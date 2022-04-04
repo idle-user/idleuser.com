@@ -114,7 +114,7 @@
 
     $event_list = $db->all_events();
     $open_matches = $db->open_matches();
-    $season_matches = $db->s5_matches();
+    $season_matches = $db->s6_matches();
     $superstar_list = $db->all_superstars();
     $matches_base_data = $db->matches_base_data();
     usort($matches_base_data['matches_title'], function($a, $b) {return strcmp($a['name'], $b['name']);});

@@ -6,11 +6,12 @@
 	$matches_today = $db->todays_matches();
 	$matches_bets_open = $db->open_matches();
 	$royalrumbles_open = $db->open_royalrumbles();
+	$all_seasons = $db->all_seasons();
 
 	if($_SESSION['loggedin']){
 		$userStats = $db->user_stats($_SESSION['user_id']);
-		$pointsAvailable = number_format($userStats['s5_available_points']);
-		$pointsTotal = number_format($userStats['s5_total_points']);
+		$pointsAvailable = number_format($userStats['s6_available_points']);
+		$pointsTotal = number_format($userStats['s6_total_points']);
 	}
 
     $default_meta = [

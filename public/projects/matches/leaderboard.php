@@ -6,20 +6,20 @@
 	} else {
 		$season = 0;
 	}
+
 	if($season == 1){
 		$leaderboard = $db->s1_leaderboard();
 	} elseif($season == 2) {
-		$season = 2;
 		$leaderboard = $db->s2_leaderboard();
 	} elseif($season == 3){
-		$season = 3;
 		$leaderboard = $db->s3_leaderboard();
 	} elseif($season == 4){
-		$season = 4;
 		$leaderboard = $db->s4_leaderboard();
-	} else {
-		$season = 5;
+	} elseif($season == 5){
 		$leaderboard = $db->s5_leaderboard();
+	} else {
+		$season = 6;
+		$leaderboard = $db->s6_leaderboard();
 	}
 
 	$meta = [
