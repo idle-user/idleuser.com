@@ -158,7 +158,7 @@
 			"viewport"				=> "width=device-width, initial-scale=1, shrink-to-fit=no",
 			"author"				=> "Jesus Andrade",
 			"description"			=> "",
-			"keywords"				=> "idleuser, fancyjesse, Jesus Andrade, Jesus, Andrade, website, developer, services, programmer, wrestling, poll, database, analyst, discord, projects, watchwrestling, work, background, profile",
+			"keywords"				=> "idleuser, Jesus Andrade, website, developer, services, programmer, wrestling, poll, database, analyst, discord, projects, watchwrestling, work, background, profile, web developer",
 			"og:title"				=> "",
 			"og:description"		=> "",
 			"og:url"				=> "https://$_SERVER[SERVER_NAME]",
