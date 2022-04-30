@@ -40,10 +40,10 @@ class MYSQLHandler{
 
 	// GENERAL
 
-	public function add_web_traffic($user_id, $ip, $uri, $user_agent, $note){
-		$query = 'CALL usp_traffic_ins(?, ?, ?, ?, ?)';
+	public function add_web_traffic($domain, $user_id, $ip, $uri, $user_agent, $note){
+		$query = 'CALL usp_traffic_ins(?, ?, ?, ?, ?, ?)';
 		$stmt = $this->DB_CONN->prepare($query);
-		$stmt->bind_param('sssis', $uri, $user_agent, $ip, $user_id, $note);
+		$stmt->bind_param('ssssis', $domain, $uri, $user_agent, $ip, $user_id, $note);
 		return $stmt->execute();
 	}
 

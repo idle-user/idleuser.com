@@ -48,9 +48,11 @@
 	}
 	function track($note=null){
 		global $db;
+		$domain = $_SERVER['HTTP_HOST'];
+		$request = "$_SERVER[REQUEST_METHOD]  $_SERVER[REQUEST_URI]";
 		$ip = get_ip();
 		$user_agent = get_user_agent();
-		$db->add_web_traffic($_SESSION['user_id'], $ip, $_SERVER['REQUEST_URI'], $user_agent, $note);
+		$db->add_web_traffic($domain, $_SESSION['user_id'], $ip, $request, $user_agent, $note);
 	}
 	function get_direct_to(){
 		return 'redirect_to='.urlencode($_SERVER['REQUEST_URI']);
