@@ -9,7 +9,6 @@ services:
     environment:
       TZ: ${TZ}
     depends_on:
-    - db
     - fpm
     volumes:
     - .:/var/www/web
@@ -26,7 +25,6 @@ services:
       NOREPLY_EMAIL: ${NOREPLY_EMAIL}
       API_URL: ${API_URL}
       API_KEY: ${API_KEY}
-      ADMIN_PASSWORD: ${ADMIN_PASSWORD}
       MYSQL_HOST: ${MYSQL_HOST}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
@@ -37,22 +35,3 @@ services:
       RECAPTCHA_V3_SECRET: ${RECAPTCHA_V3_SECRET}
     volumes:
       - .:/var/www/web
-
-  db:
-    image: mariadb:latest
-    restart: unless-stopped
-    ports:
-    - 4306:3306
-    environment:
-      TZ: America/Los_Angeles
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-    volumes:
-    - db:/var/lib/mysql
-    - ./docker/db/my.cnf:/etc/mysql/conf.d/my.cnf
-    - ./docker/db/init.sql:/docker-entrypoint-initdb.d/db-init.sql
-
-volumes:
-  db: {}
