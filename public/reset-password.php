@@ -31,7 +31,7 @@
 
     $success = $error_message ? 0 : 1;
     $attempted_by = $success ? $user['username'] : '';
-		track("Reset Password Attempt - username:{$attempted_by}; result:{$success}");
+		track("Reset Password Attempt - uname:{$attempted_by}; result:" . $success?:"0");
   }
 
   if($update_attempt && !$error_message){

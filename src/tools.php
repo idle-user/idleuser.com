@@ -46,11 +46,13 @@
 	function get_user_agent(){
 		return isset($_SERVER['HTTP_USER_AGENT'])?$_SERVER['HTTP_USER_AGENT']:'';
 	}
-	function track($action=''){
+	function track($note=null){
 		global $db;
+		$domain = $_SERVER['HTTP_HOST'];
+		$request = "$_SERVER[REQUEST_METHOD]  $_SERVER[REQUEST_URI]";
 		$ip = get_ip();
 		$user_agent = get_user_agent();
-		$db->add_web_traffic($_SESSION['user_id'], $ip, $_SERVER['REQUEST_URI'], $user_agent, $action);
+		$db->add_web_traffic($domain, $_SESSION['user_id'], $ip, $request, $user_agent, $note);
 	}
 	function get_direct_to(){
 		return 'redirect_to='.urlencode($_SERVER['REQUEST_URI']);
@@ -122,19 +124,19 @@
 		global $db;
 		$user = $db->user_register($username, $secret);
 		set_session_values($user);
-		track("Register Attempt - username:{$username}; result:{$_SESSION['loggedin']}");
+		track("Register Attempt - uname:{$username}; result:" . ($_SESSION['loggedin']?:'0'));
 	}
 	function username_login($username, $secret){
 		global $db;
 		$user = $db->username_login($username, $secret);
 		set_session_values($user);
-		track("Login Attempt - username:{$username}; result:{$_SESSION['loggedin']}");
+		track("Login Attempt - uname:{$username}; result:" . ($_SESSION['loggedin']?:'0'));
 	}
 	function email_login($email, $secret){
 		global $db;
 		$user = $db->email_login($email, $secret);
 		set_session_values($user);
-		track("Login Attempt - email:{$email}; result:{$_SESSION['loggedin']}");
+		track("Login Attempt - email:{$email}; result:" . ($_SESSION['loggedin']?:'0'));
 	}
 	function logout(){
 		$uid = $_SESSION['user_id'];
@@ -146,7 +148,7 @@
 			global $db;
 			$user = $db->user_token_login($_GET['login_token']);
 			set_session_values($user);
-			track("Login Token Attempt - result:{$_SESSION['loggedin']}");
+			track("Login Token Attempt - result:" . $_SESSION['loggedin']?:'0');
 			if($_SESSION['loggedin']){
 				maybe_redirect_to();
 			}
@@ -158,7 +160,7 @@
 			"viewport"				=> "width=device-width, initial-scale=1, shrink-to-fit=no",
 			"author"				=> "Jesus Andrade",
 			"description"			=> "",
-			"keywords"				=> "idleuser, fancyjesse, Jesus Andrade, Jesus, Andrade, website, developer, services, programmer, wrestling, poll, database, analyst, discord, projects, watchwrestling, work, background, profile",
+			"keywords"				=> "idleuser, Jesus Andrade, website, developer, services, programmer, wrestling, poll, database, analyst, discord, projects, watchwrestling, work, background, profile, web developer",
 			"og:title"				=> "",
 			"og:description"		=> "",
 			"og:url"				=> "https://$_SERVER[SERVER_NAME]",

@@ -1,0 +1,37 @@
+version: "3.9"
+services:
+
+  web:
+    image: nginx:latest
+    restart: unless-stopped
+    ports:
+    - 4080:80
+    environment:
+      TZ: ${TZ}
+    depends_on:
+    - fpm
+    volumes:
+    - .:/var/www/web
+    - ./docker/web/site.conf:/etc/nginx/conf.d/default.conf
+
+  fpm:
+    build: .
+    restart: unless-stopped
+    environment:
+      TZ: ${TZ}
+      DOMAIN: ${DOMAIN}
+      WEBSITE: ${WEBSITE}
+      ADMIN_EMAIL: ${ADMIN_EMAIL}
+      NOREPLY_EMAIL: ${NOREPLY_EMAIL}
+      API_URL: ${API_URL}
+      API_KEY: ${API_KEY}
+      MYSQL_HOST: ${MYSQL_HOST}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      RECAPTCHA_V2_SITEKEY: ${RECAPTCHA_V2_SITEKEY}
+      RECAPTCHA_V2_SECRET: ${RECAPTCHA_V2_SECRET}
+      RECAPTCHA_V3_SITEKEY: ${RECAPTCHA_V3_SITEKEY}
+      RECAPTCHA_V3_SECRET: ${RECAPTCHA_V3_SECRET}
+    volumes:
+      - .:/var/www/web

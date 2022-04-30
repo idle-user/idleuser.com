@@ -1,5 +1,5 @@
-src/config.php
 vendor/
 public/maintenance_on.html
 .swp
 .htpasswd
+.env
