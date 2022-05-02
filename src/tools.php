@@ -49,7 +49,7 @@
 	function track($note=null){
 		global $db;
 		$domain = $_SERVER['HTTP_HOST'];
-		$request = "$_SERVER[REQUEST_METHOD]  $_SERVER[REQUEST_URI]";
+		$request = "$_SERVER[REQUEST_METHOD] $_SERVER[REQUEST_URI]";
 		$ip = get_ip();
 		$user_agent = get_user_agent();
 		$db->add_web_traffic($domain, $_SESSION['user_id'], $ip, $request, $user_agent, $note);
