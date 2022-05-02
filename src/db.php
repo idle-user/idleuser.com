@@ -97,22 +97,12 @@ class MYSQLHandler{
 		return $result;
 	}
 
-	public function web_traffic_daily(){
-		$query = 'SELECT * FROM uv_web_traffic_general_daily';
-		$data = $this->DB_CONN->query($query);
-		$result = [];
-		while($r = $data->fetch_array(MYSQLI_ASSOC)){
-			$result[$r['date']] = $r;
-		}
-		return $result;
-	}
-
-	public function api_traffic_daily(){
+	public function traffic_daily(){
 		$query = 'SELECT * FROM uv_traffic_general_daily';
 		$data = $this->DB_CONN->query($query);
 		$result = [];
 		while($r = $data->fetch_array(MYSQLI_ASSOC)){
-			$result[$r['date']] = $r;
+			$result[$r['domain']][$r['date']] = $r;
 		}
 		return $result;
 	}
