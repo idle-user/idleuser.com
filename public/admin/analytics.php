@@ -1,4 +1,5 @@
 <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/../src/session.php'; set_last_page(); requires_admin(); ?>
+<?php $domain_traffic = $db->traffic_daily(); ?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -24,30 +25,27 @@
             </div>
         </div>
 
+        <?php $cnt=1;  foreach($domain_traffic as $key=>$value){ ?>
+
         <div class="my-3 p-3 bg-white rounded shadow-sm">
-            <h6 class="border-bottom border-gray pb-2 mb-0">Web Traffic</h6>
+            <h6 class="border-bottom border-gray pb-2 mb-0"><?=$key?> Traffic</h6>
             <div class="media text-muted pt-3">
                 <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
-                    <canvas id="chart-web-traffic" class="chartjs-render-monitor"></canvas>
+                    <canvas id="chart-traffic-<?=$cnt++?>" class="chartjs-render-monitor"></canvas>
                 </p>
             </div>
         </div>
 
-        <div class="my-3 p-3 bg-white rounded shadow-sm">
-            <h6 class="border-bottom border-gray pb-2 mb-0">API Traffic</h6>
-            <div class="media text-muted pt-3">
-                <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
-                    <canvas id="chart-api-traffic" class="chartjs-render-monitor"></canvas>
-                </p>
-            </div>
-        </div>
+        <?php } ?>
 
     </main>
 
 	<?php include '../includes/footer.php'; ?>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.bundle.min.js'></script>
     <script type="text/javascript">
+
         $(document).ready(function() {
+
             var user_data = <?php echo json_encode($db->registered_user_dates()); ?>;
             var user_k = [];
             var user_v = [];
@@ -92,21 +90,23 @@
                 }
             });
 
-            var web_traffic_data = <?php echo json_encode($db->web_traffic_daily()); ?>;
-            var web_traffic_data_k = [];
-            var web_traffic_data_v = [];
-            for (var key in web_traffic_data) {
-                web_traffic_data_k.push(key);
-                web_traffic_data_v.push(web_traffic_data[key]['total_traffic']);
+            <?php $cnt=1;  foreach($domain_traffic as $key=>$data) { ?>
+
+            var traffic<?=$cnt?>_data = <?php echo json_encode($data); ?>;
+            var traffic<?=$cnt?>_data_k = [];
+            var traffic<?=$cnt?>_data_v = [];
+            for (var key in traffic<?=$cnt?>_data) {
+                traffic<?=$cnt?>_data_k.push(key);
+                traffic<?=$cnt?>_data_v.push(traffic<?=$cnt?>_data[key]['total_traffic']);
             }
-            var web_traffic_ctx = $("#chart-web-traffic");
-            var webTrafficChart = new Chart(web_traffic_ctx, {
+            var traffic<?=$cnt?>_ctx = $("#chart-traffic-<?=$cnt?>");
+            var traffic<?=$cnt?>Chart = new Chart(traffic<?=$cnt?>_ctx, {
                 type: 'bar',
                 data: {
-                    labels: web_traffic_data_k.reverse(),
+                    labels: traffic<?=$cnt?>_data_k.reverse(),
                     datasets: [{
-                        data: web_traffic_data_v.reverse(),
-                        label: "Web Traffic",
+                        data: traffic<?=$cnt?>_data_v.reverse(),
+                        label: "<?=$key?> Traffic",
                         borderColor: "#43bac7",
                         backgroundColor: '#43bac7',
                         fill: false
@@ -126,59 +126,17 @@
                     }
                     },
                     scales: {
-                    xAxes: [{
-                        ticks: {
-                            beginAtZero: true,
-                            fixedStepSize: 1
-                        }
-                    }]
-                }
+                        xAxes: [{
+                            ticks: {
+                                beginAtZero: true,
+                                fixedStepSize: 1
+                            }
+                        }]
+                    }
                 }
             });
 
-        var api_traffic_data = <?php echo json_encode($db->api_traffic_daily()); ?>;
-            var api_traffic_data_k = [];
-            var api_traffic_data_v = [];
-            for (var key in api_traffic_data) {
-                api_traffic_data_k.push(key);
-                api_traffic_data_v.push(api_traffic_data[key]['total_traffic']);
-            }
-            var api_traffic_ctx = $("#chart-api-traffic");
-            var apiTrafficChart = new Chart(api_traffic_ctx, {
-                type: 'bar',
-                data: {
-                    labels: api_traffic_data_k.reverse(),
-                    datasets: [{
-                        data: api_traffic_data_v.reverse(),
-                        label: "API Traffic",
-                        borderColor: "#43bac7",
-                        backgroundColor: '#43bac7',
-                        fill: false
-                    }]
-                },
-                options: {
-                    title: {
-                        display: false,
-                        text: ''
-                    },
-                    legend: {
-                    display: false
-                    },
-                    layout: {
-                    padding: {
-                        left: 0
-                    }
-                    },
-                    scales: {
-                    xAxes: [{
-                        ticks: {
-                            beginAtZero: true,
-                            fixedStepSize: 1
-                        }
-                    }]
-                }
-                }
-            });
+            <?php $cnt++; } ?>
 
         });
     </script>
