@@ -1,5 +1,5 @@
 <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/../src/session.php'; set_last_page(); requires_admin(); ?>
-<?php $domain_traffic = $db->traffic_daily(); ?>;
+<?php $domain_traffic = $db->traffic_daily(); ?>
 <!doctype html>
 <html lang="en">
 <head>
