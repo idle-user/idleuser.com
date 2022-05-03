@@ -279,7 +279,7 @@
 		$message .= '</div>';
 		return email($to, $subject, $message);
 	}
-	function api_call($method, $route, $payload){
+	function api_call($method, $route, $payload=null){
 		global $configs;
 
 		$url = $configs['API_URL'] . $route;
@@ -315,10 +315,10 @@
 		 curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 		 curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BEARER);
 		 // EXECUTE:
-		 $result = curl_exec($curl);
-		 if(!$result){die("API Connection Failure");}
+		 $response = curl_exec($curl);
+		 if(!$response){die("API Connection Failure");}
 		 curl_close($curl);
-		 return $result;
+		 return json_decode($response, true);
 	}
 	function maybe_process_form(){
 		if($_SERVER['REQUEST_METHOD'] === 'POST'){
@@ -369,7 +369,7 @@
 				if($userUpdate){
 					refresh_session_values();
 				}
-				return json_decode($response, true);
+				return $response;
 			}
 		}
 		return false;
