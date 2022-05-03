@@ -110,7 +110,7 @@ class MYSQLHandler{
 	// USER
 
 	public function all_recent_users(){
-		$query = 'SELECT id, username, discord_id, chatango_id, date_created FROM user ORDER BY date_created DESC';
+		$query = 'SELECT id, username, discord_id, chatango_id, date_created FROM uv_user ORDER BY date_created DESC';
 		$data = $this->DB_CONN->query($query);
 		$result = [];
 		while($r = $data->fetch_array(MYSQLI_ASSOC)){
