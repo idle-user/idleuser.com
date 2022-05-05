@@ -1,29 +1,25 @@
 <?php
 	function get_recaptchaV2_sitekey(){
-		global $configs;
-		return $configs['RECAPTCHA_V2_SITEKEY'];
+		return getenv('RECAPTCHA_V2_SITEKEY');
 	}
 	function get_recaptchaV3_sitekey(){
-		global $configs;
-		return $configs['RECAPTCHA_V3_SITEKEY'];
+		return getenv('RECAPTCHA_V3_SITEKEY');
 	}
 	function validate_recaptchaV2(){
-		global $configs;
 		require_once $_SERVER['DOCUMENT_ROOT'] . '/../vendor/google/recaptcha/src/autoload.php';
 		if (!isset($_POST['g-recaptcha-response'])) {
 			throw new \Exception('ReCaptcha is not set.');
 		}
-		$recaptcha = new \ReCaptcha\ReCaptcha($configs['RECAPTCHA_V2_SECRET'], new \ReCaptcha\RequestMethod\CurlPost());
+		$recaptcha = new \ReCaptcha\ReCaptcha(getenv('RECAPTCHA_V2_SECRET'), new \ReCaptcha\RequestMethod\CurlPost());
 		$response = $recaptcha->verify($_POST['g-recaptcha-response'], $_SERVER['REMOTE_ADDR']);
 		return $response->isSuccess();
 	}
 	function validate_recaptchaV3(){
-		global $configs;
 		require_once $_SERVER['DOCUMENT_ROOT'] . '/../vendor/google/recaptcha/src/autoload.php';
 		if (!isset($_POST['g-recaptcha-response'])) {
 			throw new \Exception('ReCaptcha is not set.');
 		}
-		$recaptcha = new \ReCaptcha\ReCaptcha($configs['RECAPTCHA_V3_SECRET'], new \ReCaptcha\RequestMethod\CurlPost());
+		$recaptcha = new \ReCaptcha\ReCaptcha(getenv('RECAPTCHA_V3_SECRET'), new \ReCaptcha\RequestMethod\CurlPost());
 		$response = $recaptcha->verify($_POST['g-recaptcha-response'], $_SERVER['REMOTE_ADDR']);
 		return $response->isSuccess();
 	}
@@ -221,11 +217,10 @@
 		EOD;
 	}
 	function email($to, $subject, $content){
-		global $configs;
-
+		$noreply_email = getenv('NOREPLY_EMAIL');
 		$headers = array(
-			'From: ' . $configs['NO-REPLY_EMAIL'],
-			'Reply-To: ' . $configs['NO-REPLY_EMAIL'],
+			'From: ' . $noreply_email,
+			'Reply-To: ' . $noreply_email,
 			'MIME-Version: 1.0',
 			'Content-type:text/html;charset=UTF-8',
 			'X-Mailer: PHP/' . phpversion(),
@@ -242,47 +237,43 @@
 		return mail($to, $subject, $message, $headers);
 	}
 	function email_admin_contact_alert($fname, $lname, $email, $user_subject, $body, $user_ip, $user_id){
-		global $configs;
-
-		$subject = "Contact Request Received - {$configs['DOMAIN']} - $user_subject";
-		$message = "<h2>A contact request was received on {$configs['DOMAIN']}.</h2>";
+		$domain = getenv('DOMAIN');
+		$subject = "Contact Request Received - {$domain} - $user_subject";
+		$message = "<h2>A contact request was received on {$domain}.</h2>";
 		$message .= "<div>Name:<pre>$fname $lname</pre><div>";
 		$message .= "<div>Email:<pre>$email</pre><div>";
 		$message .= "<div>IP:<pre>$user_ip</pre><div>";
 		$message .= "<div>Is Registered:<pre>".($user_id?:'0')."</pre><div>";
 		$message .= "<div>Subject:<pre>$user_subject</pre><div>";
 		$message .= "<div>Body:<pre>$body</pre><div>";
-		return email($configs['ADMIN_EMAIL'], $subject, $message);
+		return email(getenv('ADMIN_EMAIL'), $subject, $message);
 	}
 	function email_reset_password_token($to, $username, $token){
-		global $configs;
-
+		$website = getenv('WEBSITE');
+		$domain = getenv('DOMAIN');
 		$subject = 'Password Reset Request';
-		$reset_url = "{$configs['WEBSITE']}reset-password?reset_token={$token}";
+		$reset_url = "{$website}reset-password?reset_token={$token}";
 		$message = "<h2>Hello, {$username}!</h2>";
 		$message .= '<div><p>';
-		$message .= "Someone requested to reset your {$configs['DOMAIN']} account password. If it wasn't you, please ignore this email and no changes will be made to your account. However, if you have requested to reset your password, please click the link below. You will be redirected to the {$configs['DOMAIN']} password reset form.";
+		$message .= "Someone requested to reset your {$domain} account password. If it wasn't you, please ignore this email and no changes will be made to your account. However, if you have requested to reset your password, please click the link below. You will be redirected to the {$domain} password reset form.";
 		$message .= '</p></div>';
 		$message .= "<a href='{$reset_url}'>Click here to reset your password</a>";
 		return email($to, $subject, $message);
 	}
 	function email_username($to, $username){
-		global $configs;
-
+		$website = getenv('WEBSITE');
 		$subject = 'Username Recovery Request';
 		$message = '<h2>Hello there!</h2>';
 		$message .= '<div>';
 		$message .= '<p>Forgot your username? No worries, it happens.</p>';
 		$message .= '<p>Here is your username:</p>';
-		$message .= "<a href='{$configs['WEBSITE']}/login'><strong>{$username}</strong></a>";
+		$message .= "<a href='{$website}/login'><strong>{$username}</strong></a>";
 		$message .= "<p style='padding-top:15px;'>If you didn't request to recover your username, you can safely ignore this email.</p>";
 		$message .= '</div>';
 		return email($to, $subject, $message);
 	}
 	function api_call($method, $route, $payload=null){
-		global $configs;
-
-		$url = $configs['API_URL'] . $route;
+		$url = getenv('API_URL') . $route;
 		$curl = curl_init();
 		switch ($method){
 			case "POST":

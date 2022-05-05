@@ -2,16 +2,13 @@
 	ini_set('error_reporting', E_ALL);
 	ini_set('session.cookie_lifetime', 3600 * 24 * 7);
 	ini_set('session.gc-maxlifetime', 3600 * 24 * 7);
+	date_default_timezone_set(getenv('TZ') ?? date_default_timezone_get());
 	session_start();
 
-	require_once 'config.php';
 	require_once 'db.php';
 	require_once 'tools.php';
 
-	date_default_timezone_set($configs['TIMEZONE']);
-
-	$db = new MYSQLHandler($configs);
-	$db->connect();
+	$db = new MYSQLHandler();
 
 	if(!isset($_SESSION['loggedin'])){
 		$_SESSION['loggedin'] = false;

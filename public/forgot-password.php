@@ -45,7 +45,7 @@
     "viewport" => "width=device-width, initial-scale=1, user-scalable=no",
     "keywords" => "account, login, register, logout, forgot password",
     "og:title" => "IdleUser - Forgot Password",
-    "og:description" => "Recover your " . $configs['DOMAIN'] . " account"
+    "og:description" => "Recover your " . getenv('DOMAIN') . " account"
     ];
     echo page_meta($meta);
   ?>
