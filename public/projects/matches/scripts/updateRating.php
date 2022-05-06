@@ -1,5 +1,5 @@
 <?php
-	require_once $_SERVER['DOCUMENT_ROOT'] . '/../src/session.php';
+	require_once getenv('APP_PATH') . '/src/session.php';
 	if (empty($_POST['match_id']) || empty($_POST['rating']) || empty($_SESSION['user_id'])) {
 		echo 'error';
 		header("Location: /projects/matches");

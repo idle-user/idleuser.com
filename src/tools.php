@@ -6,7 +6,7 @@
 		return getenv('RECAPTCHA_V3_SITEKEY');
 	}
 	function validate_recaptchaV2(){
-		require_once $_SERVER['DOCUMENT_ROOT'] . '/../vendor/google/recaptcha/src/autoload.php';
+		require_once getenv('APP_PATH') . '/vendor/google/recaptcha/src/autoload.php';
 		if (!isset($_POST['g-recaptcha-response'])) {
 			throw new \Exception('ReCaptcha is not set.');
 		}
@@ -15,7 +15,7 @@
 		return $response->isSuccess();
 	}
 	function validate_recaptchaV3(){
-		require_once $_SERVER['DOCUMENT_ROOT'] . '/../vendor/google/recaptcha/src/autoload.php';
+		require_once getenv('APP_PATH') . '/vendor/google/recaptcha/src/autoload.php';
 		if (!isset($_POST['g-recaptcha-response'])) {
 			throw new \Exception('ReCaptcha is not set.');
 		}

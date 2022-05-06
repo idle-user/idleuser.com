@@ -1,5 +1,5 @@
 <?php
-	require_once $_SERVER['DOCUMENT_ROOT'] . '/../src/session.php';
+	require_once getenv('APP_PATH') . '/src/session.php';
 
 	$meta = [
 		"keywords" => "FAQ, watchwrestling, WWE, AEW, NJPW, ROH, IMPACT, wrestling, bet, points, fjbot, chatroom, streams, watch online, wrestling discord, discord",

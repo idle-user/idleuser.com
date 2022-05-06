@@ -1,4 +1,4 @@
-<?php require_once $_SERVER['DOCUMENT_ROOT'] . '/../src/session.php'; set_last_page(); requires_admin(); ?>
+<?php require_once getenv('APP_PATH') . '/src/session.php'; set_last_page(); requires_admin(); ?>
 <?php $domain_traffic = $db->traffic_daily(); ?>
 <!doctype html>
 <html lang="en">
@@ -40,7 +40,7 @@
 
     </main>
 
-	<?php include '../includes/footer.php'; ?>
+	<?php include getenv('APP_PATH') . '/public/includes/footer.php'; ?>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.bundle.min.js'></script>
     <script type="text/javascript">
 

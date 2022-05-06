@@ -1,5 +1,5 @@
 <?php
-  require_once $_SERVER['DOCUMENT_ROOT'] . '/../src/session.php';
+  require_once getenv('APP_PATH') . '/src/session.php';
   if($_SESSION['loggedin']){
     echo 'Already logged in. Redirecting back.';
     redirect(1);

@@ -1,5 +1,5 @@
 <?php
-	require_once $_SERVER['DOCUMENT_ROOT'] . '/../src/session.php';
+	require_once getenv('APP_PATH') . '/src/session.php';
 
 	if(!isset($_GET['brand_id']) || empty($_GET['brand_id']))
 		$brand_id = 1;

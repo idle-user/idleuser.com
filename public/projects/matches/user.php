@@ -1,5 +1,5 @@
 <?php
-	require_once $_SERVER['DOCUMENT_ROOT'] . '/../src/session.php';
+	require_once getenv('APP_PATH') . '/src/session.php';
 
 	if(isset($_GET['user_id']) && !empty($_GET['user_id'])){
 		$user_id = htmlspecialchars($_GET['user_id']);

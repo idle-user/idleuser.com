@@ -1,5 +1,5 @@
 <?php
-	require_once $_SERVER['DOCUMENT_ROOT'] . '/../src/session.php';
+	require_once getenv('APP_PATH') . '/src/session.php';
 	set_last_page();
 
 	$response = maybe_process_form();

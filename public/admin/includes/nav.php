@@ -1,4 +1,4 @@
-<?php include '../includes/nav.php'; ?>
+<?php include getenv('APP_PATH') . '/public/includes/nav.php'; ?>
 
 
 <nav class="nav nav-underline bg-white shadow-sm">

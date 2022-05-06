@@ -1,5 +1,5 @@
 <?php
-  require_once $_SERVER['DOCUMENT_ROOT'] . '/../src/session.php';
+  require_once getenv('APP_PATH') . '/src/session.php';
 
   $topic_id = isset($_GET['id'])?$_GET['id']:false;
   $poll = $db->poll_info($topic_id);

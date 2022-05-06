@@ -1,4 +1,4 @@
-<?php require_once $_SERVER['DOCUMENT_ROOT'] . '/../src/session.php'; set_last_page(); requires_admin(); ?>
+<?php require_once getenv('APP_PATH') . '/src/session.php'; set_last_page(); requires_admin(); ?>
 <?php
 
     $is_success = false;
@@ -199,7 +199,7 @@
 
     </main>
 
-    <?php include'../includes/footer.php'; ?>
+    <?php getenv('APP_PATH') . '/public/includes/footer.php'; ?>
 
 </body>
 </html>
