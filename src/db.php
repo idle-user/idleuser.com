@@ -4,14 +4,9 @@ class MYSQLHandler{
 	protected $db;
 
 	public function __construct(){
-		$this->connect();
-	}
-
-	public function connect(){
 		$this->db = new mysqli(getenv('MYSQL_HOST'), getenv('MYSQL_USER'), getenv('MYSQL_PASSWORD'), getenv('MYSQL_DATABASE'));
 		mysqli_set_charset($this->db, 'utf8');
-		return !$this->db->connect_errno;
-	}
+		return !$this->db->connect_errno;	}
 
 	public function close(){
 		return $this->db->close();
