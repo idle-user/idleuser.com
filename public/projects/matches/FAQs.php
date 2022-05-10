@@ -96,7 +96,7 @@
 </section>
 <hr class="major" />
 <?php
-	if(!$_SESSION['profile']['id']){
+	if(!$_SESSION['loggedin']){
 		echo "<p>I also see you're not registered. Please register and take a look around</p>";
 	} else {
 		echo '<p><b>Thanks for registering, '.$_SESSION['profile']['username'].'!</b></p>';

@@ -1,7 +1,6 @@
 <?php
 	require_once getenv('APP_PATH') . '/src/session.php';
-	if (empty($_POST['match_id']) || empty($_POST['rating']) || empty($_SESSION['profile']['id'])) {
-		echo 'error';
+	if (empty($_POST['match_id']) || empty($_POST['rating']) || !$_SESSION['loggedin']) {
 		header("Location: /projects/matches");
 		exit();
 	}

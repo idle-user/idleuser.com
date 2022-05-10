@@ -1,7 +1,6 @@
 <?php
 	require_once getenv('APP_PATH') . '/src/session.php';
-	if (empty($_POST['superstarID']) || empty($_SESSION['profile']['id'])) {
-		error_log('Error updateFavorite - '.$_POST['superstarID'].' - '.$_SESSION['profile']['id']);
+	if (empty($_POST['superstarID']) || !$_SESSION['loggedin']) {
 		header("Location: /projects/matches");
 		exit();
 	}
