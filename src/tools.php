@@ -8,25 +8,16 @@
 		$response = $recaptcha->verify($_POST['g-recaptcha-response'], $_SERVER['REMOTE_ADDR']);
 		return $response->isSuccess();
 	}
-	function validate_recaptchaV3(){
-		require_once getenv('APP_PATH') . '/vendor/google/recaptcha/src/autoload.php';
-		if (!isset($_POST['g-recaptcha-response'])) {
-			throw new \Exception('ReCaptcha is not set.');
-		}
-		$recaptcha = new \ReCaptcha\ReCaptcha(getenv('RECAPTCHA_V3_SECRET'), new \ReCaptcha\RequestMethod\CurlPost());
-		$response = $recaptcha->verify($_POST['g-recaptcha-response'], $_SERVER['REMOTE_ADDR']);
-		return $response->isSuccess();
-	}
 	function get_ip(){
-
+		// print_r($_SERVER);
 		# check cloudflare
-		if (isset($_SERVER['HTTP_CF_CONNECTING_IP'])){
-			return $_SERVER['HTTP_CF_CONNECTING_IP'];
-		}
+		if(isset($_SERVER['HTTP_CF_CONNECTING_IP'])) return $_SERVER['HTTP_CF_CONNECTING_IP'];
 
-		if(!empty($_SERVER['HTTP_CLIENT_IP'])){
+		if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
 			$ip = $_SERVER['HTTP_CLIENT_IP'];
-		} else if(!empty($_SERVER['HTTP_X_FORWARDED_FOR'])){
+		} elseif (!empty($_SERVER['HTTP_X_REAL_IP'])) {
+			$ip = $_SERVER['HTTP_X_REAL_IP'];
+		} elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
 			$ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
 		} else {
 			$ip = $_SERVER['REMOTE_ADDR'];
