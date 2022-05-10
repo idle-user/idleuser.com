@@ -68,7 +68,7 @@
 
       <?php if(!$submit_attempt || $error_message) { ?>
         <div class="form-label-group">
-          <input type="username" id="inputUsername" class="form-control" placeholder="Username" name="username" <?php if($_SESSION['loggedin']){ echo "value='{$_SESSION['profile']['username']}' readonly"; }?>>
+          <input type="username" id="inputUsername" class="form-control" placeholder="Username" name="username" <?php if($_SESSION['loggedin']){ echo "value='{$_SESSION['username']}' readonly"; }?>>
           <label for="inputUsername">Username</label>
         </div>
       <?php } ?>
@@ -93,7 +93,7 @@
     <?php if(!$submit_attempt || $error_message) { ?>
       <div class="form-row">
         <div class="col-md-8 mb-3">
-          <div class="g-recaptcha" data-callback="recaptchaCallback" data-expired-callback="expiredRecaptchaCallback" data-sitekey="<?php echo get_recaptchav2_sitekey() ?>" id="recaptchaDiv"></div>
+          <div class="g-recaptcha" data-callback="recaptchaCallback" data-expired-callback="expiredRecaptchaCallback" data-sitekey="<?= getenv('RECAPTCHA_V2_SITEKEY') ?>" id="recaptchaDiv"></div>
         </div>
         <div class="col-md-4 mb-3">
           <button class="btn btn-lg btn-primary float-right" type="submit" id="recaptchaSubmitBtn">Send</button>

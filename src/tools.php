@@ -1,10 +1,4 @@
 <?php
-	function get_recaptchaV2_sitekey(){
-		return getenv('RECAPTCHA_V2_SITEKEY');
-	}
-	function get_recaptchaV3_sitekey(){
-		return getenv('RECAPTCHA_V3_SITEKEY');
-	}
 	function validate_recaptchaV2(){
 		require_once getenv('APP_PATH') . '/vendor/google/recaptcha/src/autoload.php';
 		if (!isset($_POST['g-recaptcha-response'])) {

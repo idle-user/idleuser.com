@@ -76,15 +76,6 @@ class MYSQLHandler{
 		return $result;
 	}
 
-	public function user_info($id){
-		$query = 'SELECT * FROM user WHERE id=?';
-		$stmt = $this->db->prepare($query);
-		$stmt->bind_param('i', $id);
-		$stmt->execute();
-		$user = $stmt->get_result()->fetch_array(MYSQLI_ASSOC);
-		return $user;
-	}
-
 	public function username_info($username){
 		$query = 'SELECT * FROM user WHERE username=?';
 		$stmt = $this->db->prepare($query);
@@ -119,19 +110,6 @@ class MYSQLHandler{
 		$stmt->bind_param('si', $token, $user_id);
 		if($stmt->execute()){
 			return $token;
-		}
-		return false;
-	}
-
-	public function user_reset_password($user_id, $token, $secret){
-		$query = 'UPDATE user SET secret=?, secret_last_updated=NOW(), temp_secret_exp=NOW() WHERE id=? AND temp_secret=? AND temp_secret_exp>NOW()';
-		$stmt = $this->db->prepare($query);
-		$hash = password_hash($secret, PASSWORD_BCRYPT);
-		$stmt->bind_param('sis', $hash, $user_id, $token);
-		$stmt->execute();
-		if($stmt->affected_rows == 1){
-			$user_info = $this->user_info($user_id);
-			return $user_info;
 		}
 		return false;
 	}

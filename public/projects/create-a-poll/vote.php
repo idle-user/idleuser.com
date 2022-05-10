@@ -129,7 +129,7 @@
             <?php if(!$_SESSION['loggedin'] && !$already_voted) { ?>
             <div class="form-group row">
               <div class="col-sm-12">
-                <div class="g-recaptcha" style="text-align: center; display: inline-block;" data-callback="recaptchaCallback" data-expired-callback="expiredRecaptchaCallback" data-sitekey="<?php echo get_recaptchav2_sitekey() ?>" id="recaptchaDiv"></div>
+                <div class="g-recaptcha" style="text-align: center; display: inline-block;" data-callback="recaptchaCallback" data-expired-callback="expiredRecaptchaCallback" data-sitekey="<?= getenv('RECAPTCHA_V2_SITEKEY') ?>" id="recaptchaDiv"></div>
               </div>
             </div>
           <?php } ?>

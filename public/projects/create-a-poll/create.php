@@ -156,7 +156,7 @@
           <?php if(!$_SESSION['loggedin']) { ?>
             <div class="form-group row">
               <div class="col-sm-10">
-                <div class="g-recaptcha" data-callback="recaptchaCallback" data-expired-callback="expiredRecaptchaCallback" data-sitekey="<?php echo get_recaptchav2_sitekey() ?>" id="recaptchaDiv"></div>
+                <div class="g-recaptcha" data-callback="recaptchaCallback" data-expired-callback="expiredRecaptchaCallback" data-sitekey="<?= getenv('RECAPTCHA_V2_SITEKEY') ?>" id="recaptchaDiv"></div>
               </div>
             </div>
           <?php } ?>

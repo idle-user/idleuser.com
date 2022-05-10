@@ -122,7 +122,7 @@
       <div class="form-row">
         <div class="col-md-8 mb-3">
           <?php if(!$_SESSION['loggedin']) { ?>
-            <div class="g-recaptcha" data-callback="recaptchaCallback" data-expired-callback="expiredRecaptchaCallback" data-sitekey="<?php echo get_recaptchav2_sitekey() ?>" id="recaptchaDiv"></div>
+            <div class="g-recaptcha" data-callback="recaptchaCallback" data-expired-callback="expiredRecaptchaCallback" data-sitekey="<?= getenv('RECAPTCHA_V2_SITEKEY') ?>" id="recaptchaDiv"></div>
           <?php } ?>
         </div>
         <div class="col-md-4 mb-3">
