@@ -1,5 +1,5 @@
 <?php
-  require_once $_SERVER['DOCUMENT_ROOT'] . '/../src/session.php';
+  require_once getenv('APP_PATH') . '/src/session.php';
   set_last_page();
 
   $topic_value = isset($_POST['topic'])?$_POST['topic']:false;
@@ -24,7 +24,7 @@
     }
     $expire_value = date('Y-m-d H:i:s', $now_dt);
 
-    $topic_id = $db->add_poll_topic($topic_value, $allowMulti_value, $hideVote_value, $_SESSION['user_id'], $expire_value);
+    $topic_id = $db->add_poll_topic($topic_value, $allowMulti_value, $hideVote_value, $_SESSION['profile']['id'], $expire_value);
     if($topic_id){
       foreach($item_value_list as $item){
         if(empty($item))
@@ -156,7 +156,7 @@
           <?php if(!$_SESSION['loggedin']) { ?>
             <div class="form-group row">
               <div class="col-sm-10">
-                <div class="g-recaptcha" data-callback="recaptchaCallback" data-expired-callback="expiredRecaptchaCallback" data-sitekey="<?php echo get_recaptchav2_sitekey() ?>" id="recaptchaDiv"></div>
+                <div class="g-recaptcha" data-callback="recaptchaCallback" data-expired-callback="expiredRecaptchaCallback" data-sitekey="<?= getenv('RECAPTCHA_V2_SITEKEY') ?>" id="recaptchaDiv"></div>
               </div>
             </div>
           <?php } ?>

@@ -1,5 +1,5 @@
 <?php
-	require_once $_SERVER['DOCUMENT_ROOT'] . '/../src/session.php'; set_last_page();
+	require_once getenv('APP_PATH') . '/src/session.php'; set_last_page();
 
   if(!isset($_GET['reset_token'])){
 		redirect(0, '/forgot-password');

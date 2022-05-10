@@ -1,5 +1,5 @@
 <?php
-	require_once $_SERVER['DOCUMENT_ROOT'] . '/../src/session.php';
+	require_once getenv('APP_PATH') . '/src/session.php';
 	if($_SERVER['REQUEST_METHOD'] != 'POST'){
 		header("Location: /projects/led-vote");
 		exit();

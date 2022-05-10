@@ -1,4 +1,4 @@
-<?php require_once $_SERVER['DOCUMENT_ROOT'] . '/../src/session.php'; set_last_page(); requires_admin(); ?>
+<?php require_once getenv('APP_PATH') . '/src/session.php'; set_last_page(); requires_admin(); ?>
 <?php
     $open_matches = array_slice($db->open_matches(), 0, 5);
     $recent_match_updates = array_slice($db->all_matches_recently_updated(), 0, 5);
@@ -134,7 +134,7 @@
 
     </main>
 
-	<?php include '../includes/footer.php'; ?>
+	<?php include getenv('APP_PATH') . '/public/includes/footer.php'; ?>
 </body>
 
 

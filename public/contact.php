@@ -1,5 +1,5 @@
 <?php
-  require_once $_SERVER['DOCUMENT_ROOT'] . '/../src/session.php';
+  require_once getenv('APP_PATH') . '/src/session.php';
 
   $is_success = false;
   $alert_message = false;
@@ -16,10 +16,10 @@
 
     if($recaptcha_check){
       $user_ip = get_ip();
-      $is_success = $db->add_web_contact($fname, $lname, $email, $subject, $body, $user_ip, $_SESSION['user_id']);
+      $is_success = $db->add_web_contact($fname, $lname, $email, $subject, $body, $user_ip, $_SESSION['profile']['id']);
       if($is_success){
         $alert_message = "Contact information sent!<br/>Will get back to you when possible.";
-        email_admin_contact_alert($fname, $lname, $email, $subject, $body, $user_ip, $_SESSION['user_id']);
+        email_admin_contact_alert($fname, $lname, $email, $subject, $body, $user_ip, $_SESSION['profile']['id']);
       } else {
         $alert_message = "Failed to send contact information<br/>Please try contacting me through Twitter or Discord.";
       }
@@ -54,7 +54,7 @@
     "viewport" => "width=device-width, initial-scale=1, user-scalable=no",
     "keywords" => "contact, contact me, feedback, account, login, register, logout",
     "og:title" => "IdleUser - Contact",
-    "og:description" => "Contact page for " . $configs['DOMAIN']
+    "og:description" => "Contact page for " . getenv('DOMAIN')
     ];
     echo page_meta($meta);
   ?>
@@ -122,7 +122,7 @@
       <div class="form-row">
         <div class="col-md-8 mb-3">
           <?php if(!$_SESSION['loggedin']) { ?>
-            <div class="g-recaptcha" data-callback="recaptchaCallback" data-expired-callback="expiredRecaptchaCallback" data-sitekey="<?php echo get_recaptchav2_sitekey() ?>" id="recaptchaDiv"></div>
+            <div class="g-recaptcha" data-callback="recaptchaCallback" data-expired-callback="expiredRecaptchaCallback" data-sitekey="<?= getenv('RECAPTCHA_V2_SITEKEY') ?>" id="recaptchaDiv"></div>
           <?php } ?>
         </div>
         <div class="col-md-4 mb-3">

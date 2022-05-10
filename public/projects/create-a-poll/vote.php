@@ -1,5 +1,5 @@
 <?php
-  require_once $_SERVER['DOCUMENT_ROOT'] . '/../src/session.php';
+  require_once getenv('APP_PATH') . '/src/session.php';
 
   $topic_id = isset($_GET['id'])?$_GET['id']:false;
   $poll = $db->poll_info($topic_id);
@@ -13,7 +13,7 @@
   }
   if($_SESSION['loggedin']){
     $_SESSION['poll_votes'] = [];
-    $polls_voted_on = $db->polls_user_votes($_SESSION['user_id']);
+    $polls_voted_on = $db->polls_user_votes($_SESSION['profile']['id']);
     foreach($polls_voted_on as $vote){
       $_SESSION['poll_votes'][$vote['topic_id']][] = $vote['item_id'];
     }
@@ -28,7 +28,7 @@
 
   if($vote_attempt && !$already_voted && !$poll_expired){
     foreach($item_value_list as $item){
-      $vote_id = $db->add_poll_vote($topic_id, $item, $_SESSION['user_id']);
+      $vote_id = $db->add_poll_vote($topic_id, $item, $_SESSION['profile']['id']);
       if($vote_id){
         $_SESSION['poll_votes'][$topic_id][] = $item;
         $already_voted = true;
@@ -61,7 +61,6 @@
 	<link rel="shortcut icon" href="/assets/images/favicon.ico">
   <link rel="manifest" href="/assets/images/site.webmanifest">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-  <link href="/assets/fontawesome-free-5.14.0-web/css/all.css" rel="stylesheet">
   <link rel="stylesheet" href="assets/custom.css">
 
   <?php
@@ -91,7 +90,7 @@
       <div class="pb-4 small container col-md-4">
         <label class="form-control-label" for="share_poll">Share this poll</label>
         <div class="input-group shadow input-group-sm">
-          <input class="form-control form-control-sm" id="share_poll" value="https://<?php echo $configs['DOMAIN'].$_SERVER['REQUEST_URI']; ?>" type="text">
+          <input class="form-control form-control-sm" id="share_poll" value="https://<?php echo getenv('DOMAIN').$_SERVER['REQUEST_URI']; ?>" type="text">
           <button class="btn btn-sm btn-secondary" data-clipboard-target="#share_poll" title="Copy URL" ><i class="fas fa-clipboard"></i></button>
         </div>
       </div>
@@ -130,7 +129,7 @@
             <?php if(!$_SESSION['loggedin'] && !$already_voted) { ?>
             <div class="form-group row">
               <div class="col-sm-12">
-                <div class="g-recaptcha" style="text-align: center; display: inline-block;" data-callback="recaptchaCallback" data-expired-callback="expiredRecaptchaCallback" data-sitekey="<?php echo get_recaptchav2_sitekey() ?>" id="recaptchaDiv"></div>
+                <div class="g-recaptcha" style="text-align: center; display: inline-block;" data-callback="recaptchaCallback" data-expired-callback="expiredRecaptchaCallback" data-sitekey="<?= getenv('RECAPTCHA_V2_SITEKEY') ?>" id="recaptchaDiv"></div>
               </div>
             </div>
           <?php } ?>

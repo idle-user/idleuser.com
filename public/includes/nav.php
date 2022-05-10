@@ -50,9 +50,9 @@
         <?php if($_SESSION['loggedin']){ ?>
             <ul class="navbar-nav">
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="accountDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?php echo $_SESSION['username'] ?></a>
+                    <a class="nav-link dropdown-toggle" href="#" id="accountDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?php echo $_SESSION['profile']['username'] ?></a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="accountDropdown">
-                        <?php if($_SESSION['access']>1) { ?>
+                        <?php if($_SESSION['profile']['access']>1) { ?>
                             <a class="dropdown-item" href="/admin/">Admin</a>
                         <?php } ?>
                         <a class="dropdown-item" href="/account/">Settings</a>
@@ -66,12 +66,12 @@
     </div>
 </nav>
 
-
+<?php if($_SESSION['loggedin']){ ?>
 <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-            <h5 class="modal-title" id="logoutModalLabel">Logout of account: <?php echo $_SESSION['username'] ?>?</h5>
+            <h5 class="modal-title" id="logoutModalLabel">Logout of account: <?php echo $_SESSION['profile']['username'] ?>?</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -86,3 +86,4 @@
         </div>
     </div>
 </div>
+<?php } ?>

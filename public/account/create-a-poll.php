@@ -1,4 +1,4 @@
-<?php 	require_once $_SERVER['DOCUMENT_ROOT'] . '/../src/session.php';  set_last_page();
+<?php 	require_once getenv('APP_PATH') . '/src/session.php';  set_last_page();
 
 if(!$_SESSION['loggedin']){
     redirect(0, '/login');
@@ -36,7 +36,7 @@ if(!$_SESSION['loggedin']){
                 </thead>
                 <tbody>
                 <?php
-                  $poll_list = $db->all_user_polls($_SESSION['user_id']);
+                  $poll_list = $db->all_user_polls($_SESSION['profile']['id']);
                   if(empty($poll_list)){
                     echo '<p>No active polls found.</p>';
                   } else {

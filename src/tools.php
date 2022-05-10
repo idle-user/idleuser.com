@@ -1,42 +1,23 @@
 <?php
-	function get_recaptchaV2_sitekey(){
-		global $configs;
-		return $configs['RECAPTCHA_V2_SITEKEY'];
-	}
-	function get_recaptchaV3_sitekey(){
-		global $configs;
-		return $configs['RECAPTCHA_V3_SITEKEY'];
-	}
 	function validate_recaptchaV2(){
-		global $configs;
-		require_once $_SERVER['DOCUMENT_ROOT'] . '/../vendor/google/recaptcha/src/autoload.php';
+		require_once getenv('APP_PATH') . '/vendor/google/recaptcha/src/autoload.php';
 		if (!isset($_POST['g-recaptcha-response'])) {
 			throw new \Exception('ReCaptcha is not set.');
 		}
-		$recaptcha = new \ReCaptcha\ReCaptcha($configs['RECAPTCHA_V2_SECRET'], new \ReCaptcha\RequestMethod\CurlPost());
-		$response = $recaptcha->verify($_POST['g-recaptcha-response'], $_SERVER['REMOTE_ADDR']);
-		return $response->isSuccess();
-	}
-	function validate_recaptchaV3(){
-		global $configs;
-		require_once $_SERVER['DOCUMENT_ROOT'] . '/../vendor/google/recaptcha/src/autoload.php';
-		if (!isset($_POST['g-recaptcha-response'])) {
-			throw new \Exception('ReCaptcha is not set.');
-		}
-		$recaptcha = new \ReCaptcha\ReCaptcha($configs['RECAPTCHA_V3_SECRET'], new \ReCaptcha\RequestMethod\CurlPost());
+		$recaptcha = new \ReCaptcha\ReCaptcha(getenv('RECAPTCHA_V2_SECRET'), new \ReCaptcha\RequestMethod\CurlPost());
 		$response = $recaptcha->verify($_POST['g-recaptcha-response'], $_SERVER['REMOTE_ADDR']);
 		return $response->isSuccess();
 	}
 	function get_ip(){
-
+		// print_r($_SERVER);
 		# check cloudflare
-		if (isset($_SERVER['HTTP_CF_CONNECTING_IP'])){
-			return $_SERVER['HTTP_CF_CONNECTING_IP'];
-		}
+		if(isset($_SERVER['HTTP_CF_CONNECTING_IP'])) return $_SERVER['HTTP_CF_CONNECTING_IP'];
 
-		if(!empty($_SERVER['HTTP_CLIENT_IP'])){
+		if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
 			$ip = $_SERVER['HTTP_CLIENT_IP'];
-		} else if(!empty($_SERVER['HTTP_X_FORWARDED_FOR'])){
+		} elseif (!empty($_SERVER['HTTP_X_REAL_IP'])) {
+			$ip = $_SERVER['HTTP_X_REAL_IP'];
+		} elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
 			$ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
 		} else {
 			$ip = $_SERVER['REMOTE_ADDR'];
@@ -50,9 +31,10 @@
 		global $db;
 		$domain = $_SERVER['HTTP_HOST'];
 		$request = "$_SERVER[REQUEST_METHOD] $_SERVER[REQUEST_URI]";
+		$user_id = $_SESSION['profile']['id'] ?? 0;
 		$ip = get_ip();
 		$user_agent = get_user_agent();
-		$db->add_web_traffic($domain, $_SESSION['user_id'], $ip, $request, $user_agent, $note);
+		$db->add_web_traffic($domain, $user_id, $ip, $request, $user_agent, $note);
 	}
 	function get_direct_to(){
 		return 'redirect_to='.urlencode($_SERVER['REQUEST_URI']);
@@ -80,7 +62,7 @@
 	}
 	function get_last_page(){
 		if(!isset($_SESSION['last_page'])){
-			$_SESSION['last_page'] = '/';
+			$_SESSION['last_page'] = $_SESSION['loggedin'] ? '/account' : '/';
 		}
         return $_SESSION['last_page'];
 	}
@@ -94,60 +76,21 @@
 			redirect(0, '/login');
 			exit();
 		}
-		if($_SESSION['access'] < 2){
+		if($_SESSION['profile']['access'] < 2){
 			redirect(0, '/403.php');
 			exit();
 		}
 	}
-	function set_session_values($user){
-		global $db;
-		if($user){
-			$_SESSION['loggedin'] = true;
-			$_SESSION['user_id'] = $user['id'];
-			$_SESSION['username'] = $user['username'];
-			$_SESSION['access'] = $user['access'];
-			$auth = $db->auth_by_user_id($user['id']);
-			if(!$auth){
-				$token = $db->add_auth_token($user['id']);
-				$auth = $db->auth_by_token($token);
-			}
-			$_SESSION['auth_token'] = bin2hex($auth['auth_token']);
-			$_SESSION['auth_token_exp'] = $auth['auth_token_exp'];
-		}
-	}
-	function refresh_session_values(){
-		global $db;
-		$user = $db->user_info($_SESSION['user_id']);
-		set_session_values($user);
-	}
-	function register($username, $secret){
-		global $db;
-		$user = $db->user_register($username, $secret);
-		set_session_values($user);
-		track("Register Attempt - uname:{$username}; result:" . ($_SESSION['loggedin']?:'0'));
-	}
-	function username_login($username, $secret){
-		global $db;
-		$user = $db->username_login($username, $secret);
-		set_session_values($user);
-		track("Login Attempt - uname:{$username}; result:" . ($_SESSION['loggedin']?:'0'));
-	}
-	function email_login($email, $secret){
-		global $db;
-		$user = $db->email_login($email, $secret);
-		set_session_values($user);
-		track("Login Attempt - email:{$email}; result:" . ($_SESSION['loggedin']?:'0'));
-	}
 	function logout(){
-		$uid = $_SESSION['user_id'];
+		$uid = $_SESSION['profile']['id'];
+		// unset($_SESSION['profile']);
+		// $_SESSION['loggedin'] = false;
 		session_destroy();
 		track("Logout - uid:$uid");
 	}
 	function login_token_check(){
 		if(isset($_GET['login_token'])){
-			global $db;
-			$user = $db->user_token_login($_GET['login_token']);
-			set_session_values($user);
+			api_call('POST', $_GET['login_token']);
 			track("Login Token Attempt - result:" . $_SESSION['loggedin']?:'0');
 			if($_SESSION['loggedin']){
 				maybe_redirect_to();
@@ -221,11 +164,10 @@
 		EOD;
 	}
 	function email($to, $subject, $content){
-		global $configs;
-
+		$noreply_email = getenv('NOREPLY_EMAIL');
 		$headers = array(
-			'From: ' . $configs['NO-REPLY_EMAIL'],
-			'Reply-To: ' . $configs['NO-REPLY_EMAIL'],
+			'From: ' . $noreply_email,
+			'Reply-To: ' . $noreply_email,
 			'MIME-Version: 1.0',
 			'Content-type:text/html;charset=UTF-8',
 			'X-Mailer: PHP/' . phpversion(),
@@ -242,47 +184,43 @@
 		return mail($to, $subject, $message, $headers);
 	}
 	function email_admin_contact_alert($fname, $lname, $email, $user_subject, $body, $user_ip, $user_id){
-		global $configs;
-
-		$subject = "Contact Request Received - {$configs['DOMAIN']} - $user_subject";
-		$message = "<h2>A contact request was received on {$configs['DOMAIN']}.</h2>";
+		$domain = getenv('DOMAIN');
+		$subject = "Contact Request Received - {$domain} - $user_subject";
+		$message = "<h2>A contact request was received on {$domain}.</h2>";
 		$message .= "<div>Name:<pre>$fname $lname</pre><div>";
 		$message .= "<div>Email:<pre>$email</pre><div>";
 		$message .= "<div>IP:<pre>$user_ip</pre><div>";
 		$message .= "<div>Is Registered:<pre>".($user_id?:'0')."</pre><div>";
 		$message .= "<div>Subject:<pre>$user_subject</pre><div>";
 		$message .= "<div>Body:<pre>$body</pre><div>";
-		return email($configs['ADMIN_EMAIL'], $subject, $message);
+		return email(getenv('ADMIN_EMAIL'), $subject, $message);
 	}
 	function email_reset_password_token($to, $username, $token){
-		global $configs;
-
+		$website = getenv('WEBSITE');
+		$domain = getenv('DOMAIN');
 		$subject = 'Password Reset Request';
-		$reset_url = "{$configs['WEBSITE']}reset-password?reset_token={$token}";
+		$reset_url = "{$website}reset-password?reset_token={$token}";
 		$message = "<h2>Hello, {$username}!</h2>";
 		$message .= '<div><p>';
-		$message .= "Someone requested to reset your {$configs['DOMAIN']} account password. If it wasn't you, please ignore this email and no changes will be made to your account. However, if you have requested to reset your password, please click the link below. You will be redirected to the {$configs['DOMAIN']} password reset form.";
+		$message .= "Someone requested to reset your {$domain} account password. If it wasn't you, please ignore this email and no changes will be made to your account. However, if you have requested to reset your password, please click the link below. You will be redirected to the {$domain} password reset form.";
 		$message .= '</p></div>';
 		$message .= "<a href='{$reset_url}'>Click here to reset your password</a>";
 		return email($to, $subject, $message);
 	}
 	function email_username($to, $username){
-		global $configs;
-
+		$website = getenv('WEBSITE');
 		$subject = 'Username Recovery Request';
 		$message = '<h2>Hello there!</h2>';
 		$message .= '<div>';
 		$message .= '<p>Forgot your username? No worries, it happens.</p>';
 		$message .= '<p>Here is your username:</p>';
-		$message .= "<a href='{$configs['WEBSITE']}/login'><strong>{$username}</strong></a>";
+		$message .= "<a href='{$website}/login'><strong>{$username}</strong></a>";
 		$message .= "<p style='padding-top:15px;'>If you didn't request to recover your username, you can safely ignore this email.</p>";
 		$message .= '</div>';
 		return email($to, $subject, $message);
 	}
 	function api_call($method, $route, $payload=null){
-		global $configs;
-
-		$url = $configs['API_URL'] . $route;
+		$url = getenv('API_URL') . $route;
 		$curl = curl_init();
 		switch ($method){
 			case "POST":
@@ -308,9 +246,9 @@
 		 curl_setopt($curl, CURLOPT_URL, $url);
 		 curl_setopt($curl, CURLOPT_USERAGENT, get_user_agent());
 		 curl_setopt($curl, CURLOPT_HTTPHEADER, array(
-			'Authorization: Bearer '.$_SESSION['auth_token'],
+			$_SESSION['loggedin'] ? 'Authorization: Bearer ' . $_SESSION['profile']['auth_token'] : '',
 			'Content-Type: application/json',
-			'X-Forwarded-For: '.get_ip(),
+			'X-Forwarded-For: ' . get_ip(),
 		 ));
 		 curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 		 curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BEARER);
@@ -326,7 +264,25 @@
 			$route = false;
 			$userUpdate = false;
 
-			if(isset($_POST['auth-token-update'])){
+			if(isset($_POST['login'])){
+				$method = 'POST';
+				$route = "users/login";
+				$userUpdate = true;
+			}
+
+			elseif(isset($_POST['login_token'])){
+				$method = 'GET';
+				$route = "users/login/token";
+				$userUpdate = true;
+			}
+
+			elseif(isset($_POST['register'])){
+				$method = 'POST';
+				$route = "users/register";
+				$userUpdate = true;
+			}
+
+			elseif(isset($_POST['auth-token-update'])){
 				$method = 'POST';
 				$route = "auth";
 				$userUpdate = true;
@@ -334,40 +290,45 @@
 
 			elseif(isset($_POST['username-update'])){
 				$method = 'PATCH';
-				$route = "users/{$_SESSION['user_id']}/username";
+				$route = "users/{$_SESSION['profile']['id']}/username";
 				$userUpdate = true;
 			}
 
 			elseif(isset($_POST['email-update'])){
 				$method = 'PATCH';
-				$route = "users/{$_SESSION['user_id']}/email";
+				$route = "users/{$_SESSION['profile']['id']}/email";
+				$userUpdate = true;
 			}
 
 			elseif(isset($_POST['discord-update'])){
 				$method = 'PATCH';
-				$route = "users/{$_SESSION['user_id']}/discord";
+				$route = "users/{$_SESSION['profile']['id']}/discord";
+				$userUpdate = true;
 			}
 
 			elseif(isset($_POST['chatango-update'])){
 				$method = 'PATCH';
-				$route = "users/{$_SESSION['user_id']}/chatango";
+				$route = "users/{$_SESSION['profile']['id']}/chatango";
+				$userUpdate = true;
 			}
 
 			elseif(isset($_POST['twitter-update'])){
 				$method = 'PATCH';
-				$route = "users/{$_SESSION['user_id']}/twitter";
+				$route = "users/{$_SESSION['profile']['id']}/twitter";
+				$userUpdate = true;
 			}
 
 			elseif(isset($_POST['royalrumble-entry-add'])){
 				$method = 'POST';
 				$route = "watchwrestling/royalrumbles/{$_POST['royalrumble_id']}";
-				$_POST['user_id'] = $_SESSION['user_id'];
+				$_POST['user_id'] = $_SESSION['profile']['id'];
 			}
 
 			if($method && $route){
 				$response = api_call($method, $route, json_encode($_POST));
-				if($userUpdate){
-					refresh_session_values();
+				if($userUpdate && $response['statusCode']===200){
+					// session_start();
+					$_SESSION['profile'] = array_replace($_SESSION['profile']?? array(), $response['data']);
 				}
 				return $response;
 			}

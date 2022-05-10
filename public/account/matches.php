@@ -1,5 +1,5 @@
 <?php
-    require_once $_SERVER['DOCUMENT_ROOT'] . '/../src/session.php'; set_last_page();
+    require_once getenv('APP_PATH') . '/src/session.php'; set_last_page();
 
     if(!$_SESSION['loggedin']){
         redirect(0, '/login');
@@ -10,8 +10,8 @@
         $season_id = htmlspecialchars($_GET['season']);
     }
 
-    $stats = $db->user_season_stats($_SESSION['user_id'], $season_id);
-    $bets = $db->user_season_bets($_SESSION['user_id'], $season_id);
+    $stats = $db->user_season_stats($_SESSION['profile']['id'], $season_id);
+    $bets = $db->user_season_bets($_SESSION['profile']['id'], $season_id);
 
 ?>
 <!doctype html>

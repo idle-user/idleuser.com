@@ -1,5 +1,5 @@
 <?php
-	require_once $_SERVER['DOCUMENT_ROOT'] . '/../src/session.php';
+	require_once getenv('APP_PATH') . '/src/session.php';
 
 	$submit_attempt = false;
   $error_message = false;
@@ -45,7 +45,7 @@
     "viewport" => "width=device-width, initial-scale=1, user-scalable=no",
     "keywords" => "account, login, register, logout, forgot password",
     "og:title" => "IdleUser - Forgot Password",
-    "og:description" => "Recover your " . $configs['DOMAIN'] . " account"
+    "og:description" => "Recover your " . getenv('DOMAIN') . " account"
     ];
     echo page_meta($meta);
   ?>
@@ -93,7 +93,7 @@
     <?php if(!$submit_attempt || $error_message) { ?>
       <div class="form-row">
         <div class="col-md-8 mb-3">
-          <div class="g-recaptcha" data-callback="recaptchaCallback" data-expired-callback="expiredRecaptchaCallback" data-sitekey="<?php echo get_recaptchav2_sitekey() ?>" id="recaptchaDiv"></div>
+          <div class="g-recaptcha" data-callback="recaptchaCallback" data-expired-callback="expiredRecaptchaCallback" data-sitekey="<?= getenv('RECAPTCHA_V2_SITEKEY') ?>" id="recaptchaDiv"></div>
         </div>
         <div class="col-md-4 mb-3">
           <button class="btn btn-lg btn-primary float-right" type="submit" id="recaptchaSubmitBtn">Send</button>

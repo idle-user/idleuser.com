@@ -1,4 +1,4 @@
-<?php require_once $_SERVER['DOCUMENT_ROOT'] . '/../src/session.php'; set_last_page(); ?>
+<?php require_once getenv('APP_PATH') . '/src/session.php'; set_last_page(); ?>
 <!doctype html>
 <html lang="en">
 <head>

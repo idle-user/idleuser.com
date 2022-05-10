@@ -1,5 +1,5 @@
 <?php
-  require_once $_SERVER['DOCUMENT_ROOT'] . '/../src/session.php';
+  require_once getenv('APP_PATH') . '/src/session.php';
   if(!$_SESSION['loggedin']){
     echo 'You must be logged in to access this.';
     redirect(1);
@@ -56,7 +56,7 @@
 
         <?php
           $poll_list_limit = 6;
-          $poll_list = $db->polls_user_most_recent($_SESSION['user_id']);
+          $poll_list = $db->polls_user_most_recent($_SESSION['profile']['id']);
           $poll_list = array_slice($poll_list, 0, $poll_list_limit);
           if(empty($poll_list)){
             echo '<p class="card-body">No active polls found.</p>';
@@ -93,7 +93,7 @@
 
         <?php
           $poll_list_limit = 6;
-          $poll_list = $db->polls_user_most_recent($_SESSION['user_id']);
+          $poll_list = $db->polls_user_most_recent($_SESSION['profile']['id']);
           $poll_list = array_slice($poll_list, 0, $poll_list_limit);
           if(empty($poll_list)){
             echo '<p class="card-body">No active polls found.</p>';
@@ -130,7 +130,7 @@
 
         <?php
           $poll_list_limit = 30;
-          $poll_list = $db->polls_user_expired($_SESSION['user_id']);
+          $poll_list = $db->polls_user_expired($_SESSION['profile']['id']);
           $poll_list = array_slice($poll_list, 0, $poll_list_limit);
           if(empty($poll_list)){  ?>
             <div class="card-body">

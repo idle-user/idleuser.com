@@ -1,4 +1,4 @@
-<?php require_once $_SERVER['DOCUMENT_ROOT'] . '/../src/session.php'; set_last_page(); requires_admin(); ?>
+<?php require_once getenv('APP_PATH') . '/src/session.php'; set_last_page(); requires_admin(); ?>
 <?php
     $is_success = false;
     $alert_message = false;
@@ -54,14 +54,14 @@
 
         if(isset($_POST['contestants']) && count($_POST['contestants'])>0){
             if($new_attempt){
-                $match_id = $db->add_match($event_id, $title_id, $match_type_id, $match_note, $team_won, $winner_note, $bet_open, $_SESSION['user_id']);
+                $match_id = $db->add_match($event_id, $title_id, $match_type_id, $match_note, $team_won, $winner_note, $bet_open, $_SESSION['profile']['id']);
                 $is_success = $match_id?true:false;
                 if(!$is_success){
                     $alert_message = "Failed to add the match. Please contact admin.";
                 }
             } elseif($update_attempt){
                 if($last_updated == $match_info['info_last_updated']){
-                    $is_success = $db->update_match($match_id, $event_id, $title_id, $match_type_id, $match_note, $team_won, $winner_note, $bet_open, $_SESSION['user_id']);
+                    $is_success = $db->update_match($match_id, $event_id, $title_id, $match_type_id, $match_note, $team_won, $winner_note, $bet_open, $_SESSION['profile']['id']);
                     if(!$is_success){
                         $alert_message = "Update failed. Please contact admin.";
                     }
@@ -489,7 +489,7 @@
 
     </main>
 
-    <?php include '../includes/footer.php'; ?>
+    <?php include getenv('APP_PATH') . '/public/includes/footer.php'; ?>
     <script type="text/javascript" src="assets/js/custom.js"></script>
 
 </body>

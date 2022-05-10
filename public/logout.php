@@ -1,5 +1,6 @@
 <?php
-	require_once $_SERVER['DOCUMENT_ROOT'] . '/../src/session.php';
+  ob_start();
+	require_once getenv('APP_PATH') . '/src/session.php';
 	logout();
 	redirect(1);
 ?>
@@ -20,7 +21,7 @@
     "viewport" => "width=device-width, initial-scale=1, user-scalable=no",
     "keywords" => "account, login, register, logout",
     "og:title" => "IdleUser - Logout",
-    "og:description" => "Account logout page for " . $configs['DOMAIN']
+    "og:description" => "Account logout page for " . getenv('DOMAIN')
     ];
     echo page_meta($meta);
   ?>

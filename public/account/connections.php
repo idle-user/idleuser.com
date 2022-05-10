@@ -1,4 +1,4 @@
-<?php 	require_once $_SERVER['DOCUMENT_ROOT'] . '/../src/session.php'; set_last_page();
+<?php 	require_once getenv('APP_PATH') . '/src/session.php'; set_last_page();
 
 
 if(!$_SESSION['loggedin']){
@@ -7,9 +7,6 @@ if(!$_SESSION['loggedin']){
 }
 
 $response = maybe_process_form();
-
-
-$profile = api_call('GET', "users/$_SESSION[user_id]")['data'];
 
 ?>
 <!doctype html>
@@ -29,14 +26,14 @@ $profile = api_call('GET', "users/$_SESSION[user_id]")['data'];
         <h1 class="h2">Connections</h1>
       </div>
 
-      <?php include 'includes/alert.php'; ?>
+      <?php include getenv('APP_PATH') . '/public/includes/alert.php'; ?>
 
       <form method="post">
         <div class="form-group">
           <label for="discordFormControlInput">Discord ID</label>
-          <span class="small text-muted float-right pt-3">Last Updated: <?php echo $profile['discord_last_updated'] ?? 'Never'; ?></span>
+          <span class="small text-muted float-right pt-3">Last Updated: <?= $_SESSION['profile']['discord_last_updated'] ?? 'Never' ?></span>
           <div class="input-group mb-3">
-            <input type="text" class="form-control" id="discordFormControlInput" name="discord_id" value="<?= $profile['discord_id']; ?>">
+            <input type="text" class="form-control" id="discordFormControlInput" name="discord_id" value="<?= $_SESSION['profile']['discord_id'] ?>">
             <div class="input-group-append">
               <input class="btn btn-primary" type="submit" name="discord-update" value="Update">
             </div>
@@ -47,9 +44,9 @@ $profile = api_call('GET', "users/$_SESSION[user_id]")['data'];
       <form method="post">
         <div class="form-group">
           <label for="chatangoFormControlInput">Chatango Username</label>
-          <span class="small text-muted float-right pt-3">Last Updated: <?= $profile['chatango_last_updated'] ?? 'Never'; ?></span>
+          <span class="small text-muted float-right pt-3">Last Updated: <?= $_SESSION['profile']['chatango_last_updated'] ?? 'Never' ?></span>
           <div class="input-group mb-3">
-            <input type="text" class="form-control" id="chatangoFormControlInput" name="chatango_id" value="<?= $profile['chatango_id']; ?>">
+            <input type="text" class="form-control" id="chatangoFormControlInput" name="chatango_id" value="<?= $_SESSION['profile']['chatango_id'] ?>">
             <div class="input-group-append">
               <input class="btn btn-primary" type="submit" name="chatango-update" value="Update">
           </div>
@@ -59,9 +56,9 @@ $profile = api_call('GET', "users/$_SESSION[user_id]")['data'];
       <form method="post" class="mb-3">
         <div class="form-group">
           <label for="twitterFormControlInput">Twitter ID</label>
-          <span class="small text-muted float-right pt-3">Last Updated: <?= $profile['twitter_last_updated'] ?? 'Never'; ?></span>
+          <span class="small text-muted float-right pt-3">Last Updated: <?= $_SESSION['profile']['twitter_last_updated'] ?? 'Never' ?></span>
           <div class="input-group mb-3">
-            <input type="text" class="form-control" id="twitterFormControlInput" name="twitter_id" value="<?= $profile['twitter_id']; ?>">
+            <input type="text" class="form-control" id="twitterFormControlInput" name="twitter_id" value="<?= $_SESSION['profile']['twitter_id'] ?>">
             <div class="input-group-append">
               <input class="btn btn-primary" type="submit" name="twitter-update" value="Update">
             </div>

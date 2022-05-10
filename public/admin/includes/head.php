@@ -11,7 +11,7 @@
 <?php
     $meta = [
         "og:title" => $title,
-        "og:description" => "Admin page for " . $configs['DOMAIN']
+        "og:description" => "Admin page for " . getenv('DOMAIN')
     ];
     echo page_meta($meta);
 ?>

@@ -3,13 +3,13 @@
 </header>
 <?php
 	$showPoints = false;
-	if(empty($matches)) {
+	if (empty($matches)) {
 		echo 'NO MATCHES FOUND';
 		return;
 	}
-	if(!isset($user)) {
+	if (!isset($user) && $_SESSION['loggedin']) {
 		$showPoints = count($matches_bets_open);
-		$user['user_id'] = $_SESSION['user_id'];
+		$user['user_id'] = $_SESSION['profile']['id'];
 		$user['username'] = 'You';
 	}
 ?>
@@ -92,10 +92,10 @@
 				<td><center><?php echo number_format($match['total_pot'], 0, '', ',');?></center></td>
 				<td><?php
 				$message = '';
-				if($match['bet_open'] && $user['user_id']==$_SESSION['user_id'] && !$_SESSION['user_id']){
+				if($match['bet_open'] && !isset($user) && !$_SESSION['loggedin']){
 					$message = 'Requires Login';
 				} else {
-					if($user['user_id']){
+					if(isset($user)){
 						if(!isset($user_bets)){
 							$user_bets = $db->user_bets($user['user_id']);
 							$user_ratings = $db->user_match_ratings($user['user_id']);
@@ -111,7 +111,7 @@
 									$message = "<font color='red'>LOSS (-".number_format($user_bet['points'], 0, '', ',').")</font>";
 								$message = "<br/><b>".$message."</b>";
 							}
-							$message = $message."<br/>".($_SESSION['user_id']==$user['user_id']?'You':$user['username'])." placed a ".number_format($user_bet['points'], 0, '', ',')." point bet";
+							$message = $message."<br/>" . $user['username'] . " placed a ".number_format($user_bet['points'], 0, '', ',')." point bet";
 							if($user_bet['team']){
 								$chosen_names = array();
 								foreach($all_contestants[$user_bet['team']] as $t)
@@ -129,11 +129,11 @@
 					}
 					if(!$match['bet_open']){
 						$message = '<b><u>Closed</u></b><br/>'.$message;
-						if($user['user_id']){
-							$message = $message.'<br/><br/><font color="orange">'.($_SESSION['user_id']==$user['user_id']?'Your ':$user['username'].'\'s ').'Match Rating</font><br/>';
+						if(isset($user)){
+							$message = $message.'<br/><br/><font color="orange">'.($user['username']=='You'?'Your ':$user['username'].'\'s ').'Match Rating</font><br/>';
 							$user_rating = array_key_exists($match['id'], $user_ratings)?$user_ratings[$match['id']]['rating']:0;
 							for($star_cnt=1; $star_cnt<6; $star_cnt++){
-								$message = $message.'<span class="fa fa-star'.($user_rating>=$star_cnt?'':'-o').'"'.($_SESSION['user_id']==$user['user_id']?' title="Rate '.$star_cnt.'*" onClick="return updateMatchRating('.$match['id'].','.$star_cnt.')"':'').'></span>';
+								$message = $message.'<span class="fa fa-star'.($user_rating>=$star_cnt?'':'-o').'"'.($user['username']=='You'?' title="Rate '.$star_cnt.'*" onClick="return updateMatchRating('.$match['id'].','.$star_cnt.')"':'').'></span>';
 							}
 						}
 					}

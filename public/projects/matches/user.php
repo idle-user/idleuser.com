@@ -1,10 +1,10 @@
 <?php
-	require_once $_SERVER['DOCUMENT_ROOT'] . '/../src/session.php';
+	require_once getenv('APP_PATH') . '/src/session.php';
 
 	if(isset($_GET['user_id']) && !empty($_GET['user_id'])){
 		$user_id = htmlspecialchars($_GET['user_id']);
-	} else if(isset($_SESSION['user_id']) && !empty($_SESSION['user_id']) ){
-		$user_id = $_SESSION['user_id'];
+	} else if($_SESSION['loggedin']){
+		$user_id = $_SESSION['profile']['id'];
 	} else {
 		$user_id = 1;
 	}
