@@ -31,10 +31,10 @@ $response = maybe_process_form();
       <label for="authTokenInput">Auth Token</label>
       <div>
         <span class="small text-muted">Do not share this.</span>
-        <span class="small text-muted float-right">Expires: <?php echo $_SESSION['auth_token_exp']?></span>
+        <span class="small text-muted float-right">Expires: <?= $_SESSION['profile']['auth_token_exp'] ?></span>
       </div>
       <div class="input-group mb-3">
-        <input type="password" class="form-control" id="authTokenInput" value="<?php echo $_SESSION['auth_token'] ?>" readonly>
+        <input type="password" class="form-control" id="authTokenInput" value="<?= $_SESSION['profile']['auth_token'] ?>" readonly>
         <div class="input-group-append">
           <button class="btn btn-outline-secondary" type="button" id="showHideButton" onclick="showHide()" title='hide password'><i class="fas fa-eye"></i></button>
           <a class="btn btn-outline-primary float-right" type="button" data-toggle="modal" data-target="#newTokenModal" title="New Token"><i class="fas fa-sync"></i></a>
@@ -55,7 +55,7 @@ $response = maybe_process_form();
                 <p>Any applications tied to existing token will need to be updated with the new token.</p></br>
                 <p>Are you sure you want to request a new API Token?</p>
                 <div class="form-label-group">
-                  <input type="username" id="inputUsername" class="form-control" placeholder="Username" name="username" <?php echo "value='{$_SESSION['username']}'";?>  hidden readonly>
+                  <input type="username" id="inputUsername" class="form-control" placeholder="Username" name="username" value="<?= $_SESSION['profile']['username'] ?>"  hidden readonly>
                 </div>
                 <div class="form-label-group">
                   <input type="password" id="inputPassword" class="form-control" placeholder="Confirm Password" name="secret" required autofocus>

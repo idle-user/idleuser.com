@@ -9,7 +9,7 @@
 	$all_seasons = $db->all_seasons();
 
 	if($_SESSION['loggedin']){
-		$userStats = $db->user_stats($_SESSION['user_id']);
+		$userStats = $db->user_stats($_SESSION['profile']['id']);
 		$pointsAvailable = number_format($userStats['s6_available_points']);
 		$pointsTotal = number_format($userStats['s6_total_points']);
 	}

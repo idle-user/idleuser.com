@@ -24,7 +24,7 @@
     }
     $expire_value = date('Y-m-d H:i:s', $now_dt);
 
-    $topic_id = $db->add_poll_topic($topic_value, $allowMulti_value, $hideVote_value, $_SESSION['user_id'], $expire_value);
+    $topic_id = $db->add_poll_topic($topic_value, $allowMulti_value, $hideVote_value, $_SESSION['profile']['id'], $expire_value);
     if($topic_id){
       foreach($item_value_list as $item){
         if(empty($item))

@@ -1,4 +1,5 @@
 <?php
+  ob_start();
   require_once getenv('APP_PATH') . '/src/session.php';
 
   if($_SESSION['loggedin']){
@@ -9,12 +10,8 @@
 
   $response = maybe_process_form();
   $login_attempt = $response ? true : false;
-  $login_successful = $response['statusCode'] ?? 0 === 200;
+  $login_successful = ($response['statusCode'] ?? 0) === 200;
   $successMessage = 'Successfully Logged in.';
-
-  if($_SESSION['loggedin']){
-    redirect(1);
-  }
 
 ?>
 <!doctype html>
@@ -49,7 +46,7 @@
       <div class="text-center mb-4">
         <a href="/"><img class="mb-4" src="/assets/images/favicon-512x512.png" alt="" width="72" height="72"></a>
 
-        <?php if($login_successful){ ?>
+        <?php if($login_successful){ redirect(1); ?>
           <h1 class="h3 mb-3 font-weight-normal">Login Successful</h1>
           <p>Redirecting you ...</p>
           <input type="button" value="Return to previous page" onclick="javascript:history.go(-1)" />

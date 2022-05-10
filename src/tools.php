@@ -46,9 +46,10 @@
 		global $db;
 		$domain = $_SERVER['HTTP_HOST'];
 		$request = "$_SERVER[REQUEST_METHOD] $_SERVER[REQUEST_URI]";
+		$user_id = $_SESSION['profile']['id'] ?? 0;
 		$ip = get_ip();
 		$user_agent = get_user_agent();
-		$db->add_web_traffic($domain, $_SESSION['user_id'], $ip, $request, $user_agent, $note);
+		$db->add_web_traffic($domain, $user_id, $ip, $request, $user_agent, $note);
 	}
 	function get_direct_to(){
 		return 'redirect_to='.urlencode($_SERVER['REQUEST_URI']);
@@ -76,7 +77,7 @@
 	}
 	function get_last_page(){
 		if(!isset($_SESSION['last_page'])){
-			$_SESSION['last_page'] = '/';
+			$_SESSION['last_page'] = $_SESSION['loggedin'] ? '/account' : '/';
 		}
         return $_SESSION['last_page'];
 	}
@@ -90,13 +91,15 @@
 			redirect(0, '/login');
 			exit();
 		}
-		if($_SESSION['access'] < 2){
+		if($_SESSION['profile']['access'] < 2){
 			redirect(0, '/403.php');
 			exit();
 		}
 	}
 	function logout(){
-		$uid = $_SESSION['user_id'];
+		$uid = $_SESSION['profile']['id'];
+		// unset($_SESSION['profile']);
+		// $_SESSION['loggedin'] = false;
 		session_destroy();
 		track("Logout - uid:$uid");
 	}
@@ -258,7 +261,7 @@
 		 curl_setopt($curl, CURLOPT_URL, $url);
 		 curl_setopt($curl, CURLOPT_USERAGENT, get_user_agent());
 		 curl_setopt($curl, CURLOPT_HTTPHEADER, array(
-			'Authorization: Bearer ' . $_SESSION['auth_token'],
+			$_SESSION['loggedin'] ? 'Authorization: Bearer ' . $_SESSION['profile']['auth_token'] : '',
 			'Content-Type: application/json',
 			'X-Forwarded-For: ' . get_ip(),
 		 ));
@@ -302,47 +305,45 @@
 
 			elseif(isset($_POST['username-update'])){
 				$method = 'PATCH';
-				$route = "users/{$_SESSION['user_id']}/username";
+				$route = "users/{$_SESSION['profile']['id']}/username";
 				$userUpdate = true;
 			}
 
 			elseif(isset($_POST['email-update'])){
 				$method = 'PATCH';
-				$route = "users/{$_SESSION['user_id']}/email";
+				$route = "users/{$_SESSION['profile']['id']}/email";
+				$userUpdate = true;
 			}
 
 			elseif(isset($_POST['discord-update'])){
 				$method = 'PATCH';
-				$route = "users/{$_SESSION['user_id']}/discord";
+				$route = "users/{$_SESSION['profile']['id']}/discord";
+				$userUpdate = true;
 			}
 
 			elseif(isset($_POST['chatango-update'])){
 				$method = 'PATCH';
-				$route = "users/{$_SESSION['user_id']}/chatango";
+				$route = "users/{$_SESSION['profile']['id']}/chatango";
+				$userUpdate = true;
 			}
 
 			elseif(isset($_POST['twitter-update'])){
 				$method = 'PATCH';
-				$route = "users/{$_SESSION['user_id']}/twitter";
+				$route = "users/{$_SESSION['profile']['id']}/twitter";
+				$userUpdate = true;
 			}
 
 			elseif(isset($_POST['royalrumble-entry-add'])){
 				$method = 'POST';
 				$route = "watchwrestling/royalrumbles/{$_POST['royalrumble_id']}";
-				$_POST['user_id'] = $_SESSION['user_id'];
+				$_POST['user_id'] = $_SESSION['profile']['id'];
 			}
 
 			if($method && $route){
 				$response = api_call($method, $route, json_encode($_POST));
 				if($userUpdate && $response['statusCode']===200){
-					session_start();
-					$data = $response['data'];
-					$_SESSION['loggedin'] = true;
-					$_SESSION['user_id'] = $data['id'];
-					$_SESSION['username'] = $data['username'];
-					$_SESSION['access'] = $data['access'];
-					$_SESSION['auth_token'] = $data['auth_token'];
-					$_SESSION['auth_token_exp'] = $data['auth_token_exp'];
+					// session_start();
+					$_SESSION['profile'] = array_replace($_SESSION['profile']?? array(), $response['data']);
 				}
 				return $response;
 			}

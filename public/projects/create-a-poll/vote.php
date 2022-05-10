@@ -13,7 +13,7 @@
   }
   if($_SESSION['loggedin']){
     $_SESSION['poll_votes'] = [];
-    $polls_voted_on = $db->polls_user_votes($_SESSION['user_id']);
+    $polls_voted_on = $db->polls_user_votes($_SESSION['profile']['id']);
     foreach($polls_voted_on as $vote){
       $_SESSION['poll_votes'][$vote['topic_id']][] = $vote['item_id'];
     }
@@ -28,7 +28,7 @@
 
   if($vote_attempt && !$already_voted && !$poll_expired){
     foreach($item_value_list as $item){
-      $vote_id = $db->add_poll_vote($topic_id, $item, $_SESSION['user_id']);
+      $vote_id = $db->add_poll_vote($topic_id, $item, $_SESSION['profile']['id']);
       if($vote_id){
         $_SESSION['poll_votes'][$topic_id][] = $item;
         $already_voted = true;

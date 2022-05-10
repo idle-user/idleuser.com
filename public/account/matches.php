@@ -10,8 +10,8 @@
         $season_id = htmlspecialchars($_GET['season']);
     }
 
-    $stats = $db->user_season_stats($_SESSION['user_id'], $season_id);
-    $bets = $db->user_season_bets($_SESSION['user_id'], $season_id);
+    $stats = $db->user_season_stats($_SESSION['profile']['id'], $season_id);
+    $bets = $db->user_season_bets($_SESSION['profile']['id'], $season_id);
 
 ?>
 <!doctype html>

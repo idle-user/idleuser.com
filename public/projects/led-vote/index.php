@@ -165,7 +165,7 @@
 	<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
 	<script src="assets/js/main.js"></script>
 	<script type="text/javascript">
-		var user_id = <?php echo $_SESSION['user_id']?:'0'; ?>;
+		var user_id = <?php echo $_SESSION['profile']['id']?:'0'; ?>;
 		var ledSelectList = document.getElementById('led_select');
 		var userVotesTable = document.getElementById('user_votes_table');
 		var totalVotesTable = document.getElementById('total_votes_table');
@@ -280,7 +280,7 @@
 			});
 		}
 	<?php	if($_SESSION['loggedin']){ ?>
-		notifier.innerHTML="Welcome back, <?php echo $_SESSION['username']; ?>.";
+		notifier.innerHTML="Welcome back, <?php echo $_SESSION['profile']['username']; ?>.";
 		$("#entry_div").hide();
 	<?php } ?>
 		updateTables();

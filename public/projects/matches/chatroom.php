@@ -6,7 +6,7 @@
 <div class="table-wrapper">
 	<div align="center">
 		<h2>Join our Discord!</h2>
-		<iframe src="https://discordapp.com/widget?id=361689774723170304&theme=dark&username=<?php echo $_SESSION['username']; ?>" width="350" height="500" allowtransparency="true" frameborder="0"></iframe>
+		<iframe src="https://discordapp.com/widget?id=361689774723170304&theme=dark&username=<?php echo $_SESSION['profile']['username']; ?>" width="350" height="500" allowtransparency="true" frameborder="0"></iframe>
 	</div>
 	<table cellspacing="0" cellpadding="10">
 		<tr>
@@ -20,7 +20,7 @@
 		</tr>
 		<tr>
 			<td>
-			<?php if($_SESSION['user_id']){
+			<?php if($_SESSION['profile']['id']){
 				echo '<textarea id="entry" placeholder="Message..." maxlength="255"></textarea>';
 			}else {
 				echo '<textarea id="entry" placeholder="Requires Login" maxlength="255" disabled="true"></textarea>';

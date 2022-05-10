@@ -4,8 +4,8 @@
 		exit();
 	}
 	require_once getenv('APP_PATH') . '/src/session.php';
-	if($_SESSION['user_id']){
-		$success = $db->chatroom_send_message($_SESSION['user_id'], $_POST['message']);
+	if($_SESSION['profile']['id']){
+		$success = $db->chatroom_send_message($_SESSION['profile']['id'], $_POST['message']);
 	} else {
 		$success = false;
 	}

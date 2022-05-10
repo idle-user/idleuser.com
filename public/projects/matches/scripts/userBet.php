@@ -1,6 +1,6 @@
 <?php
 	require_once getenv('APP_PATH') . '/src/session.php';
-	if (empty($_POST['match_id']) || empty($_POST['superstar']) || !isset($_POST['bet']) || empty($_SESSION['user_id'])) {
+	if (empty($_POST['match_id']) || empty($_POST['superstar']) || !isset($_POST['bet']) || empty($_SESSION['profile']['id'])) {
 		echo 'error';
 		header("Location: /projects/matches");
 		exit();
@@ -13,7 +13,7 @@
 		$response['message'] = "Nice try.";
 	} else {
 		$match = $db->match($_POST['match_id']);
-		$user = $db->user_stats($_SESSION['user_id']);
+		$user = $db->user_stats($_SESSION['profile']['id']);
 		if(!$match['bet_open']){
 			$response['message'] = "Open bets for this match are closed.";
 		} else if($user['s6_available_points'] < $_POST['bet']){
@@ -31,7 +31,7 @@
 				}
 				if(!$superstar_info || !$team){
 					$response['message'] = "Unable to find necessary information for ".$_POST['superstar'];
-				} else if($db->add_user_bet($_SESSION['user_id'], $_POST['match_id'], $team, $_POST['bet'])){
+				} else if($db->add_user_bet($_SESSION['profile']['id'], $_POST['match_id'], $team, $_POST['bet'])){
 					$response['message'] = number_format($_POST['bet'])." point bet placed on ".$_POST['superstar'].". Good luck!";
 					$response['success'] = true;
 				} else {

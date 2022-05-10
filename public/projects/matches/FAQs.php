@@ -96,10 +96,10 @@
 </section>
 <hr class="major" />
 <?php
-	if(!$_SESSION['user_id']){
+	if(!$_SESSION['profile']['id']){
 		echo "<p>I also see you're not registered. Please register and take a look around</p>";
 	} else {
-		echo '<p><b>Thanks for registering, '.$_SESSION['username'].'!</b></p>';
+		echo '<p><b>Thanks for registering, '.$_SESSION['profile']['username'].'!</b></p>';
 		echo "<p>Hope you stick around :)</p>";
 	}
 ?>

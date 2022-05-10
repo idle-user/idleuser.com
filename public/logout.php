@@ -1,4 +1,5 @@
 <?php
+  ob_start();
 	require_once getenv('APP_PATH') . '/src/session.php';
 	logout();
 	redirect(1);

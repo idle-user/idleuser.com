@@ -10,14 +10,7 @@
 
 	$db = new MYSQLHandler();
 
-	if(!isset($_SESSION['loggedin'])){
-		$_SESSION['loggedin'] = false;
-		$_SESSION['user_id'] = null;
-		$_SESSION['username'] = null;
-		$_SESSION['access'] = 1;
-		$_SESSION['auth_token'] = false;
-		$_SESSION['auth_token_exp'] = false;
-	}
+	$_SESSION['loggedin'] = isset($_SESSION['profile']);
 
 	login_token_check();
 	track();

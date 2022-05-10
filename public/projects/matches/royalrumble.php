@@ -26,7 +26,7 @@
 			<div class="12u row">
 				<div class="4u">
 					<label for="entry_username">Display Name</label>
-					<input type="text" name="display_name" id="entry_username" maxlength="20" placeholder="required" <?php if($_SESSION['username']){ echo 'value="'.$_SESSION['username'].'" readonly="readonly"'; } ?> required />
+					<input type="text" name="display_name" id="entry_username" maxlength="20" placeholder="required" <?php if($_SESSION['profile']['username']){ echo 'value="'.$_SESSION['profile']['username'].'" readonly="readonly"'; } ?> required />
 				</div>
 				<div class="6u">
 					<label for="entry_comment">Comment</label>

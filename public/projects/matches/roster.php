@@ -28,7 +28,7 @@
 				<th>Weight</th>
 				<th>Hometown</th>
 				<th>DOB</th>
-				<?php if($_SESSION['user_id']) echo '<th>Favorite</tr>'; ?>
+				<?php if($_SESSION['profile']['id']) echo '<th>Favorite</tr>'; ?>
 			</tr>
 		</thead>
 		<tbody>
@@ -39,7 +39,7 @@
 				<td><?php echo $superstar['weight']; ?></td>
 				<td><?php echo $superstar['hometown']; ?></td>
 				<td><?php echo $superstar['dob']; ?></td>
-				<?php if($_SESSION['user_id']) echo '<td><button type="button" onclick="updateFavorite('.$superstar['id'].')">Favorite</button></td>'; ?>
+				<?php if($_SESSION['profile']['id']) echo '<td><button type="button" onclick="updateFavorite('.$superstar['id'].')">Favorite</button></td>'; ?>
 			</tr>
 	<?php } ?>
 		</tbody>

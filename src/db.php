@@ -40,33 +40,6 @@ class MYSQLHandler{
 		return $stmt->execute();
 	}
 
-	// AUTH
-
-	public function auth_by_token($token){
-		$query = 'SELECT auth_token, auth_token_exp, user_id FROM api_auth WHERE auth_token=? AND auth_token_exp>NOW()';
-		$stmt = $this->db->prepare($query);
-		$stmt->bind_param('s', $token);
-		$stmt->execute();
-		return $stmt->get_result()->fetch_array(MYSQLI_ASSOC);
-	}
-
-	public function auth_by_user_id($user_id){
-		$query = 'SELECT auth_token, auth_token_exp, user_id FROM api_auth WHERE user_id=? AND auth_token_exp>NOW()';
-		$stmt = $this->db->prepare($query);
-		$stmt->bind_param('i', $user_id);
-		$stmt->execute();
-		return $stmt->get_result()->fetch_array(MYSQLI_ASSOC);
-	}
-
-	public function add_auth_token($user_id){
-		$token = random_bytes(32);
-		$query = 'CALL usp_api_ins_auth(?, ?)';
-		$stmt = $this->db->prepare($query);
-		$stmt->bind_param('is', $user_id, $token);
-		$stmt->execute();
-		return $token;
-	}
-
 	// ANALYTICS
 
 	public function registered_user_dates(){
@@ -130,15 +103,6 @@ class MYSQLHandler{
 		return $user;
 	}
 
-	public function login_token_info($token){
-		$query = 'SELECT * FROM user WHERE login_token=? AND login_token_exp>NOW()';
-		$stmt = $this->db->prepare($query);
-		$stmt->bind_param('s', $token);
-		$stmt->execute();
-		$user = $stmt->get_result()->fetch_array(MYSQLI_ASSOC);
-		return $user;
-	}
-
 	public function reset_token_info($token){
 		$query = 'SELECT * FROM user WHERE temp_secret=? AND temp_secret_exp>NOW()';
 		$stmt = $this->db->prepare($query);
@@ -146,85 +110,6 @@ class MYSQLHandler{
 		$stmt->execute();
 		$user = $stmt->get_result()->fetch_array(MYSQLI_ASSOC);
 		return $user;
-	}
-
-	public function username_secret($username){
-		$query = 'SELECT secret FROM user WHERE username=?';
-		$stmt = $this->db->prepare($query);
-		$stmt->bind_param('s', $username);
-		$stmt->execute();
-		return $stmt->get_result()->fetch_array(MYSQLI_ASSOC)['secret'];
-	}
-
-	public function email_secret($email){
-		$query = 'SELECT secret FROM user WHERE email=?';
-		$stmt = $this->db->prepare($query);
-		$stmt->bind_param('s', $email);
-		$stmt->execute();
-		return $stmt->get_result()->fetch_array(MYSQLI_ASSOC)['secret'];
-	}
-
-	public function user_register($username, $secret){
-		$user_info = $this->user_info($username);
-		if(!$user_info){
-			$query = '
-				INSERT INTO user (username, secret, date_created, secret_last_updated, last_login)
-				VALUES (?, ?, NOW(), NOW(), NOW())';
-			$stmt = $this->db->prepare($query);
-			$hash = password_hash($secret, PASSWORD_BCRYPT);
-			$stmt->bind_param('ss', $username, $hash);
-			$stmt->execute();
-			$user_info = $this->user_info(mysqli_insert_id($this->db));
-			return $user_info;
-		}
-		return false;
-	}
-
-	public function username_login($username, $secret){
-		if(password_verify($secret, $this->username_secret($username))){
-			$query = 'UPDATE user SET last_login=NOW() WHERE username=?';
-			$stmt = $this->db->prepare($query);
-			$stmt->bind_param('s', $username);
-			$stmt->execute();
-			$user_info = $this->username_info($username);
-			return $user_info;
-		}
-		return false;
-	}
-
-	public function email_login($email, $secret){
-		if(password_verify($secret, $this->email_secret($email))){
-			$query = 'UPDATE user SET last_login=NOW() WHERE email=?';
-			$stmt = $this->db->prepare($query);
-			$stmt->bind_param('s', $email);
-			$stmt->execute();
-			$user_info = $this->email_info($email);
-			return $user_info;
-		}
-		return false;
-	}
-
-	public function user_token_login($token){
-		$user_info = $this->login_token_info($token);
-		if($user_info){
-			$query = 'UPDATE user SET login_token_exp=NOW(), last_login=NOW() WHERE login_token=? AND login_token_exp>NOW()';
-			$stmt = $this->db->prepare($query);
-			$stmt->bind_param('s', $token);
-			$stmt->execute();
-			return $user_info;
-		}
-		return false;
-	}
-
-	public function user_update_login_token($user_id){
-		$token = bin2hex(random_bytes(32));
-		$query = 'UPDATE user SET login_token=?, login_token_exp=DATE_ADD(NOW(), INTERVAL 5 MINUTE) WHERE id=?';
-		$stmt = $this->db->prepare($query);
-		$stmt->bind_param('si', $token, $user_id);
-		if($stmt->execute()){
-			return $token;
-		}
-		return false;
 	}
 
 	public function user_update_temp_secret($user_id){
@@ -251,68 +136,7 @@ class MYSQLHandler{
 		return false;
 	}
 
-	public function user_change_password($user_id, $username, $old_secret, $new_secret){
-		if(password_verify($old_secret, $this->username_secret($username))){
-			$query = 'UPDATE user SET secret=?, secret_last_updated=NOW() WHERE id=? AND username=?';
-			$stmt = $this->db->prepare($query);
-			$hash = password_hash($new_secret, PASSWORD_BCRYPT);
-			$stmt->bind_param('sis', $hash, $user_id, $username);
-			$stmt->execute();
-			if($stmt->affected_rows == 1){
-				$user_info = $this->user_info($user_id);
-				return $user_info;
-			}
-		}
-		return false;
-	}
-
-	public function user_email($user_id){
-		$query = 'SELECT email FROM user WHERE id=?';
-		$stmt = $this->db->prepare($query);
-		$stmt->bind_param('i', $user_id);
-		$stmt->execute();
-		return $stmt->get_result()->fetch_array(MYSQLI_ASSOC);
-	}
-
-	public function user_email_link($user_id, $email){
-		$query = '
-			UPDATE user
-			SET email=?, email_last_updated=NOW()
-			WHERE id=?';
-		$stmt = $this->db->prepare($query);
-		$stmt->bind_param('si', $email, $user_id);
-		return $stmt->execute();
-	}
-
-	// TWITTER
-
-	public function user_twitter($user_id){
-		$query = 'SELECT twitter_id, twitter_last_updated FROM user WHERE id=?';
-		$stmt = $this->db->prepare($query);
-		$stmt->bind_param('i', $user_id);
-		$stmt->execute();
-		return $stmt->get_result()->fetch_array(MYSQLI_ASSOC);
-	}
-
 	// DISCORD
-
-	public function user_discord($user_id){
-		$query = 'SELECT discord_id, discord_last_updated FROM user WHERE id=?';
-		$stmt = $this->db->prepare($query);
-		$stmt->bind_param('i', $user_id);
-		$stmt->execute();
-		return $stmt->get_result()->fetch_array(MYSQLI_ASSOC);
-	}
-
-	public function user_discord_link($user_id, $discord_id){
-		$query = '
-			UPDATE user
-			SET discord_id=?, discord_last_updated=NOW()
-			WHERE id=?';
-		$stmt = $this->db->prepare($query);
-		$stmt->bind_param('si', $discord_id, $user_id);
-		return $stmt->execute();
-	}
 
 	public function all_discord_commands(){
 		$query = 'SELECT * FROM chatroom_command order by command';
@@ -382,26 +206,6 @@ class MYSQLHandler{
 			WHERE id=?';
 		$stmt = $this->db->prepare($query);
 		$stmt->bind_param('sssssiiiiiiiii', $name, $description, $message, $tweet, $start_time, $sunday_flag, $monday_flag, $tuesday_flag, $wednesday_flag, $thursday_flag, $friday_flag, $saturday_flag, $active, $id);
-		return $stmt->execute();
-	}
-
-	// CHATANGO
-
-	public function user_chatango($user_id){
-		$query = 'SELECT chatango_id, chatango_last_updated FROM user WHERE id=?';
-		$stmt = $this->db->prepare($query);
-		$stmt->bind_param('i', $user_id);
-		$stmt->execute();
-		return $stmt->get_result()->fetch_array(MYSQLI_ASSOC);
-	}
-
-	public function user_chatango_link($user_id, $chatango_id){
-		$query = '
-			UPDATE user
-			SET chatango_id=?, chatango_last_updated=NOW()
-			WHERE id=?';
-		$stmt = $this->db->prepare($query);
-		$stmt->bind_param('si', $chatango_id, $user_id);
 		return $stmt->execute();
 	}
 

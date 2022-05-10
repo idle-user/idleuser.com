@@ -14,7 +14,7 @@
 							<input type="button" value="Login" onclick="location.href='/login?<?php echo get_direct_to(); ?>';" />
 							<input type="button" value="Register" onclick="location.href='/register?<?php echo get_direct_to(); ?>';" />
 						<?php }  else {
-							echo "<header class='major'><h2>Welcome, {$_SESSION['username']}</h2></header>";
+							echo "<header class='major'><h2>Welcome, {$_SESSION['profile']['username']}</h2></header>";
 							echo "<h3>Available Points: {$pointsAvailable}<br/>Total Points: {$pointsTotal}</h3></hr>";
 							echo '<input type="button" value="Logout" onclick="location.href=`/logout`"' . get_direct_to() . '`" />';
 							echo '<a href="/account/" class="m-2 float-right">Account Settings</a>';
@@ -62,7 +62,7 @@
 						<h2>Join our Discord!</h2>
 					</header>
 					<div>
-						<iframe src="https://discordapp.com/widget?id=361689774723170304&theme=dark&username=<?php echo $_SESSION['username']; ?>" width="225" height="400" allowtransparency="true" frameborder="0"></iframe>
+						<iframe src="https://discordapp.com/widget?id=361689774723170304&theme=dark&username=<?php echo $_SESSION['profile']['username']; ?>" width="225" height="400" allowtransparency="true" frameborder="0"></iframe>
 					</div>
 				</section>
 				<footer id="footer">

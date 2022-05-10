@@ -3,16 +3,16 @@
 	if (session_status() == PHP_SESSION_NONE) {
 		session_start();
 	}
-	if(!isset($_SESSION['user_id']) || empty($_POST['color_id'])){
+	if(!isset($_SESSION['profile']['id']) || empty($_POST['color_id'])){
 		header("Location: /projects/led-vote");
 		exit();
 	}
 
-	$success = $db->led_vote($_SESSION['user_id'], $_POST['color_id']);
+	$success = $db->led_vote($_SESSION['profile']['id'], $_POST['color_id']);
 
 	try{
-		$userData = array('user_id'=>$_SESSION['user_id'], 'username'=>$_SESSION['username'] , 'type'=>'led', 'data'=>$_POST['color_id']);
-		$disconnect = array('user_id'=>$_SESSION['user_id'], 'type'=>'request', 'data'=>'disconnect');
+		$userData = array('user_id'=>$_SESSION['profile']['id'], 'username'=>$_SESSION['profile']['username'] , 'type'=>'led', 'data'=>$_POST['color_id']);
+		$disconnect = array('user_id'=>$_SESSION['profile']['id'], 'type'=>'request', 'data'=>'disconnect');
 		$host = '192.168.1.13';
 		$port = 1330;
 		$fp = @fsockopen($host, $port, $errno, $errstr, 1);

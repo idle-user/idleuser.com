@@ -15,20 +15,20 @@
 
 		if(strlen($_POST["new_secret"]) < 6){
       $error_message = "Password must contain at least 6 characters. Try again.";
-    } elseif(isset($_POST['old_secret']) && !$db->user_login($_SESSION['username'], $_POST['old_secret'])){
+    } elseif(isset($_POST['old_secret']) && !$db->user_login($_SESSION['profile']['username'], $_POST['old_secret'])){
       $error_message = "Incorrect Password. Try again.";
 		} elseif($_POST['new_secret'] != $_POST['new_secret_verify']){
       $error_message = "Passwords do not match.";
 		} else {
-      $res = $db->user_change_password($_SESSION['user_id'], $_SESSION['username'], $_POST['old_secret'], $_POST['new_secret']);
+      $res = $db->user_change_password($_SESSION['profile']['id'], $_SESSION['profile']['username'], $_POST['old_secret'], $_POST['new_secret']);
 		}
 
 			if(!$error_message){
-				$res = $db->user_login($_SESSION['username'], $_POST['new_secret']);
+				$res = $db->user_login($_SESSION['profile']['username'], $_POST['new_secret']);
 				if($res){
-					$_SESSION['user_id'] = $res['id'];
-					$_SESSION['username'] = $res['username'];
-					$_SESSION['access'] = $res['access'];
+					$_SESSION['profile']['id'] = $res['id'];
+					$_SESSION['profile']['username'] = $res['username'];
+					$_SESSION['profile']['access'] = $res['access'];
 					$_SESSION['loggedin'] = true;
 				}
 			}
@@ -83,7 +83,7 @@
       </div>
 
       <div class="form-label-group">
-        <input type="username" id="inputUsername" class="form-control" placeholder="Username" name="username" value="<?php echo $_SESSION['username'] ?>" disabled>
+        <input type="username" id="inputUsername" class="form-control" placeholder="Username" name="username" value="<?php echo $_SESSION['profile']['username'] ?>" disabled>
         <label for="inputUsername">Username</label>
       </div>
 

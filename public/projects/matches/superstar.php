@@ -36,7 +36,7 @@
 				<th>Hometown</th>
 				<th>DOB</th>
 				<th>Signature Moves</th>
-				<?php if($_SESSION['user_id']) echo '<th>Favorite</tr>'; ?>
+				<?php if($_SESSION['profile']['id']) echo '<th>Favorite</tr>'; ?>
 			</tr>
 		</thead>
 		<tbody>
@@ -48,7 +48,7 @@
 				<td><?php echo $superstar['hometown']; ?></td>
 				<td><?php echo $superstar['dob']; ?></td>
 				<td><?php echo $superstar['signature_move']; ?></td>
-				<?php if($_SESSION['user_id']) echo '<td><button type="button" onclick="return updateFavorite('.$superstar['id'].')">Favorite</button></td>'; ?>
+				<?php if($_SESSION['profile']['id']) echo '<td><button type="button" onclick="return updateFavorite('.$superstar['id'].')">Favorite</button></td>'; ?>
 			</tr>
 		</tbody>
 	</table>

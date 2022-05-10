@@ -4,6 +4,6 @@
 		header("Location: /projects/chatroom");
 		exit();
 	}
-	$success = $db->chatroom_send_message($_SESSION['user_id'], $_POST['message']);
+	$success = $db->chatroom_send_message($_SESSION['profile']['id'], $_POST['message']);
 	echo $success;
 ?>

@@ -7,6 +7,7 @@ if(!$_SESSION['loggedin']){
 
 $response = maybe_process_form();
 
+
 ?>
 <!doctype html>
 <html lang="en">
@@ -27,17 +28,15 @@ $response = maybe_process_form();
 
       <?php include getenv('APP_PATH') . '/public/includes/alert.php'; ?>
 
-      <?php $userInfo = $db->user_info($_SESSION['user_id']); ?>
-
       <form method="post">
         <div class="form-group">
           <label for="usernameFormControlInput">Username</label>
           <div>
             <span class="small text-muted">You can change your username every 2 weeks.</span>
-            <span class="small text-muted float-right">Last Updated: <?php echo $userInfo['username_last_updated']?$userInfo['username_last_updated']:'Never'; ?></span>
+            <span class="small text-muted float-right">Last Updated: <?= $_SESSION['profile']['username_last_updated'] ?? 'Never' ?></span>
           </div>
           <div class="input-group mb-3">
-            <input type="text" class="form-control" id="usernameFormControlInput" name="username" value="<?php echo $_SESSION['username']; ?>">
+            <input type="text" class="form-control" id="usernameFormControlInput" name="username" value="<?= $_SESSION['profile']['username'] ?>">
             <div class="input-group-append">
               <input class="btn btn-primary" type="submit" name="username-update" value="Update">
             </div>
@@ -48,9 +47,9 @@ $response = maybe_process_form();
       <form  method="post">
         <div class="form-group">
           <label for="emailFormControlInput">Email Address</label>
-          <span class="small text-muted float-right pt-3">Last Updated: <?php echo $userInfo['email_last_updated']?$userInfo['email_last_updated']:'Never'; ?></span>
+          <span class="small text-muted float-right pt-3">Last Updated: <?= $_SESSION['profile']['email_last_updated'] ?? 'Never' ?></span>
           <div class="input-group mb-3">
-            <input type="email" class="form-control" id="emailFormControlInput" name="email" value="<?php echo $db->user_email($_SESSION['user_id'])['email']; ?>">
+            <input type="email" class="form-control" id="emailFormControlInput" name="email" value="<?= $_SESSION['profile']['email'] ?>">
             <div class="input-group-append">
               <input class="btn btn-primary" type="submit" name="email-update" value="Update">
             </div>
@@ -62,7 +61,7 @@ $response = maybe_process_form();
         <div>
         <a class="btn btn-primary mt-5" type="button" href="/change-password">Change Password</a>
         </div>
-        <text class="small text-muted">Last Updated: <?php echo $userInfo['secret_last_updated']?$userInfo['secret_last_updated']:'Never'; ?></text>
+        <text class="small text-muted">Last Updated: <?= $_SESSION['profile']['secret_last_updated'] ?? 'Never' ?></text>
 
 
 

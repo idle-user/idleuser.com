@@ -110,7 +110,7 @@
 					if(data==''){
 						return false;
 					}
-					if(<?php echo $_SESSION['user_id'] ?>!=0){
+					if(<?php echo $_SESSION['profile']['id'] ?>!=0){
 						send_message(data);
 					}
 					return false;
@@ -118,8 +118,8 @@
 			});
 		});
 		function checkSession(){
-			if(<?php echo $_SESSION['user_id'] ?>){
-				welcomeMessage.innerHTML="Welcome back, " + <?php echo "'".$_SESSION['username']."'"; ?> + ".";
+			if(<?php echo $_SESSION['profile']['id'] ?>){
+				welcomeMessage.innerHTML="Welcome back, " + <?php echo "'".$_SESSION['profile']['username']."'"; ?> + ".";
 				$("#login-container").hide();
 				$("#entry").attr("disabled", false);
 			}
