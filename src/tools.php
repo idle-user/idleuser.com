@@ -95,45 +95,6 @@
 			exit();
 		}
 	}
-	function set_session_values($user){
-		global $db;
-		if($user){
-			$_SESSION['loggedin'] = true;
-			$_SESSION['user_id'] = $user['id'];
-			$_SESSION['username'] = $user['username'];
-			$_SESSION['access'] = $user['access'];
-			$auth = $db->auth_by_user_id($user['id']);
-			if(!$auth){
-				$token = $db->add_auth_token($user['id']);
-				$auth = $db->auth_by_token($token);
-			}
-			$_SESSION['auth_token'] = bin2hex($auth['auth_token']);
-			$_SESSION['auth_token_exp'] = $auth['auth_token_exp'];
-		}
-	}
-	function refresh_session_values(){
-		global $db;
-		$user = $db->user_info($_SESSION['user_id']);
-		set_session_values($user);
-	}
-	function register($username, $secret){
-		global $db;
-		$user = $db->user_register($username, $secret);
-		set_session_values($user);
-		track("Register Attempt - uname:{$username}; result:" . ($_SESSION['loggedin']?:'0'));
-	}
-	function username_login($username, $secret){
-		global $db;
-		$user = $db->username_login($username, $secret);
-		set_session_values($user);
-		track("Login Attempt - uname:{$username}; result:" . ($_SESSION['loggedin']?:'0'));
-	}
-	function email_login($email, $secret){
-		global $db;
-		$user = $db->email_login($email, $secret);
-		set_session_values($user);
-		track("Login Attempt - email:{$email}; result:" . ($_SESSION['loggedin']?:'0'));
-	}
 	function logout(){
 		$uid = $_SESSION['user_id'];
 		session_destroy();
@@ -141,9 +102,7 @@
 	}
 	function login_token_check(){
 		if(isset($_GET['login_token'])){
-			global $db;
-			$user = $db->user_token_login($_GET['login_token']);
-			set_session_values($user);
+			api_call('POST', $_GET['login_token']);
 			track("Login Token Attempt - result:" . $_SESSION['loggedin']?:'0');
 			if($_SESSION['loggedin']){
 				maybe_redirect_to();
@@ -299,9 +258,9 @@
 		 curl_setopt($curl, CURLOPT_URL, $url);
 		 curl_setopt($curl, CURLOPT_USERAGENT, get_user_agent());
 		 curl_setopt($curl, CURLOPT_HTTPHEADER, array(
-			'Authorization: Bearer '.$_SESSION['auth_token'],
+			'Authorization: Bearer ' . $_SESSION['auth_token'],
 			'Content-Type: application/json',
-			'X-Forwarded-For: '.get_ip(),
+			'X-Forwarded-For: ' . get_ip(),
 		 ));
 		 curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 		 curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BEARER);
@@ -317,7 +276,25 @@
 			$route = false;
 			$userUpdate = false;
 
-			if(isset($_POST['auth-token-update'])){
+			if(isset($_POST['login'])){
+				$method = 'POST';
+				$route = "users/login";
+				$userUpdate = true;
+			}
+
+			elseif(isset($_POST['login_token'])){
+				$method = 'GET';
+				$route = "users/login/token";
+				$userUpdate = true;
+			}
+
+			elseif(isset($_POST['register'])){
+				$method = 'POST';
+				$route = "users/register";
+				$userUpdate = true;
+			}
+
+			elseif(isset($_POST['auth-token-update'])){
 				$method = 'POST';
 				$route = "auth";
 				$userUpdate = true;
@@ -357,8 +334,15 @@
 
 			if($method && $route){
 				$response = api_call($method, $route, json_encode($_POST));
-				if($userUpdate){
-					refresh_session_values();
+				if($userUpdate && $response['statusCode']===200){
+					session_start();
+					$data = $response['data'];
+					$_SESSION['loggedin'] = true;
+					$_SESSION['user_id'] = $data['id'];
+					$_SESSION['username'] = $data['username'];
+					$_SESSION['access'] = $data['access'];
+					$_SESSION['auth_token'] = $data['auth_token'];
+					$_SESSION['auth_token_exp'] = $data['auth_token_exp'];
 				}
 				return $response;
 			}

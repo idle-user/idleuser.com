@@ -26,7 +26,7 @@ $response = maybe_process_form();
         <h1 class="h2">IdleUser API</h1>
       </div>
 
-      <?php include 'includes/alert.php'; ?>
+      <?php include getenv('APP_PATH') . '/public/includes/alert.php'; ?>
 
       <label for="authTokenInput">Auth Token</label>
       <div>

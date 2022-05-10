@@ -1,43 +1,18 @@
 <?php
   require_once getenv('APP_PATH') . '/src/session.php';
+
   if($_SESSION['loggedin']){
-    echo 'Already logged in. Redirecting back.';
-    redirect(1);
+    echo 'Already logged in. Redirecting ..';
+    redirect(1, '/account');
     exit();
   }
-  $register_attempt = false;
-  $register_error = false;
-	if(isset($_POST['username']) && isset($_POST['email']) && isset($_POST['secret']) && isset($_POST['secret_verify'])){
-    $register_attempt = true;
 
-    if(!preg_match('/^[\w\-]+$/i', $_POST['username'])){
-      $register_error = "Invalid username. Try again.";
-    } elseif($db->username_info($_POST['username'])){
-      $register_error = "Username already taken. Try again.";
-    } elseif(!empty($_POST["email"]) && !filter_var($_POST["email"], FILTER_VALIDATE_EMAIL)){
-      $register_error = "Invalid email address. Try again";
-    } elseif(filter_var($_POST["email"], FILTER_VALIDATE_EMAIL) && $db->email_info($_POST['email'])){
-      $register_error = "Email already registered.";
-    } elseif(strlen($_POST["secret"]) < 6){
-      $register_error = "Password must contain at least 6 characters.";
-    } elseif($_POST['secret'] != $_POST['secret_verify']){
-      $register_error = "Passwords do not match.";
-    } else {
-        register($_POST['username'], $_POST['secret']);
-        if($_SESSION['loggedin'] && filter_var($_POST["email"], FILTER_VALIDATE_EMAIL)){
-          $db->user_email_link($_SESSION['user_id'], $_POST["email"]);
-        }
-    }
-
-    if($_SESSION['loggedin']){
-      redirect($delay=2, $url='/account/');
-    } elseif(!$register_error) {
-      $register_error = "Failed to register. Try again.<br/>If issue persists, please contact admin.";
-    }
+  $response = maybe_process_form();
+  $register_attempt = $response ? true : false;
+  $register_successful = $response['statusCode'] ?? 0 === 200;
+  $successMessage = 'Successfully Logged in.';
 
 
-
-	}
 ?>
 <!doctype html>
 <html lang="en">
@@ -71,7 +46,7 @@
       <div class="text-center mb-4">
         <a href="/"><img class="mb-4" src="/assets/images/favicon-512x512.png" alt="" width="72" height="72"></a>
 
-        <?php if($register_attempt && $_SESSION['loggedin']){ ?>
+        <?php if($register_successful){ ?>
           <h1 class="h3 mb-3 font-weight-normal">Registration Successful</h1>
           <p>Redirecting you ...</p>
           <input type="button" value="Return to previous page" onclick="javascript:history.go(-1)" />
@@ -101,16 +76,12 @@
         <label for="inputPasswordVerify">Verify Password</label>
       </div>
 
-      <?php if($register_attempt) { ?>
-      <div class="p-2 alert-danger text-center alert">
-        <text><?php echo $register_error ?></text>
-      </div>
-      <?php } ?>
+      <?php if($register_attempt){ include getenv('APP_PATH') . '/public/includes/alert.php'; }?>
 
       <div class="row">
         <div class="col-lg-12">
             <a href="/login" class="btn btn-sm text-primary font-weight-bold" type="button">Login instead</a>
-            <button class="btn btn-lg btn-primary float-right" type="submit">Register</button>
+            <button class="btn btn-lg btn-primary float-right" name="register" type="submit">Register</button>
         </div>
       </div>
       <?php } ?>

@@ -4,7 +4,7 @@
         switch($response['statusCode']) {
             case '200':
                 $alertStyle = 'alert-success';
-                $alertHeading = 'Successfully updated.';
+                $alertHeading = $successMessage ?? 'Successfully updated.';
                 $alertMessage = '';
                 break;
             case '422':

@@ -29,7 +29,7 @@ $profile = api_call('GET', "users/$_SESSION[user_id]")['data'];
         <h1 class="h2">Connections</h1>
       </div>
 
-      <?php include 'includes/alert.php'; ?>
+      <?php include getenv('APP_PATH') . '/public/includes/alert.php'; ?>
 
       <form method="post">
         <div class="form-group">

@@ -1,26 +1,21 @@
 <?php
   require_once getenv('APP_PATH') . '/src/session.php';
+
   if($_SESSION['loggedin']){
-    echo 'Already logged in. Redirecting back.';
-    redirect(1);
+    echo 'Already logged in. Redirecting ..';
+    redirect(1, '/account');
     exit();
   }
-  $login_attempt = false;
-	if(isset($_POST['username']) && isset($_POST['secret'])  && !empty($_POST['username']) && !empty($_POST['secret'])){
-    $login_attempt = true;
-    $username = trim($_POST['username']);
 
-    if (filter_var($username, FILTER_VALIDATE_EMAIL)) {
-      email_login($username, $_POST['secret']);
-    } else {
-      username_login($username, $_POST['secret']);
-    }
+  $response = maybe_process_form();
+  $login_attempt = $response ? true : false;
+  $login_successful = $response['statusCode'] ?? 0 === 200;
+  $successMessage = 'Successfully Logged in.';
 
-    if($_SESSION['loggedin']){
-      redirect(1);
-    }
+  if($_SESSION['loggedin']){
+    redirect(1);
+  }
 
-	}
 ?>
 <!doctype html>
 <html lang="en">
@@ -54,11 +49,11 @@
       <div class="text-center mb-4">
         <a href="/"><img class="mb-4" src="/assets/images/favicon-512x512.png" alt="" width="72" height="72"></a>
 
-        <?php if($login_attempt && $_SESSION['loggedin']){ ?>
+        <?php if($login_successful){ ?>
           <h1 class="h3 mb-3 font-weight-normal">Login Successful</h1>
           <p>Redirecting you ...</p>
           <input type="button" value="Return to previous page" onclick="javascript:history.go(-1)" />
-        <?php }  else { ?>
+        <?php } else { ?>
 
         <h1 class="h3 mb-3 font-weight-normal">Account Login</h1>
         <p>Sign in. Use your IdleUser Account across the entire website, including <a href="/projects/matches/">Matches</a> and <a href="/projects/create-a-poll/">Create-a-Poll</a>.</p>
@@ -82,15 +77,12 @@
       </div>
       -->
 
-      <?php if($login_attempt) { ?>
-      <div class="p-2 alert-danger text-center alert">
-        <text>Invalid credentials. Please try again.</label>
-      </div>
-      <?php } ?>
+      <?php if($login_attempt){ include getenv('APP_PATH') . '/public/includes/alert.php'; }?>
+
 
       <div class="row">
         <div class="col-lg-12">
-            <button class="btn btn-lg btn-primary float-right" type="submit">Sign in</button>
+            <button class="btn btn-lg btn-primary float-right" name="login" type="submit">Sign in</button>
             <a href="/forgot-password" class="btn btn-sm text-primary font-weight-bold" type="button">Forgot Password?</a>
             <a href="/forgot-username" class="btn btn-sm text-primary font-weight-bold" type="button">Forgot Username?</a>
             <a href="/register" class="btn btn-sm text-primary font-weight-bold" type="button">Create account</a>

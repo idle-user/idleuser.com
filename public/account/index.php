@@ -25,7 +25,7 @@ $response = maybe_process_form();
         <h1 class="h2">My Account</h1>
       </div>
 
-      <?php include 'includes/alert.php'; ?>
+      <?php include getenv('APP_PATH') . '/public/includes/alert.php'; ?>
 
       <?php $userInfo = $db->user_info($_SESSION['user_id']); ?>
 
