@@ -1,49 +1,15 @@
 <?php
-	require_once getenv('APP_PATH') . '/src/session.php'; set_last_page();
+  ob_start();
+	require_once getenv('APP_PATH') . '/src/session.php';
 
-	if(!$_SESSION['loggedin']){
+  if(!$_SESSION['loggedin']){
 		redirect(0, '/login');
 		exit();
 	}
 
-	$update_attempt = false;
-  $error_message = false;
-
-
-	if( (isset($_POST['old_secret'])) && isset($_POST['new_secret']) && isset($_POST['new_secret_verify']) ){
-		$update_attempt = true;
-
-		if(strlen($_POST["new_secret"]) < 6){
-      $error_message = "Password must contain at least 6 characters. Try again.";
-    } elseif(isset($_POST['old_secret']) && !$db->user_login($_SESSION['profile']['username'], $_POST['old_secret'])){
-      $error_message = "Incorrect Password. Try again.";
-		} elseif($_POST['new_secret'] != $_POST['new_secret_verify']){
-      $error_message = "Passwords do not match.";
-		} else {
-      $res = $db->user_change_password($_SESSION['profile']['id'], $_SESSION['profile']['username'], $_POST['old_secret'], $_POST['new_secret']);
-		}
-
-			if(!$error_message){
-				$res = $db->user_login($_SESSION['profile']['username'], $_POST['new_secret']);
-				if($res){
-					$_SESSION['profile']['id'] = $res['id'];
-					$_SESSION['profile']['username'] = $res['username'];
-					$_SESSION['profile']['access'] = $res['access'];
-					$_SESSION['loggedin'] = true;
-				}
-			}
-
-		track("Update Password Attempt - uname:$_SESSION[username]; res:0" .  ($_SESSION['loggedin']?:'0'));
-
-		if(!$error_message && isset($res) && !$res){
-			$error_message = "Failed to update account. Try again.";
-    }
-
-  }
-
-  if($update_attempt && !$error_message){
-    redirect($delay=2, $url='/account/');
-  }
+  $response = maybe_process_form();
+  $update_attempt = $response ? true : false;
+  $update_successful = ($response['statusCode'] ?? 0) === 200;
 
 ?>
 <!doctype html>
@@ -93,37 +59,27 @@
       </div>
 
       <div class="form-label-group">
-        <input type="password" id="inputNewPassword" class="form-control" placeholder="New Password" name="new_secret" autofocus required>
+        <input type="password" id="inputNewPassword" class="form-control" placeholder="New Password" name="secret" autofocus required>
         <label for="inputPassword">New Password</label>
       </div>
 
       <div class="form-label-group">
-        <input type="password" id="inputNewPasswordVerify" class="form-control" placeholder="Verify New Password" name="new_secret_verify" required>
+        <input type="password" id="inputNewPasswordVerify" class="form-control" placeholder="Verify New Password" name="secret_check" required>
         <label for="inputNewPasswordVerify">Verify New Password</label>
       </div>
 
-      <?php
-        if($update_attempt) {
-          if($error_message){
-      ?>
-            <div class="p-2 alert-danger text-center alert">
-              <text><?php echo $error_message ?></text>
-            </div>
-        <?php } else {?>
-            <div class="p-2 alert-success text-center alert">
-              <text>Account Password Updated.<br/>Redirecting you back ...</text>
-            </div>
-      <?php
-          }
-        }
-      ?>
+      <?php if($update_successful){  redirect($delay=2, $url='/account'); ?>
+        <div class="p-2 alert-success text-center alert">
+          <text>Account Password Updated.<br/>Redirecting you back ...</text>
+        </div>
+      <?php } else { if($update_attempt){ include getenv('APP_PATH') . '/public/includes/alert.php'; } ?>
 
       <div class="row">
         <div class="col-lg-12">
-            <a href="/forgot-password" class="btn btn-sm text-primary font-weight-bold" type="button">Forgot Password?</a>
-            <button class="btn btn-lg btn-primary float-right" type="submit">Update</button>
+            <button class="btn btn-lg btn-primary float-right" type="submit" name="secret-update">Update</button>
         </div>
       </div>
+       <?php } ?>
 
     <?php include 'includes/footer.php'; ?>
 

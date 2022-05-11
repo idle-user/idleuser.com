@@ -286,6 +286,12 @@
 				$userUpdate = true;
 			}
 
+			elseif(isset($_POST['secret-update'])){
+				$method = 'PATCH';
+				$route = "users/{$_SESSION['profile']['id']}/secret";
+				$userUpdate = true;
+			}
+
 			elseif(isset($_POST['username-update'])){
 				$method = 'PATCH';
 				$route = "users/{$_SESSION['profile']['id']}/username";
