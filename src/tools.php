@@ -39,9 +39,9 @@
 	function get_direct_to(){
 		return 'redirect_to='.urlencode($_SERVER['REQUEST_URI']);
 	}
-    function redirect_back(){
-        header("Location: ..");
-        exit();
+	function redirect_back(){
+		header("Location: ..");
+		exit();
 	}
 	function redirect($delay=0, $url=false){
 		if(!$url){
@@ -64,10 +64,10 @@
 		if(!isset($_SESSION['last_page'])){
 			$_SESSION['last_page'] = $_SESSION['loggedin'] ? '/account' : '/';
 		}
-        return $_SESSION['last_page'];
+		return $_SESSION['last_page'];
 	}
 	function random_hex_color($offset=false, $min=0x000000, $max=0xFFFFFF){
-		$color_code =  rand($min, $max);
+		$color_code = rand($min, $max);
 		$color_code = $offset?dechex($color_code & $offset):dechex($color_code);
 		return '#'.str_pad($color_code, 6, 0, STR_PAD_LEFT);
 	}
@@ -90,7 +90,11 @@
 	}
 	function login_token_check(){
 		if(isset($_GET['login_token'])){
-			api_call('POST', $_GET['login_token']);
+			$res = api_call('GET', 'users/login/token?login_token=' . $_GET['login_token']);
+			if($res['statusCode']===200){
+				$_SESSION['profile'] = array_replace($_SESSION['profile']?? array(), $res['data']);
+				$_SESSION['loggedin'] = true;
+			}
 			track("Login Token Attempt - result:" . $_SESSION['loggedin']?:'0');
 			if($_SESSION['loggedin']){
 				maybe_redirect_to();
@@ -224,23 +228,23 @@
 		$curl = curl_init();
 		switch ($method){
 			case "POST":
-			   curl_setopt($curl, CURLOPT_POST, 1);
-			   if ($payload)
-				  curl_setopt($curl, CURLOPT_POSTFIELDS, $payload);
-			   break;
+				curl_setopt($curl, CURLOPT_POST, 1);
+				if ($payload)
+					curl_setopt($curl, CURLOPT_POSTFIELDS, $payload);
+				break;
 			case "PUT":
-			   curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "PUT");
-			   if ($payload)
-				  curl_setopt($curl, CURLOPT_POSTFIELDS, $payload);
-			   break;
+				curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "PUT");
+				if ($payload)
+					curl_setopt($curl, CURLOPT_POSTFIELDS, $payload);
+				break;
 			case "PATCH":
 				curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "PATCH");
 				if ($payload)
-				   curl_setopt($curl, CURLOPT_POSTFIELDS, $payload);
+					curl_setopt($curl, CURLOPT_POSTFIELDS, $payload);
 				break;
 			default:
-			   if ($payload)
-				  $url = sprintf("%s?%s", $url, http_build_query($payload));
+				if ($payload)
+					$url = sprintf("%s?%s", $url, http_build_query($payload));
 		 }
 		 // OPTIONS:
 		 curl_setopt($curl, CURLOPT_URL, $url);
@@ -267,12 +271,6 @@
 			if(isset($_POST['login'])){
 				$method = 'POST';
 				$route = "users/login";
-				$userUpdate = true;
-			}
-
-			elseif(isset($_POST['login_token'])){
-				$method = 'GET';
-				$route = "users/login/token";
 				$userUpdate = true;
 			}
 
@@ -327,7 +325,6 @@
 			if($method && $route){
 				$response = api_call($method, $route, json_encode($_POST));
 				if($userUpdate && $response['statusCode']===200){
-					// session_start();
 					$_SESSION['profile'] = array_replace($_SESSION['profile']?? array(), $response['data']);
 				}
 				return $response;
