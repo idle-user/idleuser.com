@@ -67,12 +67,12 @@
       </div>
 
       <div class="form-label-group">
-        <input type="password" id="inputPassword" class="form-control" placeholder="Password" name="secret" required>
+        <input type="password" id="inputPassword" class="form-control" placeholder="Password" name="secret" minlength="6" required>
         <label for="inputPassword">Password</label>
       </div>
 
       <div class="form-label-group">
-        <input type="password" id="inputPasswordVerify" class="form-control" placeholder="Verify Password" name="secret_verify" required>
+        <input type="password" id="inputPasswordVerify" class="form-control" placeholder="Verify Password" name="secret_verify" minlength="6" required>
         <label for="inputPasswordVerify">Verify Password</label>
       </div>
 

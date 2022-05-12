@@ -59,16 +59,16 @@
       </div>
 
       <div class="form-label-group">
-        <input type="password" id="inputNewPassword" class="form-control" placeholder="New Password" name="secret" autofocus required>
+        <input type="password" id="inputNewPassword" class="form-control" placeholder="New Password" name="secret" minlength="6" autofocus required>
         <label for="inputPassword">New Password</label>
       </div>
 
       <div class="form-label-group">
-        <input type="password" id="inputNewPasswordVerify" class="form-control" placeholder="Verify New Password" name="secret_check" required>
+        <input type="password" id="inputNewPasswordVerify" class="form-control" placeholder="Verify New Password" name="secret_check" minlength="6" required>
         <label for="inputNewPasswordVerify">Verify New Password</label>
       </div>
 
-      <?php if($update_successful){  redirect($delay=2, $url='/account'); ?>
+      <?php if($update_successful){ redirect($delay=2, $url='/account'); ?>
         <div class="p-2 alert-success text-center alert">
           <text>Account Password Updated.<br/>Redirecting you back ...</text>
         </div>
