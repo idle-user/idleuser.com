@@ -1,42 +1,15 @@
 <?php
-	require_once getenv('APP_PATH') . '/src/session.php'; set_last_page();
+  ob_start();
+	require_once getenv('APP_PATH') . '/src/session.php';
 
   if(!isset($_GET['reset_token'])){
 		redirect(0, '/forgot-password');
 		exit();
 	}
 
-	$update_attempt = false;
-  $error_message = false;
-
-	if(isset($_POST['reset_token']) && isset($_POST['new_secret']) && isset($_POST['new_secret_verify'])){
-		$update_attempt = true;
-
-		if(strlen($_POST["new_secret"]) < 6){
-      $error_message = 'Password must contain at least 6 characters. Try again.';
-		} elseif($_POST['new_secret'] != $_POST['new_secret_verify']){
-      $error_message = 'Passwords do not match.';
-		} else {
-      $user = $db->reset_token_info($_POST['reset_token']);
-      if($user){
-        $res = $db->user_reset_password($user['id'], $_POST['reset_token'], $_POST['new_secret']);
-        if(!$res){
-          $error_message = 'Failed to update account. Try again.';
-        }
-      } else {
-        $error_message = 'Invalid reset token. Please try again.';
-      }
-
-    }
-
-    $success = $error_message ? 0 : 1;
-    $attempted_by = $success ? $user['username'] : '';
-		track("Reset Password Attempt - uname:{$attempted_by}; result:" . $success?:"0");
-  }
-
-  if($update_attempt && !$error_message){
-    redirect($delay=2, $url='/account/');
-  }
+  $response = maybe_process_form();
+  $reset_attempt = $response ? true : false;
+  $reset_successful = ($response['statusCode'] ?? 0) === 200;
 
 ?>
 <!doctype html>
@@ -68,43 +41,33 @@
       </div>
 
       <div class="form-label-group">
-        <input type="text" id="inputResetToken" class="form-control d-none" placeholder="Reset Token" name="reset_token"  value="<?php echo $_GET['reset_token'] ?>" required readonly>
+        <input type="text" id="inputResetToken" class="form-control d-none" placeholder="Reset Token" name="reset_token"  value="<?= $_GET['reset_token'] ?>" required readonly>
         <label for="inputResetToken">Reset Token</label>
       </div>
 
       <div class="form-label-group">
-        <input type="password" id="inputNewPassword" class="form-control" placeholder="New Password" name="new_secret" autofocus required>
+        <input type="password" id="inputNewPassword" class="form-control" placeholder="New Password" name="secret" minlength="6" autofocus required>
         <label for="inputPassword">New Password</label>
       </div>
 
       <div class="form-label-group">
-        <input type="password" id="inputNewPasswordVerify" class="form-control" placeholder="Verify New Password" name="new_secret_verify" required>
+        <input type="password" id="inputNewPasswordVerify" class="form-control" placeholder="Verify New Password" name="secret_check" minlength="6" required>
         <label for="inputNewPasswordVerify">Verify New Password</label>
       </div>
 
-      <?php
-        if($update_attempt) {
-          if($error_message){
-      ?>
-            <div class="p-2 alert-danger text-center alert">
-              <text><?php echo $error_message ?></text>
-            </div>
-        <?php } else {?>
-            <div class="p-2 alert-success text-center alert">
-              <text>Account Password Updated.<br/>Redirecting you back ...</text>
-            </div>
-      <?php
-          }
-        }
-      ?>
+      <?php if($reset_successful){ redirect($delay=2, $url='/login'); ?>
+        <div class="p-2 alert-success text-center alert">
+          <text>Account Password Updated.<br/>Redirecting you to login ...</text>
+        </div>
+      <?php } else { if($reset_attempt){ include getenv('APP_PATH') . '/public/includes/alert.php'; } ?>
 
       <div class="row">
         <div class="col-lg-12">
             <a href="/login" class="btn btn-sm text-primary font-weight-bold" type="button">Login instead</a>
-
-            <button class="btn btn-lg btn-primary float-right" type="submit">Update</button>
+            <button class="btn btn-lg btn-primary float-right" type="submit" name="secret-reset">Update</button>
         </div>
       </div>
+       <?php } ?>
 
       <?php include 'includes/footer.php'; ?>
 

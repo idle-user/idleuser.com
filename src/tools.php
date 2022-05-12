@@ -286,6 +286,11 @@
 				$userUpdate = true;
 			}
 
+			elseif(isset($_POST['secret-reset'])){
+				$method = 'POST';
+				$route = "users/secret/reset";
+			}
+
 			elseif(isset($_POST['secret-update'])){
 				$method = 'PATCH';
 				$route = "users/{$_SESSION['profile']['id']}/secret";
