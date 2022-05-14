@@ -1,6 +1,7 @@
 <?php
 
 use ReCaptcha\ReCaptcha;
+use ReCaptcha\RequestMethod\CurlPost;
 
 function validate_recaptchaV2()
 {
@@ -8,7 +9,7 @@ function validate_recaptchaV2()
     if (!isset($_POST['g-recaptcha-response'])) {
         throw new Exception('ReCaptcha is not set.');
     }
-    $recaptcha = new ReCaptcha(getenv('RECAPTCHA_V2_SECRET'), new \ReCaptcha\RequestMethod\CurlPost());
+    $recaptcha = new ReCaptcha(getenv('RECAPTCHA_V2_SECRET'), new CurlPost());
     $response = $recaptcha->verify($_POST['g-recaptcha-response'], $_SERVER['REMOTE_ADDR']);
     return $response->isSuccess();
 }
