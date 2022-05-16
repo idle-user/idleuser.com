@@ -3,7 +3,8 @@
 <div class="nav-scroller bg-white shadow-sm">
     <ul class="nav nav-underline mr-auto">
         <li class="nav-item">
-            <a class="nav-link dropdown-toggle" id="settingsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Settings</a>
+            <a class="nav-link dropdown-toggle" id="settingsDropdown" data-toggle="dropdown" aria-haspopup="true"
+               aria-expanded="false">Settings</a>
             <div class="dropdown-menu" aria-labelledby="settingsDropdown">
                 <a class="nav-link" href="/account/">Account</a>
                 <a class="nav-link" href="connections">Connections</a>
@@ -11,7 +12,8 @@
             </div>
         </li>
         <li class="nav-item">
-            <a class="nav-link dropdown-toggle" id="matchesDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Matches</a>
+            <a class="nav-link dropdown-toggle" id="matchesDropdown" data-toggle="dropdown" aria-haspopup="true"
+               aria-expanded="false">Matches</a>
             <div class="dropdown-menu" aria-labelledby="matchesDropdown">
                 <a class="nav-link" href="matches?season=1">Season 1</a>
                 <a class="nav-link" href="matches?season=2">Season 2</a>
@@ -22,14 +24,14 @@
             </div>
         </li>
         <li class="nav-item">
-            <a class="nav-link dropdown-toggle" id="pollDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Create-a-Poll</a>
+            <a class="nav-link dropdown-toggle" id="pollDropdown" data-toggle="dropdown" aria-haspopup="true"
+               aria-expanded="false">Create-a-Poll</a>
             <div class="dropdown-menu" aria-labelledby="pollDropdown">
                 <a class="nav-link" href="create-a-poll">History</a>
             </div>
         </li>
     </ul>
 </div>
-
 
 
 <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
@@ -65,7 +67,7 @@
             <li class="nav-item">
                 <a class="nav-link" href="matches?season=3">Season 3</a>
             </li>
-           <li class="nav-item">
+            <li class="nav-item">
                 <a class="nav-link" href="matches?season=4">Season 4</a>
             </li>
             <li class="nav-item">

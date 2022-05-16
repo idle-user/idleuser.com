@@ -6,7 +6,7 @@
 
 /* Signup Form */
 
-	#signup-form > * {
-		display: inline-block;
-		vertical-align: top;
-	}
+#signup-form > * {
+    display: inline-block;
+    vertical-align: top;
+}

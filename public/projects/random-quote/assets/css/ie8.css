@@ -6,22 +6,22 @@
 
 /* BG */
 
-	#bg {
-		-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=25)";
-	}
+#bg {
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=25)";
+}
 
 /* Type */
 
-	body, input, select, textarea {
-		color: #fff;
-	}
+body, input, select, textarea {
+    color: #fff;
+}
 
 /* Form */
 
-	input[type="text"],
-	input[type="password"],
-	input[type="email"],
-	select,
-	textarea {
-		border: solid 2px #fff;
-	}
+input[type="text"],
+input[type="password"],
+input[type="email"],
+select,
+textarea {
+    border: solid 2px #fff;
+}
