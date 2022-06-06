@@ -62,12 +62,11 @@ $reset_successful = ($response['statusCode'] ?? 0) === 200;
             <label for="inputNewPasswordVerify">Verify New Password</label>
         </div>
 
-        <?php if ($reset_successful) {
-            redirect($delay = 2, $url = '/login'); ?>
+        <?php if ($reset_successful) { ?>
             <div class="p-2 alert-success text-center alert">
                 <text>Account Password Updated.<br/>Redirecting you to login ...</text>
             </div>
-        <?php } else {
+        <?php redirect($delay = 2, $url = '/login');  } else {
             if ($reset_attempt) {
                 include getenv('APP_PATH') . '/public/includes/alert.php';
             } ?>

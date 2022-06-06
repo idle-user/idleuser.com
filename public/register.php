@@ -43,12 +43,11 @@ $successMessage = 'Successfully Logged in.';
         <div class="text-center mb-4">
             <a href="/"><img class="mb-4" src="/assets/images/favicon-512x512.png" alt="" width="72" height="72"></a>
 
-            <?php if ($register_successful){
-                redirect(1); ?>
+            <?php if ($register_successful) { ?>
                 <h1 class="h3 mb-3 font-weight-normal">Registration Successful</h1>
                 <p>Redirecting you ...</p>
                 <input type="button" value="Return to previous page" onclick="history.go(-1)"/>
-            <?php } else { ?>
+            <?php redirect(1); } else { ?>
 
             <h1 class="h3 mb-3 font-weight-normal">Account Register</h1>
             <p>Register an account. Use your IdleUser Account across the entire website, including <a
