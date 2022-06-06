@@ -8,29 +8,31 @@ if (isset($_GET['user_id']) && !empty($_GET['user_id'])) {
 } else {
     $user_id = 1;
 }
-$user = $db->user_stats($user_id);
-if (!$user)
-    $user = $db->user_stats(1);
-$superstar = $db->superstar($user['favorite_superstar_id']);
+$user_stats = $db->user_stats($user_id);
+if (!$user_stats)
+    $user_stats = $db->user_stats(1);
+$superstar = $db->superstar($user_stats['favorite_superstar_id']);
 if ($superstar['brand_id'])
     $superstar_brand = $db->brand($superstar['brand_id']);
 else
     $superstar_brand = ['id' => 0, 'name' => 'N/A'];
 
 $meta = [
-    "keywords" => "{$user['username']}, watchwrestling, WWE, AEW, NJPW, ROH, IMPACT, wrestling, bet, points, fjbot, chatroom, streams, watch online, wrestling discord, discord",
-    "og:title" => "WatchWrestling Profile - {$user['username']}",
-    "og:description" => "{$user['username']}'s WatchWrestling profile. View their stats, bets, win/loss record."
+    "keywords" => "{$user_stats['username']}, watchwrestling, WWE, AEW, NJPW, ROH, IMPACT, wrestling, bet, points, fjbot, chatroom, streams, watch online, wrestling discord, discord",
+    "og:title" => "WatchWrestling Profile - {$user_stats['username']}",
+    "og:description" => "{$user_stats['username']}'s WatchWrestling profile. View their stats, bets, win/loss record."
 ];
 include 'header.php';
 ?>
 <header class="main">
-    <h1><?php echo $user['username']; ?></h1>
+    <h1><?= $user_stats['username']; ?></h1>
 </header>
+<?php //var_dump($user_stats); ?>
 <div class="table-wrapper">
+    <?php foreach ($user_stats['season'] as $stats) { ?>
     <table class="alt">
         <thead>
-        <th>Season 6</th>
+        <th>Season <?= $stats['season'] ?></th>
         <tr>
             <th width="33%">Wins</th>
             <th width="33%">Losses</th>
@@ -39,96 +41,12 @@ include 'header.php';
         </thead>
         <tbody>
         <tr>
-            <td><?php echo $user['s6_wins'] ? $user['s6_wins'] : '0'; ?></td>
-            <td><?php echo $user['s6_losses'] ? $user['s6_losses'] : '0'; ?></td>
-            <td><?php echo number_format($user['s6_total_points'], 0, '', ',') ?: '0'; ?></td>
+            <td><?= $stats['wins'] ?: '0'; ?></td>
+            <td><?= $stats['losses'] ?: '0'; ?></td>
+            <td><?= number_format($stats['total_points'], 0, '', ',') ?: '0'; ?></td>
         </tr>
         </tbody>
-    </table>
-    <table class="alt">
-        <thead>
-        <th>Season 5</th>
-        <tr>
-            <th width="33%">Wins</th>
-            <th width="33%">Losses</th>
-            <th width="33%">Points</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td><?php echo $user['s5_wins'] ? $user['s5_wins'] : '0'; ?></td>
-            <td><?php echo $user['s5_losses'] ? $user['s5_losses'] : '0'; ?></td>
-            <td><?php echo number_format($user['s5_total_points'], 0, '', ',') ?: '0'; ?></td>
-        </tr>
-        </tbody>
-    </table>
-    <table class="alt">
-        <thead>
-        <th>Season 4</th>
-        <tr>
-            <th width="33%">Wins</th>
-            <th width="33%">Losses</th>
-            <th width="33%">Points</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td><?php echo $user['s4_wins'] ? $user['s4_wins'] : '0'; ?></td>
-            <td><?php echo $user['s4_losses'] ? $user['s4_losses'] : '0'; ?></td>
-            <td><?php echo number_format($user['s4_total_points'], 0, '', ',') ?: '0'; ?></td>
-        </tr>
-        </tbody>
-    </table>
-    <table class="alt">
-        <thead>
-        <th>Season 3</th>
-        <tr>
-            <th width="33%">Wins</th>
-            <th width="33%">Losses</th>
-            <th width="33%">Points</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td><?php echo $user['s3_wins'] ? $user['s3_wins'] : '0'; ?></td>
-            <td><?php echo $user['s3_losses'] ? $user['s3_losses'] : '0'; ?></td>
-            <td><?php echo number_format($user['s3_total_points'], 0, '', ',') ?: '0'; ?></td>
-        </tr>
-        </tbody>
-    </table>
-    <table class="alt">
-        <thead>
-        <th>Season 2</th>
-        <tr>
-            <th width="33%">Wins</th>
-            <th width="33%">Losses</th>
-            <th width="33%">Points</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td><?php echo $user['s2_wins'] ? $user['s2_wins'] : '0'; ?></td>
-            <td><?php echo $user['s2_losses'] ? $user['s2_losses'] : '0'; ?></td>
-            <td><?php echo number_format($user['s2_total_points'], 0, '', ',') ?: '0'; ?></td>
-        </tr>
-        </tbody>
-    </table>
-    <table class="alt">
-        <thead>
-        <th>Season 1</th>
-        <tr>
-            <th width="33%">Wins</th>
-            <th width="33%">Losses</th>
-            <th width="33%">Points</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td><?php echo $user['s1_wins'] ? $user['s1_wins'] : '0'; ?></td>
-            <td><?php echo $user['s1_losses'] ? $user['s1_losses'] : '0'; ?></td>
-            <td><?php echo number_format($user['s1_total_points'], 0, '', ',') ?: '0'; ?></td>
-        </tr>
-        </tbody>
+        <?php } ?>
     </table>
 </div>
 <hr class="major"/><h2>Favorite Superstar</h2>
@@ -165,7 +83,7 @@ include 'header.php';
 <hr class="major"/>
 <?php
 $header = '<h2>Matches Bet On</h2>';
-$matches = $db->user_matches($user['user_id']);
+$matches = $db->user_matches($user_stats['user_id']);
 include 'matchlist.php';
 ?>
 <?php include 'navi-footer.php'; ?>

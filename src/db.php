@@ -304,6 +304,11 @@ class MYSQLHandler
         return $result;
     }
 
+    public function current_season()
+    {
+        return $this->db->query('SELECT func_matches_current_season()')->fetch_array()[0];
+    }
+
     public function all_superstars()
     {
         $data = $this->db->query('SELECT * FROM matches_superstar ORDER BY name');
@@ -709,26 +714,43 @@ class MYSQLHandler
 
     public function user_stats($user_id)
     {
-        $query = '
-			SELECT vus.*
-			FROM uv_matches_stats vus
-			WHERE vus.user_id=?';
+        $query = 'SELECT user.username, matches_stats.*, fav.superstar_id AS favorite_superstar_id
+            FROM matches_stats
+            JOIN user ON matches_stats.user_id=user.id
+            LEFT JOIN matches_favorite_superstar fav ON matches_stats.user_id=fav.user_id
+            WHERE matches_stats.user_id=?';
         $stmt = $this->db->prepare($query);
         $stmt->bind_param('i', $user_id);
         $stmt->execute();
-        return $stmt->get_result()->fetch_array(MYSQLI_ASSOC);
+        $data = $stmt->get_result();
+        $result = [];
+        while ($r = $data->fetch_array(MYSQLI_ASSOC)) {
+            $result['season'][$r['season']] = $r;
+            $result['user_id'] = $r['user_id'];
+            $result['username'] = $r['username'];
+            $result['favorite_superstar_id'] = $r['favorite_superstar_id'];
+        }
+        krsort($result['season']);
+        return $result;
     }
 
     public function user_season_stats($user_id, $season_id)
     {
-        $query = '
-			SELECT *
-			FROM matches_stats
-			WHERE user_id=? AND season=?';
+        $query = 'SELECT user.username, matches_stats.*, fav.superstar_id AS favorite_superstar_id
+            FROM matches_stats 
+            JOIN user ON matches_stats.user_id=user.id
+            LEFT JOIN matches_favorite_superstar fav ON matches_stats.user_id=fav.user_id
+            WHERE matches_stats.user_id=? AND season=?';
         $stmt = $this->db->prepare($query);
         $stmt->bind_param('ii', $user_id, $season_id);
         $stmt->execute();
         return $stmt->get_result()->fetch_array(MYSQLI_ASSOC);
+    }
+
+    public function user_current_stats($user_id)
+    {
+        $season = $this->current_season();
+        return $this->user_season_stats($user_id, $season);
     }
 
     public function all_user_bets()

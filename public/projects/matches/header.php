@@ -9,9 +9,9 @@ $royalrumbles_open = $db->open_royalrumbles();
 $all_seasons = $db->all_seasons();
 
 if ($_SESSION['loggedin']) {
-    $userStats = $db->user_stats($_SESSION['profile']['id']);
-    $pointsAvailable = number_format($userStats['s6_available_points']);
-    $pointsTotal = number_format($userStats['s6_total_points']);
+    $userStats = $db->user_current_stats($_SESSION['profile']['id']);
+    $pointsAvailable = number_format($userStats['available_points']);
+    $pointsTotal = number_format($userStats['total_points']);
 }
 
 $default_meta = [
