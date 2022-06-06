@@ -13,10 +13,10 @@ if ($_POST['bet'] == 0) {
     $response['message'] = "Nice try.";
 } else {
     $match = $db->match($_POST['match_id']);
-    $user = $db->user_stats($_SESSION['profile']['id']);
+    $user_current_stats = $db->user_current_stats($_SESSION['profile']['id']);
     if (!$match['bet_open']) {
         $response['message'] = "Open bets for this match are closed.";
-    } else if ($user['s6_available_points'] < $_POST['bet']) {
+    } else if ($user_current_stats['available_points'] < $_POST['bet']) {
         $response['message'] = "You do not have enough points to place this bet.";
     } else {
         try {

@@ -4,7 +4,7 @@ if (empty($_POST['superstarID']) || !$_SESSION['loggedin']) {
     header("Location: /projects/matches");
     exit();
 }
-$user = $db->user_stats($_SESSION['profile']['id']);
+$user = $db->user_current_stats($_SESSION['profile']['id']);
 $response = array();
 $response['refresh'] = false;
 if ($_POST['superstarID'] == $user['favorite_superstar_id']) {
