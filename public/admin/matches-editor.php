@@ -373,7 +373,6 @@ if ($is_success && ($new_attempt || $update_attempt)) {
                     </div>
                     <button class="btn btn-primary float-right" type="submit">Update Match</button>
                 </form>
-
             <?php } else { ?>
 
                 <!-- Create Form -->
@@ -514,6 +513,39 @@ if ($is_success && ($new_attempt || $update_attempt)) {
 
         </div>
     </div>
+
+    <?php if($match_info) { $match_bets = $db->match_bets($match_info['id']); ?>
+        <div class="my-3 p-3 bg-white rounded shadow-sm">
+            <h6 class="border-bottom border-gray pb-2 mb-0">Bets</h6>
+            <div class="table-responsive-xl">
+                <table class="table table-sm">
+                    <caption></caption>
+                    <thead>
+                    <tr>
+                        <th scope="col">Username</th>
+                        <th scope="col">Bet</th>
+                        <th scope="col">Team</th>
+                        <th scope="col">Potential Cut</th>
+                        <th scope="col">Result</th>
+                        <th scope="col">Bet Placed</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach ($match_bets as $match_bet) { ?>
+                       <tr>
+                            <th scope='row'><?= $match_bet['username'] ?></th>
+                            <td><?= $match_bet['points'] ?></td>
+                            <td><?= $match_bet['team'] ?></td>
+                            <td><?= number_format($match_bet['potential_cut_points']) . ' ('.number_format($match_bet['potential_cut_pct'] * 100, 2).'%)' ?></td>
+                            <td><?= $match_bet['bet_won']?:'0' ?></td>
+                            <td><?= $match_bet['dt_placed'] ?></td>
+                        </tr>
+                    <?php } ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    <?php } ?>
 
 </main>
 
