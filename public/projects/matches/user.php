@@ -26,6 +26,9 @@ include 'header.php';
 ?>
 <header class="main">
     <h1><?= $user_stats['username']; ?></h1>
+    <?php if(is_owner()) { ?>
+    <pre><?= var_dump($db->user_socials($user_id)); ?></pre>
+    <?php } ?>
 </header>
 <?php //var_dump($user_stats); ?>
 <div class="table-wrapper">

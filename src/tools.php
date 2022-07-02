@@ -97,10 +97,18 @@ function requires_admin()
         redirect(0, '/login');
         exit();
     }
-    if ($_SESSION['profile']['access'] < 2) {
+    if (is_admin()) {
         redirect(0, '/403.php');
         exit();
     }
+}
+
+function is_admin(){
+    return $_SESSION['loggedin'] && $_SESSION['profile']['access'] < 2;
+}
+
+function is_owner(){
+    return $_SESSION['loggedin'] && $_SESSION['profile']['access'] === 3;
 }
 
 function logout()

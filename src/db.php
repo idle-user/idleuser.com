@@ -88,6 +88,20 @@ class MYSQLHandler
         return $result;
     }
 
+    public function user_socials($user_id)
+    {
+        $query = 'SELECT user_id, social_type.name as social, social_id  FROM user_social JOIN social_type ON social_type_id=social_type.id WHERE user_id=?';
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('s', $user_id);
+        $stmt->execute();
+        $data = $stmt->get_result();
+        $result = [];
+        while ($r = $data->fetch_array(MYSQLI_ASSOC)) {
+            $result[] = $r;
+        }
+        return $result;
+    }
+
     public function username_info($username)
     {
         $query = 'SELECT * FROM user WHERE username=?';
@@ -714,7 +728,8 @@ class MYSQLHandler
 
     public function user_stats($user_id)
     {
-        $query = 'SELECT user.username, matches_stats.*, fav.superstar_id AS favorite_superstar_id
+        $query = '
+            SELECT user.username, matches_stats.*, fav.superstar_id AS favorite_superstar_id
             FROM matches_stats
             JOIN user ON matches_stats.user_id=user.id
             LEFT JOIN matches_favorite_superstar fav ON matches_stats.user_id=fav.user_id
@@ -736,7 +751,8 @@ class MYSQLHandler
 
     public function user_season_stats($user_id, $season_id)
     {
-        $query = 'SELECT user.username, matches_stats.*, fav.superstar_id AS favorite_superstar_id
+        $query = '
+            SELECT user.username, matches_stats.*, fav.superstar_id AS favorite_superstar_id
             FROM matches_stats 
             JOIN user ON matches_stats.user_id=user.id
             LEFT JOIN matches_favorite_superstar fav ON matches_stats.user_id=fav.user_id
@@ -770,8 +786,11 @@ class MYSQLHandler
     public function match_bets($match_id)
     {
         $query = '
-			SELECT username, team, points FROM matches_bet WHERE match_id=?
-			JOIN user on user.id=matches_bet.user_id';
+			SELECT u.username, mb.team, mb.points, mb.dt_placed, mbc.team_base_pot, mbc.potential_pot, mbc.potential_cut_pct, mbc.potential_cut_points, mbc.bet_won, mbc.last_updated
+			FROM matches_bet mb
+			JOIN matches_bet_calculation mbc ON mbc.match_id=mb.match_id AND mbc.user_id=mb.user_id
+			JOIN user u ON u.id=mb.user_id
+			WHERE mb.match_id=?';
         $stmt = $this->db->prepare($query);
         $stmt->bind_param('i', $match_id);
         $stmt->execute();
