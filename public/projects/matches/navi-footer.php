@@ -71,7 +71,7 @@
         <footer id="footer">
             <p class="copyright">
             <ul class="alt">
-                <li>&copy; 2017-2022 Jesus Andrade</li>
+                <li>&copy; 2017-<?php echo date("Y"); ?> Jesus Andrade</li>
                 <li><a href="/privacy-policy">Privacy Policy</a></li>
                 <li>Design: <a href="https://html5up.net">HTML5 UP</a></li>
             </ul>

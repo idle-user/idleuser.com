@@ -1,5 +1,10 @@
 <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-    <a class="navbar-brand" href="#"><img src="/assets/images/favicon-512x512.png" class="img-fluid" width="32"></a>
+    <a class="navbar-brand" href="/" title="Home">
+        <picture>
+            <source srcset="/assets/images/favicon-32x32.webp" type="image/webp" alt="idleuser.com Logo" class="img-fluid" width="32" height="32">
+            <img src="/assets/images/favicon-32x32.png" alt="idleuser.com Logo" class="img-fluid" width="32" height="32" loading="lazy">
+        </picture>
+    </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainNavbar"
             aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>

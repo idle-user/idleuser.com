@@ -1,7 +1,7 @@
 <footer class="text-muted">
     <div class="container">
         <p class="float-right"><a href="#">Back to top</a></p>
-        <p class="small">&copy; 2017-2022 Jesus Andrade</a></p>
+        <p class="small">&copy; 2017-<?php echo date("Y"); ?> Jesus Andrade</a></p>
         <p class="small">
             <a href="/privacy-policy">Privacy Policy</a>
         </p>
