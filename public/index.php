@@ -42,7 +42,7 @@ set_last_page();
             <h1 class="display-4">Hello &amp; Welcome</h1>
             <picture>
                 <source class="rounded-circle" srcset="/assets/images/red.webp" type="image/webp" alt="Jesse" width="180" height="180">
-                <img class="rounded-circle" src="/assets/images/red.png" alt="Jesse" width="180" height="180" loading="lazy">
+                <img class="rounded-circle" src="/assets/images/red.png" alt="Jesse" width="180" height="180">
             </picture>
             <h2>I'm Jesse.</h2>
             <p>
