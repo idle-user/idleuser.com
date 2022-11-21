@@ -2,7 +2,7 @@
     <div class="container">
         <p class="float-right d-none" id="backToTop"><a href="#">Back to top</a></p>
         <p class="mt-5 mb-3 text-muted text-center small">
-            &copy; 2017-2022 Jesus Andrade
+            &copy; 2017-<?php echo date("Y"); ?> Jesus Andrade
             <br/><a href="/privacy-policy">Privacy Policy</a> | <a href="/contact">Contact Me</a>
         </p>
     </div>

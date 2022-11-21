@@ -218,7 +218,7 @@ $schedule_list = $db->all_discord_schedules();
 
 </main>
 
-<?php getenv('APP_PATH') . '/public/includes/footer.php'; ?>
+<?php include getenv('APP_PATH') . '/public/includes/footer.php'; ?>
 
 </body>
 </html>

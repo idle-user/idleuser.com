@@ -13,7 +13,7 @@ set_last_page();
     <link rel="manifest" href="/assets/images/site.webmanifest">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
           integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto" type='text/css'>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto&display=swap" type='text/css'>
 
     <?php
     $meta = [
@@ -39,8 +39,11 @@ set_last_page();
 
     <div id="about" class="jumbotron text-center bg-transparent">
         <div class="container">
-            <h1 class="display-3">Hello &amp; Welcome</h1>
-            <img class="rounded-circle" src="/assets/images/red.png" alt="Jesse" width="180" height="180">
+            <h1 class="display-4">Hello &amp; Welcome</h1>
+            <picture>
+                <source class="rounded-circle" srcset="/assets/images/red.webp" type="image/webp" alt="Jesse" width="180" height="180">
+                <img class="rounded-circle" src="/assets/images/red.png" alt="Jesse" width="180" height="180" loading="lazy">
+            </picture>
             <h2>I'm Jesse.</h2>
             <p>
                 I am a developer, programmer, and project manager.
@@ -55,29 +58,38 @@ set_last_page();
         <div class="row">
             <div class="col-lg-4 p-2">
                 <div class="card p-4 shadow">
-                    <p class="display-3"><i class="fas fa-graduation-cap"></i></p>
-                    <h5 class="card-title">Education</h5>
+                    <div style="display:inline-block; height:100px">
+                        <p class="display-3"><i class="fas fa-graduation-cap"></i></p>
+                    </div>
+                    <h3 class="card-title">Education</h3>
                     <p class="card-text"><i>Bachelor of Science</i>, Computer Science<br/>2016</p>
+                    <br/><br/>
                 </div>
             </div>
             <div class="col-lg-4 p-2">
                 <div class="card p-4 shadow">
-                    <p class="display-3"><i class="fas fa-briefcase"></i></p>
-                    <h5 class="card-title">Experience</h5>
+                    <div style="display:inline-block; height:100px">
+                        <p class="display-3"><i class="fas fa-briefcase"></i></p>
+                    </div>
+                    <h3 class="card-title">Experience</h3>
                     <p class="card-text">
-                        5 years of web &amp; software development
-                        <br/>5 years of web management
-                        <br/>5 years of database management
-                        <br/>3 years of project management
-                        <br/>7 years of customer service
+                        <?php $currentYear = (int)date("Y"); ?>
+                        <?php echo $currentYear - 2015 ?> years of web development<br/>
+                        <?php echo $currentYear - 2016 ?> years of software development<br/>
+                        <?php echo $currentYear - 2016 ?> years of database management<br/>
+                        4 years of project management<br/>
+                        7 years of customer service<br/>
                     </p>
                 </div>
             </div>
             <div class="col-lg-4 p-2">
                 <div class="card p-4 shadow">
-                    <p class="display-3"><i class="fas fa-cubes"></i></p>
-                    <h5 class="card-title">Skills</h5>
+                    <div style="display:inline-block; height:100px">
+                        <p class="display-3"><i class="fas fa-cubes"></i></p>
+                    </div>
+                    <h3 class="card-title">Skills</h3>
                     <p class="card-text">Python, Java, C, SQL, PHP, Javascript, Linux, Bash, Web DevOps</p>
+                    <br/><br/>
                 </div>
             </div>
         </div>
@@ -87,27 +99,43 @@ set_last_page();
         <h2 class="text-center pb-3">Some of my Projects</h2>
         <div class="row">
             <div class="col-lg-4">
-                <p class="display-3"><i class="fas fa-trophy"></i>
+                <div style="display:inline-block; height:100px">
+                    <p class="display-3"><i class="fas fa-trophy"></i>
+                </div>
                 <h2>Matches</h2>
                 <p>Wager points against others on upcoming wrestling matches. Rank up on the leaderboard and rate your
                     favorite matches.</p>
-                <p><a class="btn btn-secondary shadow" href="/projects/matches/" target="_blank" role="button">Visit
-                        Page</a></p>
+                <p>
+                    <a class="btn btn-secondary shadow" href="/projects/matches/" target="_blank" role="button">
+                        Visit Page
+                    </a>
+                </p>
             </div>
             <div class="col-lg-4">
-                <p class="display-3"><i class="fas fa-poll-h"></i>
+                <div style="display:inline-block; height:100px">
+                    <p class="display-3"><i class="fas fa-poll-h"></i>
+                </div>
                 <h2>Create-a-Poll</h2>
                 <p>Pineapple on pizza? Peanut butter on burgers? Quickly create and share a poll topic with others.</p>
-                <p><a class="btn btn-secondary shadow" href="/projects/create-a-poll/" target="_blank" role="button">Visit
-                        Page</a></p>
+                <p>
+                    <a class="btn btn-secondary shadow" href="/projects/create-a-poll/" target="_blank" role="button">
+                        Visit Page
+                    </a>
+                </p>
             </div>
             <div class="col-lg-4">
-                <p class="display-3"><i class="fas fa-comments"></i>
+                <div style="display:inline-block; height:100px">
+                    <p class="display-3"><i class="fas fa-comments"></i>
+                </div>
                 <h2>IdleBot (Chat Bot)</h2>
-                <p>A customized chat bot used across Discord, Chatango, and Twitter. Used in conjunction with <a
-                            href="/projects/matches/">Matches</a>.</p>
-                <p><a class="btn btn-secondary shadow" href="/projects/fjbot/" target="_blank" role="button">Learn
-                        More</a></p>
+                <p>A customized chatbot used across Discord, Chatango, and Twitter. Used in conjunction with
+                    <a href="/projects/matches/">Matches</a>.<i> (deprecated)</i>
+                </p>
+                <p>
+                    <a class="btn btn-secondary shadow" href="/projects/fjbot/" target="_blank" role="button">
+                        Visit Documentation
+                    </a>
+                </p>
             </div>
             <p class="container pt-3"><a class="btn btn-secondary btn-lg shadow" href="https://github.com/idle-user"
                                          target="_blank" role="button">Other Projects</a></p>
@@ -145,6 +173,6 @@ set_last_page();
 </main>
 
 <?php include 'includes/footer.php'; ?>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 </body>
 </html>

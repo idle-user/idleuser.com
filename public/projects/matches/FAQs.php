@@ -30,6 +30,7 @@ include 'header.php';
     <p>Once the match bell rings or a decent amount of time to bet has been given, betting for the match is closed.</p>
 </section>
 <hr class="major"/>
+<!--
 <section>
     <header class="main">
         <h2>Why aren't NXT Matches added?</h2>
@@ -37,6 +38,7 @@ include 'header.php';
     <p>NXT is pretaped, so the outcomes of matches is known before the airing of the show.</p>
     <p>Only their PPVs (TakeOver) are added.</p>
 </section>
+-->
 <hr class="major"/>
 <section>
     <header class="main">
@@ -99,7 +101,7 @@ include 'header.php';
 <hr class="major"/>
 <?php
 if (!$_SESSION['loggedin']) {
-    echo "<p>I also see you're not registered. Please register and take a look around</p>";
+    echo "<p>I also see you're not registered. Please register and take a look around.</p>";
 } else {
     echo '<p><b>Thanks for registering, ' . $_SESSION['profile']['username'] . '!</b></p>';
     echo "<p>Hope you stick around :)</p>";
