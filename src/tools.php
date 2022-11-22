@@ -103,11 +103,13 @@ function requires_admin()
     }
 }
 
-function is_admin(){
+function is_admin()
+{
     return $_SESSION['loggedin'] && $_SESSION['profile']['access'] < 2;
 }
 
-function is_owner(){
+function is_owner()
+{
     return $_SESSION['loggedin'] && $_SESSION['profile']['access'] === 3;
 }
 
@@ -222,7 +224,34 @@ function email($to, $subject, $content)
     $message .= '</p>';
     $message .= '</div>';
     $message .= '</body></html>';
-    return mail($to, $subject, $message, $headers);
+//    return mail($to, $subject, $message, $headers); // SMTP
+    return mailgun_api($to, $subject, $message, $headers); //  mailgun API
+}
+
+function mailgun_api($to, $subject, $message, $headers)
+{
+    $url = 'https://api.mailgun.net/v3/' . getenv('MAILGUN_DOMAIN') . '/messages';
+    $payload = [
+        'to' => $to,
+        'from' => getenv('NOREPLY_EMAIL'),
+        'subject' => $subject,
+        'text' => strip_tags($message),
+        'html' => $message,
+        'h' => $headers,
+    ];
+    $curl = curl_init();
+    curl_setopt($curl, CURLOPT_URL, $url);
+    curl_setopt($curl, CURLOPT_POST, 1);
+    curl_setopt($curl, CURLOPT_POSTFIELDS, $payload);
+    curl_setopt($curl, CURLOPT_USERPWD, "api:" . getenv('MAILGUN_DOMAIN_KEY'));
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+    $response = curl_exec($curl);
+    curl_close($curl);
+    if (!$response) {
+        die("API Connection Failure");
+    }
+    $response = json_decode($response, true);
+    return isset($response['id']);
 }
 
 function email_admin_contact_alert($fname, $lname, $email, $user_subject, $body, $user_ip, $user_id)
