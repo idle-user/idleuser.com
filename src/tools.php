@@ -207,6 +207,8 @@ function page_meta($meta)
 
 function email($to, $subject, $content)
 {
+    if (is_email_ignore($to)) return false;
+
     $noreply_email = getenv('NOREPLY_EMAIL');
     $headers = array(
         'From: ' . $noreply_email,
@@ -226,6 +228,20 @@ function email($to, $subject, $content)
     $message .= '</body></html>';
 //    return mail($to, $subject, $message, $headers); // SMTP
     return mailgun_api($to, $subject, $message, $headers); //  mailgun API
+}
+
+function is_email_ignore($to)
+{
+    global $db;
+    $email_ignores = $db->all_email_ignore();
+    foreach ($email_ignores as $email_ignore) {
+        $pattern = str_replace(['*', '%'], '.*', $email_ignore['contains']);
+        if (preg_match('/' . $pattern . '$/i', $to)) {
+            $db->email_ignore_hit($email_ignore['id']);
+            return true;
+        }
+    }
+    return false;
 }
 
 function mailgun_api($to, $subject, $message, $headers)

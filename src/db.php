@@ -49,6 +49,30 @@ class MYSQLHandler
         return $stmt->execute();
     }
 
+    public function add_email_ignore($keyword)
+    {
+        $query = 'INSERT INTO email_ignore (contains, created_on, last_updated_on) VALUES (?)';
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('s', $keyword);
+        return $stmt->execute();
+    }
+
+    public function all_email_ignore()
+    {
+        $query = 'SELECT *  FROM email_ignore';
+        $stmt = $this->db->prepare($query);
+        $stmt->execute();
+        return $stmt->get_result()->fetch_array(MYSQLI_ASSOC);
+    }
+
+    public function email_ignore_hit($id)
+    {
+        $query = 'UPDATE email_ignore SET hits = hits + 1 WHERE id = ?';
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('i', $id);
+        return $stmt->execute();
+    }
+
     // ANALYTICS
 
     public function registered_user_dates()
