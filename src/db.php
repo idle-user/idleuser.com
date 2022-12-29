@@ -62,12 +62,17 @@ class MYSQLHandler
         $query = 'SELECT *  FROM email_ignore';
         $stmt = $this->db->prepare($query);
         $stmt->execute();
-        return $stmt->get_result()->fetch_array(MYSQLI_ASSOC);
+        $data = $stmt->get_result();
+        $result = [];
+        while ($r = $data->fetch_array(MYSQLI_ASSOC)) {
+            $result[] = $r;
+        }
+        return $result;
     }
 
     public function email_ignore_hit($id)
     {
-        $query = 'UPDATE email_ignore SET hits = hits + 1 WHERE id = ?';
+        $query = 'UPDATE email_ignore SET hits=hits+1, updated_at=NOW() WHERE id = ?';
         $stmt = $this->db->prepare($query);
         $stmt->bind_param('i', $id);
         return $stmt->execute();
