@@ -21,6 +21,7 @@
                 <a class="nav-link" href="matches?season=4">Season 4</a>
                 <a class="nav-link" href="matches?season=5">Season 5</a>
                 <a class="nav-link" href="matches?season=6">Season 6</a>
+                <a class="nav-link" href="matches?season=7">Season 7</a>
             </div>
         </li>
         <li class="nav-item">
@@ -75,6 +76,9 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="matches?season=6">Season 6</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="matches?season=7">Season 7</a>
             </li>
         </ul>
 

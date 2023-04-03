@@ -17,9 +17,11 @@ if ($season == 1) {
     $leaderboard = $db->s4_leaderboard();
 } elseif ($season == 5) {
     $leaderboard = $db->s5_leaderboard();
-} else {
-    $season = 6;
+} elseif ($season == 6) {
     $leaderboard = $db->s6_leaderboard();
+} else {
+    $season = 7;
+    $leaderboard = $db->s7_leaderboard();
 }
 
 $meta = [
