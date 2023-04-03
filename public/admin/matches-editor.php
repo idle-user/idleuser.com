@@ -492,11 +492,11 @@ $multiplier_list = [0.25, 0.5, 1, 1.25, 1.5];
                         <div class="mb-3">
                             <label>Team 2</label>
                             <select class="ml-4 rounded text-muted" name="contestants[2][multiplier]">
-                                <option value="1">1x</option>
-                                <option value="2">2x</option>
-                                <option value="3">3x</option>
-                                <option value="4">4x</option>
-                                <option value="5">5x</option>
+                                <?php
+                                foreach ($multiplier_list as $multiplier) {
+                                    echo "<option value='$multiplier'>{$multiplier}x</option>";
+                                }
+                                ?>
                             </select>
                             <div class="form-row">
                                 <div class="col-md-4">
