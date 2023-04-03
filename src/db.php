@@ -502,6 +502,19 @@ class MYSQLHandler
         return $result;
     }
 
+    public function s7_matches()
+    {
+        $data = $this->db->query('
+			SELECT * FROM uv_matches
+			WHERE id > 1422
+			ORDER BY date DESC, bet_open DESC, base_pot DESC, id DESC');
+        $result = [];
+        while ($r = $data->fetch_array(MYSQLI_ASSOC)) {
+            $result[$r['id']] = $r;
+        }
+        return $result;
+    }
+
     public function match($match_id)
     {
         $query = '
@@ -747,6 +760,26 @@ class MYSQLHandler
 				,vus.s6_total_points as points
 			FROM uv_matches_stats vus
 			WHERE s6_wins+s6_losses > 0
+			ORDER BY points DESC');
+        $result = [];
+        while ($r = $data->fetch_array(MYSQLI_ASSOC)) {
+            $result[] = $r;
+        }
+        return $result;
+    }
+
+    public function s7_leaderboard()
+    {
+        $data = $this->db->query('
+			SELECT
+				vus.user_id
+				,vus.username
+				,vus.favorite_superstar_id
+				,vus.s7_wins as wins
+				,vus.s7_losses as losses
+				,vus.s7_total_points as points
+			FROM uv_matches_stats vus
+			WHERE s7_wins+s7_losses > 0
 			ORDER BY points DESC');
         $result = [];
         while ($r = $data->fetch_array(MYSQLI_ASSOC)) {
@@ -1201,6 +1234,7 @@ class MYSQLHandler
 
     public function update_match($id, $event_id, $title_id, $match_type_id, $match_note, $team_won, $winner_note, $bet_open, $user_id)
     {
+        //$this->db->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING );
         $query = '
 			UPDATE matches_match
 			SET event_id=?, title_id=?, match_type_id=?, match_note=?, team_won=?, winner_note=?, bet_open=?, last_updated_by=?, last_updated=NOW()
@@ -1210,6 +1244,8 @@ class MYSQLHandler
         if ($success) {
             $success = $stmt->execute();
         }
+        #print_r($stmt);
+        #    exit();
         return $success;
     }
 

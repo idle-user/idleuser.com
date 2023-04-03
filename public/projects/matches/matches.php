@@ -48,6 +48,9 @@ if (empty($header)) {
     } else if ($season == 6 || !$season) {
         $matches = $db->s6_matches();
         $header = 'Matches (Season 6)';
+    } else if ($season == 7 || !$season) {
+        $matches = $db->s7_matches();
+        $header = 'Matches (Season 7)';
     } else {
         $matches = $db->all_matches();
         $header = 'All Matches';
