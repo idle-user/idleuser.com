@@ -132,6 +132,8 @@ $match_type_list = $matches_base_data['matches_match_type'];
 if ($is_success && ($new_attempt || $update_attempt)) {
     $match_info = get_match_info($match_id);
 }
+
+$multiplier_list = [0.25, 0.5, 1, 1.25, 1.5];
 ?>
 <!doctype html>
 <html lang="en">
@@ -303,9 +305,16 @@ if ($is_success && ($new_attempt || $update_attempt)) {
                                 <select class="ml-4 rounded text-muted"
                                         name="contestants[<?php echo $team_number ?>][multiplier]">
                                     <?php
-                                    for ($i = 1; $i <= 5; $i++) {
-                                        $is_selected = $i == $team_bet_multiplier ? 'selected' : '';
-                                        echo "<option value='$i' $is_selected>{$i}x</option>";
+                                    $multiplier_in_list = false;
+                                    foreach ($multiplier_list as $multiplier) {
+                                        $is_selected = $multiplier == $team_bet_multiplier ? 'selected' : '';
+                                        if (!$multiplier_in_list && $is_selected) {
+                                            $multiplier_in_list = true;
+                                        }
+                                        echo "<option value='$multiplier' $is_selected>{$multiplier}x</option>";
+                                    }
+                                    if (!$multiplier_in_list) {
+                                        echo "<option value='$team_bet_multiplier' selected>{$team_bet_multiplier}x</option>";
                                     }
                                     ?>
                                 </select>
@@ -461,11 +470,11 @@ if ($is_success && ($new_attempt || $update_attempt)) {
                         <div class="mb-3">
                             <label>Team 1</label>
                             <select class="ml-4 rounded text-muted" name="contestants[1][multiplier]">
-                                <option value="1">1x</option>
-                                <option value="2">2x</option>
-                                <option value="3">3x</option>
-                                <option value="4">4x</option>
-                                <option value="5">5x</option>
+                                <?php
+                                foreach ($multiplier_list as $multiplier) {
+                                    echo "<option value='$multiplier'>{$multiplier}x</option>";
+                                }
+                                ?>
                             </select>
                             <div class="form-row">
                                 <div class="col-md-4">
@@ -514,7 +523,8 @@ if ($is_success && ($new_attempt || $update_attempt)) {
         </div>
     </div>
 
-    <?php if($match_info) { $match_bets = $db->match_bets($match_info['id']); ?>
+    <?php if ($match_info) {
+        $match_bets = $db->match_bets($match_info['id']); ?>
         <div class="my-3 p-3 bg-white rounded shadow-sm">
             <h6 class="border-bottom border-gray pb-2 mb-0">Bets</h6>
             <div class="table-responsive-xl">
@@ -532,12 +542,12 @@ if ($is_success && ($new_attempt || $update_attempt)) {
                     </thead>
                     <tbody>
                     <?php foreach ($match_bets as $match_bet) { ?>
-                       <tr>
+                        <tr>
                             <th scope='row'><?= $match_bet['username'] ?></th>
                             <td><?= $match_bet['points'] ?></td>
                             <td><?= $match_bet['team'] ?></td>
-                            <td><?= number_format($match_bet['potential_cut_points']) . ' ('.number_format($match_bet['potential_cut_pct'] * 100, 2).'%)' ?></td>
-                            <td><?= $match_bet['bet_won']?:'0' ?></td>
+                            <td><?= number_format($match_bet['potential_cut_points']) . ' (' . number_format($match_bet['potential_cut_pct'] * 100, 2) . '%)' ?></td>
+                            <td><?= $match_bet['bet_won'] ?: '0' ?></td>
                             <td><?= $match_bet['dt_placed'] ?></td>
                         </tr>
                     <?php } ?>
