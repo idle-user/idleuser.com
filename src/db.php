@@ -1234,7 +1234,6 @@ class MYSQLHandler
 
     public function update_match($id, $event_id, $title_id, $match_type_id, $match_note, $team_won, $winner_note, $bet_open, $user_id)
     {
-        //$this->db->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING );
         $query = '
 			UPDATE matches_match
 			SET event_id=?, title_id=?, match_type_id=?, match_note=?, team_won=?, winner_note=?, bet_open=?, last_updated_by=?, last_updated=NOW()
@@ -1244,8 +1243,6 @@ class MYSQLHandler
         if ($success) {
             $success = $stmt->execute();
         }
-        #print_r($stmt);
-        #    exit();
         return $success;
     }
 
@@ -1267,7 +1264,7 @@ class MYSQLHandler
     {
         $query = 'INSERT INTO matches_contestant (match_id, superstar_id, team, bet_multiplier) VALUES (?, ?, ?, ?)';
         $stmt = $this->db->prepare($query);
-        $success = $stmt->bind_param('iiii', $match_id, $superstar_id, $team, $bet_multiplier);
+        $success = $stmt->bind_param('iiis', $match_id, $superstar_id, $team, $bet_multiplier);
         if ($success) {
             $success = $stmt->execute();
         }
