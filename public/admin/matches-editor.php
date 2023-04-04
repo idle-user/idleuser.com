@@ -133,7 +133,7 @@ if ($is_success && ($new_attempt || $update_attempt)) {
     $match_info = get_match_info($match_id);
 }
 
-$multiplier_list = [0.25, 0.5, 1, 1.25, 1.5];
+$multiplier_list = [0.00, 0.25, 0.5, 1, 1.25, 1.5];
 ?>
 <!doctype html>
 <html lang="en">
@@ -230,7 +230,7 @@ $multiplier_list = [0.25, 0.5, 1, 1.25, 1.5];
                         </div>
                         <div class="col-md-4 mb-3">
                             <h5 for="base_pot">Total Pot</h5>
-                            <small id="base_pot"><?php echo number_format($match_info['total_pot']) ?></small>
+                            <small id="base_pot"><?php echo number_format($match_info['base_pot'] + $match_info['total_pot']) ?></small>
                         </div>
                         <div class="col-md-4 mb-3">
                             <h5 for="base_pot">Bet Multiplier</h5>
@@ -535,7 +535,7 @@ $multiplier_list = [0.25, 0.5, 1, 1.25, 1.5];
                         <th scope="col">Username</th>
                         <th scope="col">Bet</th>
                         <th scope="col">Team</th>
-                        <th scope="col">Potential Cut</th>
+                        <th scope="col">Potential Winnings</th>
                         <th scope="col">Result</th>
                         <th scope="col">Bet Placed</th>
                     </tr>
@@ -546,7 +546,7 @@ $multiplier_list = [0.25, 0.5, 1, 1.25, 1.5];
                             <th scope='row'><?= $match_bet['username'] ?></th>
                             <td><?= $match_bet['points'] ?></td>
                             <td><?= $match_bet['team'] ?></td>
-                            <td><?= number_format($match_bet['potential_cut_points']) . ' (' . number_format($match_bet['potential_cut_pct'] * 100, 2) . '%)' ?></td>
+                            <td>+<?= number_format($match_bet['potential_cut_points']) . ' (' . number_format($match_bet['potential_cut_pct'] * 100, 2) . '%)' ?></td>
                             <td><?= $match_bet['bet_won'] ?: '0' ?></td>
                             <td><?= $match_bet['dt_placed'] ?></td>
                         </tr>
