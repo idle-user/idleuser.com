@@ -42,7 +42,6 @@ $bets = $db->user_season_bets($_SESSION['profile']['id'], $season_id);
                 <th scope="col">Matches Rated</th>
                 <th scope="col">Ratings Points</th>
                 <th scope="col">Daily Points</th>
-                <th scope="col">Betted Points</th>
                 <th scope="col">Total Points</th>
                 <th scope="col">Available Points</th>
             </tr>
@@ -54,7 +53,6 @@ $bets = $db->user_season_bets($_SESSION['profile']['id'], $season_id);
                 <td><?php echo number_format($stats['ratings']); ?></td>
                 <td><?php echo number_format($stats['rating_points']); ?></td>
                 <td><?php echo number_format($stats['daily_points']); ?></td>
-                <td><?php echo number_format($stats['bet_points']); ?></td>
                 <td><?php echo number_format($stats['total_points']); ?></td>
                 <td><?php echo number_format($stats['available_points']); ?></td>
             </tr>
@@ -70,7 +68,7 @@ $bets = $db->user_season_bets($_SESSION['profile']['id'], $season_id);
                 <th scope="col">Match</th>
                 <th scope="col">Bet</th>
                 <th scope="col">Result</th>
-                <th scope="col">Betted Points</th>
+                <th scope="col">Standing History</th>
             </tr>
             </thead>
             <tbody>
@@ -91,7 +89,11 @@ $bets = $db->user_season_bets($_SESSION['profile']['id'], $season_id);
                 $match_contestants = "<text class='small text-muted'>{$bet['contestants']}</text>";
 
                 $bet_on = "<strong>{$bet_amount}</strong> on {$bet['bet_on']}";
-                $pot_actuals = "<text class='small font-italic'>Pot: {$base_pot} x {$bet['bet_multiplier']} => {$total_pot}</text>";
+                if ($season_id < 7) {
+                    $pot_actuals = "<text class='small font-italic'>Pot: {$base_pot} x {$bet['bet_multiplier']} => {$total_pot}</text>";
+                } else {
+                    $pot_actuals = "<text class='small font-italic'>Pot: {$base_pot} + ({$base_pot} x {$bet['bet_multiplier']}) => {$total_pot}</text>";
+                }
                 $bet_potentials = "<text class='small font-italic'>Potential Cut: {$potential_cut_points} ({$potential_cut_pct}%)</text>";
 
                 $num_text = $bet_cnt--;

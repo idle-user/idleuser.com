@@ -454,7 +454,7 @@ class MYSQLHandler
     {
         $data = $this->db->query('
 			SELECT * FROM uv_matches
-			WHERE id BETWEEN 712 AND 919
+			WHERE id BETWEEN 712+1 AND 919
 			ORDER BY date DESC, bet_open DESC, base_pot DESC, id DESC');
         $result = [];
         while ($r = $data->fetch_array(MYSQLI_ASSOC)) {
@@ -467,7 +467,7 @@ class MYSQLHandler
     {
         $data = $this->db->query('
 			SELECT * FROM uv_matches
-			WHERE id > 919
+			WHERE id BETWEEN 919+1 AND 1104
 			ORDER BY date DESC, bet_open DESC, base_pot DESC, id DESC');
         $result = [];
         while ($r = $data->fetch_array(MYSQLI_ASSOC)) {
@@ -480,7 +480,7 @@ class MYSQLHandler
     {
         $data = $this->db->query('
 			SELECT * FROM uv_matches
-			WHERE id > 1104
+			WHERE id BETWEEN 1104+1 AND 1269
 			ORDER BY date DESC, bet_open DESC, base_pot DESC, id DESC');
         $result = [];
         while ($r = $data->fetch_array(MYSQLI_ASSOC)) {
@@ -493,7 +493,7 @@ class MYSQLHandler
     {
         $data = $this->db->query('
 			SELECT * FROM uv_matches
-			WHERE id > 1269
+			WHERE id BETWEEN 1269+1 AND 1422
 			ORDER BY date DESC, bet_open DESC, base_pot DESC, id DESC');
         $result = [];
         while ($r = $data->fetch_array(MYSQLI_ASSOC)) {
