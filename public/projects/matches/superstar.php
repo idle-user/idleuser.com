@@ -25,6 +25,7 @@ include 'header.php';
 <span class="image main">
 	<img src="<?php echo $superstar['image_url']; ?>" alt="[Image Coming Soon]"/>
 </span>
+<?php include getenv('APP_PATH') . '/public/includes/alert.php'; ?>
 <div class="table-wrapper">
     <table class="alt">
         <thead>
@@ -50,7 +51,13 @@ include 'header.php';
             <td><?php echo $superstar['hometown']; ?></td>
             <td><?php echo $superstar['dob']; ?></td>
             <td><?php echo $superstar['signature_move']; ?></td>
-            <?php if ($_SESSION['loggedin']) echo '<td><button type="button" onclick="return updateFavorite(' . $superstar['id'] . ')">Favorite</button></td>'; ?>
+            <?php if ($_SESSION['loggedin']) {
+                if ($superstar['id'] == $userStats['favorite_superstar_id']) {
+                    echo '<td><button type="button" onclick="updateFavorite(' . $superstar['id'] . ')" disabled>Your Favorite</button></td>';
+                } else {
+                    echo '<td><button type="button" onclick="updateFavorite(' . $superstar['id'] . ')">Favorite</button></td>';
+                }
+            }?>
         </tr>
         </tbody>
     </table>
