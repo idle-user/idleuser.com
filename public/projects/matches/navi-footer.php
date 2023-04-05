@@ -114,36 +114,41 @@
     }
 
     function updateMatchRating(match_id, rating) {
-        $.post('scripts/updateRating', {'match_id': match_id, 'rating': rating},
-            function (response) {
-                response = JSON.parse(response);
-                alert(response.message);
-                if (response.success)
-                    location.reload();
-            }
-        );
-        return false;
+        document.body.innerHTML += `<form id="dynamicForm" method="post"><input type="hidden" name="matches-rate"><input type="hidden" name="match_id" value="${match_id}"><input type="hidden" name="rating" value="${rating}"></form>`;
+        document.getElementById("dynamicForm").submit();
     }
 
-    function placeBet(match_id) {
-        var superstar = $('#form_match_' + match_id).find(":selected").text();
-        var amount = $('#form_match_' + match_id).find("input[name=bet_amount]").val();
-        amount = amount.replace(/\,/g, '');
-        if (superstar != 'Superstar' && amount > 0) {
-            $.post('scripts/userBet', {'match_id': match_id, 'superstar': superstar, 'bet': amount},
-                function (response) {
-                    response = JSON.parse(response);
-                    alert(response.message);
-                    if (response.success) {
-                        location.reload();
-                    }
-                }
-            );
-        } else {
-            alert('Invalid Bet');
-        }
-        return false;
-    }
+    // function updateMatchRating(match_id, rating) {
+    //     $.post('scripts/updateRating', {'match_id': match_id, 'rating': rating},
+    //         function (response) {
+    //             response = JSON.parse(response);
+    //             alert(response.message);
+    //             if (response.success)
+    //                 location.reload();
+    //         }
+    //     );
+    //     return false;
+    // }
+
+    // function placeBet(match_id) {
+    //     var superstar = $('#form_match_' + match_id).find(":selected").text();
+    //     var amount = $('#form_match_' + match_id).find("input[name=bet_amount]").val();
+    //     amount = amount.replace(/\,/g, '');
+    //     if (superstar != 'Superstar' && amount > 0) {
+    //         $.post('scripts/userBet', {'match_id': match_id, 'superstar': superstar, 'bet': amount},
+    //             function (response) {
+    //                 response = JSON.parse(response);
+    //                 alert(response.message);
+    //                 if (response.success) {
+    //                     location.reload();
+    //                 }
+    //             }
+    //         );
+    //     } else {
+    //         alert('Invalid Bet');
+    //     }
+    //     return false;
+    // }
 
     function prettyURI(toRemove, toReplace) {
         toReplace = toReplace.replace(/[^a-zA-Z0-9]/g, '-');
