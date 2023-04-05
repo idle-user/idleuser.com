@@ -90,9 +90,9 @@ $bets = $db->user_season_bets($_SESSION['profile']['id'], $season_id);
 
                 $bet_on = "<strong>{$bet_amount}</strong> on {$bet['bet_on']}";
                 if ($season_id < 7) {
-                    $pot_actuals = "<text class='small font-italic'>Pot: {$base_pot} x {$bet['bet_multiplier']} => {$total_pot}</text>";
+                    $pot_actuals = "<text class='small font-italic'>Pot: {$total_pot}</text>";
                 } else {
-                    $pot_actuals = "<text class='small font-italic'>Pot: {$base_pot} + ({$base_pot} x {$bet['bet_multiplier']}) => {$total_pot}</text>";
+                    $pot_actuals = "<text class='small font-italic'>Pot: {$base_pot} + ({$bet['team_base_pot']} x {$bet['bet_multiplier']}) => {$total_pot}</text>";
                 }
                 $bet_potentials = "<text class='small font-italic'>Potential Cut: {$potential_cut_points} ({$potential_cut_pct}%)</text>";
 
