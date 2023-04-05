@@ -1,6 +1,7 @@
 <header class="main">
     <?php echo $header; ?>
 </header>
+<?php include getenv('APP_PATH') . '/public/includes/alert.php'; ?>
 <?php
 $showPoints = false;
 if (empty($matches)) {
@@ -121,15 +122,17 @@ if (!isset($user) && $_SESSION['loggedin']) {
                                     $message = $message . ' on ' . implode(', ', $chosen_names);
                                 }
                             } else if ($match['bet_open']) {
-                                echo '<form id="form_match_' . $match['id'] . '" action="javascript:placeBet(' . $match['id'] . ')"><select> <option value="" disabled selected>Superstar</option>';
-                                foreach ($all_contestants as $team) {
+                                //echo '<form id="form_match_' . $match['id'] . '" action="javascript:placeBet(' . $match['id'] . ')"><select> <option value="" disabled selected>Superstar</option>';
+                                echo '<form method="POST"><input type="hidden" name="match_id" value="' .  $match['id'] . '" /><select name="team" required><option value="" disabled selected>Superstar</option>';
+                                foreach ($all_contestants as $team_id => $team) {
+
                                     $team_names = array();
                                     foreach ($team as $s_name) {
                                         $team_names[] = $s_name['name'];
                                     }
-                                    echo '<option>' . implode(', ', $team_names) . '</option>';
+                                    echo '<option value="' . $team_id .  '">' . implode(', ', $team_names) . '</option>';
                                 }
-                                echo '</select><input type="float" name="bet_amount" placeholder="Bet Amount" class="m-2"/><input type="submit" class="m-2"></form>';
+                                echo '</select><input type="number" name="points" placeholder="Bet Amount" class="m-2" required/><input type="submit" class="m-2" name="matches-bet"></form>';
                             }
                         }
                         if (!$match['bet_open']) {

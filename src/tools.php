@@ -405,6 +405,14 @@ function maybe_process_form()
             $method = 'POST';
             $route = "watchwrestling/royalrumbles/{$_POST['royalrumble_id']}";
             $_POST['user_id'] = $_SESSION['profile']['id'];
+        } elseif (isset($_POST['matches-bet'])) {
+            $method = 'POST';
+            $route = "watchwrestling/bet";
+            $_POST['user_id'] = $_SESSION['profile']['id'];
+        } elseif (isset($_POST['matches-rate'])) {
+            $method = 'POST';
+            $route = "watchwrestling/rate";
+            $_POST['user_id'] = $_SESSION['profile']['id'];
         }
 
         if ($method && $route) {
