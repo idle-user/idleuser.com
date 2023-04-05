@@ -611,10 +611,10 @@ class MYSQLHandler
 				,IF(ubc.bet_won=1,ubc.potential_cut_points,0) AS points_won
 			FROM uv_matches vm
 			JOIN matches_bet_calculation ubc ON ubc.user_id=? AND ubc.match_id=vm.id
-			LEFT JOIN matches_match_rating umr ON umr.user_id=? AND umr.match_id=vm.id
+			LEFT JOIN matches_match_rating umr ON umr.user_id=ubc.user_id AND umr.match_id=vm.id
 			ORDER BY vm.date DESC, vm.id DESC';
         $stmt = $this->db->prepare($query);
-        $stmt->bind_param('ii', $user_id, $user_id);
+        $stmt->bind_param('i', $user_id);
         $stmt->execute();
         $data = $stmt->get_result();
         $result = [];
@@ -1228,8 +1228,12 @@ class MYSQLHandler
         $success = $stmt->bind_param('iiisisii', $event_id, $title_id, $match_type_id, $match_note, $team_won, $winner_note, $bet_open, $user_id);
         if ($success) {
             $success = $stmt->execute();
+            if ($success) {
+                $match_id = mysqli_insert_id($this->db);
+                $this->update_match_calculation($match_id);
+            }
         }
-        return $success ? mysqli_insert_id($this->db) : false;
+        return $success ? $match_id : false;
     }
 
     public function update_match($id, $event_id, $title_id, $match_type_id, $match_note, $team_won, $winner_note, $bet_open, $user_id)
@@ -1246,18 +1250,28 @@ class MYSQLHandler
         return $success;
     }
 
-    public function recalculate_match($id)
+    public function update_match_calculation($match_id)
     {
-        $query = '
-			UPDATE matches_match
-			SET last_updated=NOW()
-			WHERE id=?';
+        $query = 'CALL `usp_matches_upd_match_calculation`(?)';
         $stmt = $this->db->prepare($query);
-        $success = $stmt->bind_param('i', $id);
-        if ($success) {
-            $success = $stmt->execute();
-        }
-        return $success;
+        $stmt->bind_param('i', $match_id);
+        return $stmt->execute();
+    }
+
+    public function update_bets_calculation($match_id)
+    {
+        $query = 'CALL `usp_matches_upd_bet_calculation`(?)';
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('i', $match_id);
+        return $stmt->execute();
+    }
+
+    public function update_stats_calculation($match_id)
+    {
+        $query = 'CALL `usp_matches_upd_stats_all`(`func_matches_match_season`(?))';
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('i', $match_id);
+        return $stmt->execute();
     }
 
     public function add_match_contestant($match_id, $superstar_id, $team, $bet_multiplier)

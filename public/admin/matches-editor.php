@@ -90,8 +90,11 @@ if ($new_attempt || $update_attempt) {
                 }
             }
             if ($contestants_added == 0) {
-                $db->add_match_contestant($match_id, 1, 1, 1);
+                $db->add_match_contestant($match_id, 1, 1, 0);
             }
+            $db->update_match_calculation($match_id);
+            $db->update_bets_calculation($match_id);
+            $db->update_stats_calculation($match_id);
         }
 
     } else {
@@ -230,10 +233,10 @@ $multiplier_list = [0.00, 0.25, 0.5, 1, 1.25, 1.5];
                         </div>
                         <div class="col-md-4 mb-3">
                             <h5 for="base_pot">Total Pot</h5>
-                            <small id="base_pot"><?php echo number_format($match_info['base_pot'] + $match_info['total_pot']) ?></small>
+                            <small id="base_pot"><?php echo number_format($match_info['total_pot']) ?></small>
                         </div>
                         <div class="col-md-4 mb-3">
-                            <h5 for="base_pot">Bet Multiplier</h5>
+                            <h5 for="base_pot" title="Applies to winner pool only">Bet Multiplier*</h5>
                             <small id="base_pot"><?php echo $match_info['completed'] ? $match_info['bet_multiplier'] : 'TBD' ?></small>
                         </div>
                     </div>
