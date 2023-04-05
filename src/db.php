@@ -569,7 +569,8 @@ class MYSQLHandler
     {
         $query = '
 			SELECT * FROM uv_matches
-			WHERE title_id=?';
+			WHERE title_id=?
+            ORDER BY vm.info_last_updated DESC';
         $stmt = $this->db->prepare($query);
         $stmt->bind_param('i', $title_id);
         $stmt->execute();
@@ -590,7 +591,8 @@ class MYSQLHandler
 			FROM uv_matches vm
 			JOIN
 				matches_contestant mc ON mc.superstar_id=?
-				AND mc.match_id=vm.id';
+				AND mc.match_id=vm.id
+            ORDER BY vm.info_last_updated DESC';
         $stmt = $this->db->prepare($query);
         $stmt->bind_param('i', $superstar_id);
         $stmt->execute();

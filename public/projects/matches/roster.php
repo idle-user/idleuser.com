@@ -18,6 +18,8 @@ include 'header.php';
 <header class="main">
     <h1><?php echo $brand['name'] . ' Roster'; ?></h1>
 </header>
+<?php include getenv('APP_PATH') . '/public/includes/alert.php'; ?>
+
 <span class="image main"><img src="<?php echo $brand['image_url']; ?>" alt="[Image Coming Soon]"
                               style="max-height:150px;width:auto;display:block;margin-left:auto;margin-right:auto;"/></span>
 <div class="table-wrapper">
@@ -42,7 +44,13 @@ include 'header.php';
                 <td><?php echo $superstar['weight']; ?></td>
                 <td><?php echo $superstar['hometown']; ?></td>
                 <td><?php echo $superstar['dob']; ?></td>
-                <?php if ($_SESSION['loggedin']) echo '<td><button type="button" onclick="updateFavorite(' . $superstar['id'] . ')">Favorite</button></td>'; ?>
+                <?php if ($_SESSION['loggedin']) {
+                    if ($superstar['id'] == $userStats['favorite_superstar_id']) {
+                        echo '<td><button type="button" onclick="updateFavorite(' . $superstar['id'] . ')" disabled>Your Favorite</button></td>';
+                    } else {
+                        echo '<td><button type="button" onclick="updateFavorite(' . $superstar['id'] . ')">Favorite</button></td>';
+                    }
+                }?>
             </tr>
         <?php } ?>
         </tbody>
