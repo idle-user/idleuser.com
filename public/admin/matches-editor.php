@@ -217,7 +217,7 @@ $multiplier_list = [0.00, 0.25, 0.5, 1, 1.25, 1.5];
             Editor <?php if ($match_info) echo "<small class='float-right'>Last Updated: $match_info[info_last_updated]</small>"; ?></h6>
         <div class="media text-muted pt-3">
 
-            <?php $dtToday = date('Y-m-d 0:0:0'); ?>
+            <?php $dateToday = date('Y-m-d'); ?>
             <?php if ($match_info) { ?>
 
                 <!-- Update Form -->
@@ -424,8 +424,8 @@ $multiplier_list = [0.00, 0.25, 0.5, 1, 1.25, 1.5];
                                 <?php
                                 function isFutureEvent($event)
                                 {
-                                    global $dtToday;
-                                    return $event['date_time'] > $dtToday;
+                                    global $dateToday;
+                                    return $event['date_time'] >= $dateToday;
                                 }
 
                                 $filtered_event_list = array_filter($event_list, "isFutureEvent");
