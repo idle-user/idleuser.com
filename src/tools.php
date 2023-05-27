@@ -97,7 +97,7 @@ function requires_admin()
         redirect(0, '/login');
         exit();
     }
-    if (is_admin()) {
+    if (!is_admin()) {
         redirect(0, '/403.php');
         exit();
     }
@@ -105,7 +105,7 @@ function requires_admin()
 
 function is_admin()
 {
-    return $_SESSION['loggedin'] && $_SESSION['profile']['access'] < 2;
+    return $_SESSION['loggedin'] && $_SESSION['profile']['access'] > 1;
 }
 
 function is_owner()
@@ -116,8 +116,6 @@ function is_owner()
 function logout()
 {
     $uid = $_SESSION['profile']['id'];
-    // unset($_SESSION['profile']);
-    // $_SESSION['loggedin'] = false;
     session_destroy();
     track("Logout - uid:$uid");
 }
@@ -134,6 +132,20 @@ function login_token_check()
         if ($_SESSION['loggedin']) {
             maybe_redirect_to();
         }
+    }
+}
+
+function check_auth()
+{
+    $res = api_call('GET', 'auth');
+    if ($res['statusCode'] === 200) {
+        $res = api_call('GET', 'users/' . $_SESSION['profile']['id']);
+        $_SESSION['profile'] = array_replace($_SESSION['profile'] ?? array(), $res['data']);
+        $_SESSION['loggedin'] = true;
+        maybe_redirect_to();
+    } else {
+        track("Check Auth Failed Attempt - result:" . print_r($_SESSION['profile'], true));
+        $_SESSION['loggedin'] = false;
     }
 }
 
@@ -340,7 +352,7 @@ function api_call($method, $route, $payload = null)
     curl_setopt($curl, CURLOPT_URL, $url);
     curl_setopt($curl, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT'] ?? '');
     curl_setopt($curl, CURLOPT_HTTPHEADER, array(
-        $_SESSION['loggedin'] ? 'Authorization: Bearer ' . $_SESSION['profile']['auth_token'] : '',
+        $_SESSION['loggedin'] ? ('Authorization: Bearer ' . $_SESSION['profile']['auth_token']) : '',
         'Content-Type: application/json',
         'X-Forwarded-For: ' . get_ip(),
     ));

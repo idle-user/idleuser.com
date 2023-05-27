@@ -12,7 +12,11 @@ $db = new MYSQLHandler();
 
 $_SESSION['loggedin'] = isset($_SESSION['profile']);
 
-login_token_check();
+if(!$_SESSION['loggedin']) {
+    login_token_check();
+} else {
+    check_auth();
+}
 
 track();
 
