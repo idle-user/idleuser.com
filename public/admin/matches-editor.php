@@ -258,7 +258,7 @@ $multiplier_list = [0.00, 0.25, 0.5, 1, 1.25, 1.5];
                                 foreach ($event_list as $event) {
                                     $is_selected = ($event['id'] == $match_info['event_id']) ? 'selected' : '';
                                     $event_date_only = explode(' ', $event['date_time'])[0];
-                                    $classes = $event['date_time'] < $dtToday ? 'text-danger' : 'text-success';
+                                    $classes = $event['date_time'] < $dateToday ? 'text-danger' : 'text-success';
                                     echo "<option class='$classes' value='$event[id]' $is_selected>[$event_date_only] $event[name]</option>";
                                 }
                                 ?>
