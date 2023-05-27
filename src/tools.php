@@ -97,7 +97,7 @@ function requires_admin()
         redirect(0, '/login');
         exit();
     }
-    if (is_admin()) {
+    if (!is_admin()) {
         redirect(0, '/403.php');
         exit();
     }
@@ -105,7 +105,7 @@ function requires_admin()
 
 function is_admin()
 {
-    return $_SESSION['loggedin'] && $_SESSION['profile']['access'] < 2;
+    return $_SESSION['loggedin'] && $_SESSION['profile']['access'] > 1;
 }
 
 function is_owner()
