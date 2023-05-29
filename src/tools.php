@@ -16,19 +16,39 @@ function validate_recaptchaV2()
 
 function get_ip()
 {
-    # check cloudflare
-    if (isset($_SERVER['HTTP_CF_CONNECTING_IP'])) return $_SERVER['HTTP_CF_CONNECTING_IP'];
+    $ipVars = array(
+        'HTTP_CF_CONNECTING_IP',
+        'HTTP_CLIENT_IP',
+        'HTTP_X_FORWARDED_FOR',
+        'HTTP_X_FORWARDED',
+        'HTTP_X_CLUSTER_CLIENT_IP',
+        'HTTP_FORWARDED_FOR',
+        'HTTP_FORWARDED',
+        'REMOTE_ADDR'
+    );
 
-    if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
-        $ip = $_SERVER['HTTP_CLIENT_IP'];
-    } elseif (!empty($_SERVER['HTTP_X_REAL_IP'])) {
-        $ip = $_SERVER['HTTP_X_REAL_IP'];
-    } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-        $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-    } else {
-        $ip = $_SERVER['REMOTE_ADDR'];
+    $privateIP = '';
+
+    foreach ($ipVars as $ipVar) {
+        if (array_key_exists($ipVar, $_SERVER) === true) {
+            foreach (explode(',', $_SERVER[$ipVar]) as $ip) {
+                $ip = trim($ip);
+                if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 | FILTER_FLAG_IPV6) !== false) {
+                    if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) !== false) {
+                        return $ip;
+                    } elseif ($privateIP === '') {
+                        $privateIP = $ip;
+                    }
+                }
+            }
+        }
     }
-    return $ip;
+
+    if ($privateIP === '') {
+        $privateIP = '0.0.0.0';
+    }
+
+    return $privateIP;
 }
 
 function track($note = null)
@@ -113,6 +133,11 @@ function is_owner()
     return $_SESSION['loggedin'] && $_SESSION['profile']['access'] === 3;
 }
 
+function is_banned()
+{
+    return $_SESSION['loggedin'] && $_SESSION['profile']['access'] < 1;
+}
+
 function logout()
 {
     $uid = $_SESSION['profile']['id'];
@@ -137,15 +162,24 @@ function login_token_check()
 
 function check_auth()
 {
+    if (!$_SESSION['loggedin']) {
+        return;
+    }
+    if (is_banned()) {
+        logout();
+        redirect(0, '/login.php');
+        exit();
+    }
     $res = api_call('GET', 'auth');
     if ($res['statusCode'] === 200) {
         $res = api_call('GET', 'users/' . $_SESSION['profile']['id']);
         $_SESSION['profile'] = array_replace($_SESSION['profile'] ?? array(), $res['data']);
         $_SESSION['loggedin'] = true;
-        maybe_redirect_to();
     } else {
-        track("Check Auth Failed Attempt - result:" . print_r($_SESSION['profile'], true));
-        $_SESSION['loggedin'] = false;
+        track("Check Auth Failed Attempt - user_id:" . $_SESSION['profile']['id']);
+        logout();
+        redirect(0, '/login.php');
+        exit();
     }
 }
 
@@ -354,7 +388,7 @@ function api_call($method, $route, $payload = null)
     curl_setopt($curl, CURLOPT_HTTPHEADER, array(
         $_SESSION['loggedin'] ? ('Authorization: Bearer ' . $_SESSION['profile']['auth_token']) : '',
         'Content-Type: application/json',
-        'X-Forwarded-For: ' . get_ip(),
+        'Client-IP: ' . get_ip(),
     ));
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
     curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BEARER);
