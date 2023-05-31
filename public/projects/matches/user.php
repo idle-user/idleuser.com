@@ -25,7 +25,7 @@ $meta = [
 include 'header.php';
 ?>
 <header class="main">
-    <h1 <?php if(is_owner()) { ?>title='<?= var_dump($db->user_socials($user_id)); ?>'<?php } ?> >
+    <h1 <?php if(is_admin()) { ?>title='<?= var_dump($db->user_socials($user_id)); ?>'<?php } ?> >
         <?= $user_stats['username']; ?>
     </h1>
 
