@@ -24,6 +24,9 @@
         </div>
     </li>
 
-    <a class="nav-link" href="analytics">Analytics</a>
+    <?php if (is_admin()) { ?>
+        <a class="nav-link" href="analytics">Analytics</a>
+        <a class="nav-link" href="user-management">User Management</a>
+    <?php } ?>
 </nav>
 

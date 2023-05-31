@@ -111,6 +111,18 @@ function random_hex_color($offset = false, $min = 0x000000, $max = 0xFFFFFF)
     return '#' . str_pad($color_code, 6, 0, STR_PAD_LEFT);
 }
 
+function requires_mod()
+{
+    if (!$_SESSION['loggedin']) {
+        redirect(0, '/login');
+        exit();
+    }
+    if (!is_mod()) {
+        redirect(0, '/403.php');
+        exit();
+    }
+}
+
 function requires_admin()
 {
     if (!$_SESSION['loggedin']) {
@@ -123,12 +135,12 @@ function requires_admin()
     }
 }
 
-function is_admin()
+function is_mod()
 {
     return $_SESSION['loggedin'] && $_SESSION['profile']['access'] > 1;
 }
 
-function is_owner()
+function is_admin()
 {
     return $_SESSION['loggedin'] && $_SESSION['profile']['access'] === 3;
 }

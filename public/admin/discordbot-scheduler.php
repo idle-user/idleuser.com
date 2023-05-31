@@ -1,6 +1,6 @@
 <?php require_once getenv('APP_PATH') . '/src/session.php';
 set_last_page();
-requires_admin(); ?>
+requires_mod(); ?>
 <?php
 
 $is_success = false;
