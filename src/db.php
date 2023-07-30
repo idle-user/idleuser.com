@@ -7,7 +7,7 @@ class MYSQLHandler
 
     public function __construct()
     {
-        $this->db = new mysqli(getenv('MYSQL_HOST'), getenv('MYSQL_USER'), getenv('MYSQL_PASSWORD'), getenv('MYSQL_DATABASE'));
+        $this->db = new mysqli(getenv('MARIADB_HOST'), getenv('MARIADB_USER'), getenv('MARIADB_PASSWORD'), getenv('MARIADB_DATABASE'));
         mysqli_set_charset($this->db, 'utf8');
         return !$this->db->connect_errno;
     }
