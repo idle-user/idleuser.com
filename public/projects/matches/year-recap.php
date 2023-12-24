@@ -76,7 +76,6 @@ foreach($year_ratings as $match_id => $match_rating)
         continue;
     }
 
-
     if($year_ratings[$recap_stats['highest_rated_matches'][0]]['rating'] < $match_rating['rating'])
     {
         $recap_stats['highest_rated_matches'] = [$match_id];
