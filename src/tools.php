@@ -111,12 +111,18 @@ function random_hex_color($offset = false, $min = 0x000000, $max = 0xFFFFFF)
     return '#' . str_pad($color_code, 6, 0, STR_PAD_LEFT);
 }
 
-function requires_mod()
+function requires_login()
 {
     if (!$_SESSION['loggedin']) {
         redirect(0, '/login');
         exit();
     }
+}
+
+function requires_mod()
+{
+    requires_login();
+
     if (!is_mod()) {
         redirect(0, '/403.php');
         exit();
@@ -125,10 +131,8 @@ function requires_mod()
 
 function requires_admin()
 {
-    if (!$_SESSION['loggedin']) {
-        redirect(0, '/login');
-        exit();
-    }
+    requires_login();
+
     if (!is_admin()) {
         redirect(0, '/403.php');
         exit();

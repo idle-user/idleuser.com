@@ -1406,6 +1406,58 @@ class MYSQLHandler
         return $success;
     }
 
+    public function yearly_bets($user_id)
+    {
+        $query = <<<EOD
+            SELECT
+                uv_mub.`user_id`,
+                uv_mub.`match_id`,
+                uv_mub.`bet_amount`,
+                uv_mub.`bet_team`,
+                uv_mub.`bet_placed`,
+                uv_mub.`bet_won`,
+                uv_mub.`team_base_pot`,
+                uv_mub.`potential_pot`,
+                uv_mub.`potential_cut_points`,
+                uv_mub.`completed`,
+                uv_mub.`pot_valid`,
+                uv_mub.`base_pot`,
+                uv_mub.`bet_multiplier`,
+                uv_mub.`total_pot`,
+                uv_mub.`bet_on`,
+                uv_mub.`event_name`,
+                uv_mub.`event_dt`
+            FROM
+                `uv_matches_user_bets` uv_mub
+            WHERE
+                user_id=? AND YEAR(event_dt)=YEAR(CURDATE());
+        EOD;
+
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('i', $user_id);
+        $stmt->execute();
+        $data = $stmt->get_result();
+        $result = [];
+        while ($r = $data->fetch_array(MYSQLI_ASSOC)) {
+            $result[$r['match_id']] = $r;
+        }
+        return $result;
+    }
+
+    public function yearly_ratings($user_id)
+    {
+        $query = 'SELECT mr.*,uv_md.event,uv_md.contestants FROM matches_match_rating mr JOIN uv_matches_match_detail uv_md ON uv_md.id=mr.match_id WHERE mr.user_id=? AND YEAR(mr.updated)=YEAR(CURDATE())';
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('i', $user_id);
+        $stmt->execute();
+        $data = $stmt->get_result();
+        $result = [];
+        while ($r = $data->fetch_array(MYSQLI_ASSOC)) {
+            $result[$r['match_id']] = $r;
+        }
+        return $result;
+    }
+
     // POLL
 
     public function all_polls()
@@ -1413,7 +1465,7 @@ class MYSQLHandler
         $data = $this->db->query('SELECT * FROM uv_poll_info ORDER BY created_dt DESC');
         $result = [];
         while ($r = $data->fetch_array(MYSQLI_ASSOC)) {
-            $result[$r['id']] = $r;
+            $result[$r['match_id']] = $r;
         }
         return $result;
     }
