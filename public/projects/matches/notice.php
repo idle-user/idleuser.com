@@ -51,6 +51,19 @@ if (!$_SESSION['loggedin']) {
             to bet on matches and earn points.</strong>
     </div>
     <?php
+} else {
+
+    if ($curPageName != 'year-recap.php' && DATE('m') == 12) // yearly recap only in December
+    {
+        ?>
+        <div class="container alert alert-info fade show mt-3 text-center" role="alert">
+            <strong class="h4">Your Yearly Recap is Now Available!</strong>
+            <div class="col-12 p-1">
+                <text class="h4 pt-1"><a href="/projects/matches/year-recap">Check out how you did in <?php echo date('Y'); ?></a></text>
+            </div>
+        </div>
+        <?php
+    }
 }
 ?>
 
