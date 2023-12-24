@@ -1465,7 +1465,7 @@ class MYSQLHandler
         $data = $this->db->query('SELECT * FROM uv_poll_info ORDER BY created_dt DESC');
         $result = [];
         while ($r = $data->fetch_array(MYSQLI_ASSOC)) {
-            $result[$r['match_id']] = $r;
+            $result[$r['id']] = $r;
         }
         return $result;
     }
