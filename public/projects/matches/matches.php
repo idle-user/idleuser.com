@@ -42,13 +42,13 @@ if (empty($header)) {
     } else if ($season == 4) {
         $matches = $db->s4_matches();
         $header = 'Matches (Season 4)';
-    } else if ($season == 5 || !$season) {
+    } else if ($season == 5) {
         $matches = $db->s5_matches();
         $header = 'Matches (Season 5)';
-    } else if ($season == 6 || !$season) {
+    } else if ($season == 6) {
         $matches = $db->s6_matches();
         $header = 'Matches (Season 6)';
-    } else if ($season == 7 || !$season) {
+    } else if ($season == 7) {
         $matches = $db->s7_matches();
         $header = 'Matches (Season 7)';
     } else {
