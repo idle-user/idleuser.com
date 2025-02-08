@@ -13,8 +13,6 @@
                     <ul class="list-unstyled">
                         <li><a href="https://discord.gg/U5wDzWP8yD" target="_blank" class="text-white"><i
                                         class="fab fa-discord mr-2"></i>Find me on Discord</a></li>
-                        <li><a href="https://twitter.com/an_idle_user" target="_blank" class="text-white"><i
-                                        class="fab fa-twitter mr-2"></i>Follow me on Twitter</a></li>
                         <li><a href="/" class="text-white"><i class="fas fa-home mr-2"></i>Learn more about me</a></li>
                     </ul>
                 </div>

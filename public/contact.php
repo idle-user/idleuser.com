@@ -21,7 +21,7 @@ if (isset($_POST['email']) && !empty($_POST['email'])) {
             $alert_message = "Contact information sent!<br/>Will get back to you when possible.";
             email_admin_contact_alert($fname, $lname, $email, $subject, $body, $user_ip, $_SESSION['profile']['id']);
         } else {
-            $alert_message = "Failed to send contact information<br/>Please try contacting me through Twitter or Discord.";
+            $alert_message = "Failed to send contact information<br/>Please try contacting me through Discord.";
         }
     } else {
         $alert_message = "reCAPTCHA check failed. Try again.";
@@ -31,7 +31,7 @@ if (isset($_POST['email']) && !empty($_POST['email'])) {
 
 if ($contact_attempt) {
     if (!$alert_message) {
-        $alert_message = "Something went wrong.<br/>Please try contacting me through Twitter or Discord.";
+        $alert_message = "Something went wrong.<br/>Please try contacting me through Discord.";
     }
     track("Contact Attempt - email:$_POST[email]; message:$alert_message");
 }
@@ -82,7 +82,7 @@ if ($contact_attempt) {
             <?php } else { ?>
             <div class="p-2 alert-danger text-center alert">
                 <?php } ?>
-                <text><?php echo $alert_message ?></label>
+                <text><?php echo $alert_message ?></text>
             </div>
             <?php
             }

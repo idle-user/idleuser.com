@@ -56,20 +56,6 @@ $response = maybe_process_form();
             </div>
     </form>
 
-    <form method="post" class="mb-3">
-        <div class="form-group">
-            <label for="twitterFormControlInput">Twitter ID</label>
-            <span class="small text-muted float-right pt-3">Last Updated: <?= $_SESSION['profile']['twitter_last_updated'] ?? 'Never' ?></span>
-            <div class="input-group mb-3">
-                <input type="text" class="form-control" id="twitterFormControlInput" name="twitter_id"
-                       value="<?= $_SESSION['profile']['twitter_id'] ?>">
-                <div class="input-group-append">
-                    <input class="btn btn-primary" type="submit" name="twitter-update" value="Update">
-                </div>
-            </div>
-        </div>
-    </form>
-
     <?php include 'includes/footer.php'; ?>
 </main>
 

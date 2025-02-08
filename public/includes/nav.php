@@ -33,16 +33,6 @@
 
         <ul class="navbar-nav ml-md-auto mr-3">
             <li class="nav-item">
-                <a class="nav-link" href="https://www.twitch.tv/idle_user" target="_blank" title="Twitch">
-                    <i class="fab fa-twitch"></i>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="https://twitter.com/an_idle_user" target="_blank" title="Twitter">
-                    <i class="fab fa-twitter"></i>
-                </a>
-            </li>
-            <li class="nav-item">
                 <a class="nav-link" href="https://discord.gg/U5wDzWP8yD" target="_blank" title="Discord">
                     <i class="fab fa-discord"></i>
                 </a>
