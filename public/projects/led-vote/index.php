@@ -153,16 +153,12 @@ set_last_page(); ?>
 <!-- Footer -->
 <section id="footer">
     <ul class="icons">
-        <li><a href="https://twitter.com/an_idle_user" class="icon fa-twitter"><span class="label">Twitter</span></a>
-        </li>
-        <li><a href="https://www.linkedin.com/in/andradejesus" class="icon fa-linkedin"><span
-                        class="label">LinkedIn</span></a></li>
         <li><a href="https://github.com/idle-user" class="icon fa-github"><span class="label">Github</span></a></li>
     </ul>
     <ul class="copyright">
         <li>&copy; 2017-2021 Jesus Andrade</li>
         <li>Design: <a href="https://html5up.net">HTML5 UP</a></li>
-        <li>Page Last Updated: <?php echo date("Y.m.d H:i:s.", getlastmod()); ?></i>
+        <li>Page Last Updated: <?php echo date("Y.m.d H:i:s.", getlastmod()); ?></li>
     </ul>
 </section>
 <!-- Scripts -->

@@ -54,8 +54,6 @@ set_last_page(); ?>
             <div class="info" id="copyright">
                 <ul>
                     <li>Find Me On:</li>
-                    <li><a href="https://twitter.com/an_idle_user">Twitter</a></li>
-                    <li><a href="https://www.linkedin.com/in/andradejesus">LinkedIn</a></li>
                     <li><a href="https://github.com/idle-user">Github</a></li>
                 </ul>
                 <ul>

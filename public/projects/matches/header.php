@@ -72,12 +72,8 @@ if (isset($meta)) {
             <header id="header" style="padding-top:3em;">
                 <a href="#" class="logo"><strong>Matches</strong> by Jesse</a>
                 <ul class="icons">
-                    <li><a href="https://discord.gg/U5wDzWP8yD target=" _blank" class="icon fa-discord"><span
+                    <li><a href="https://discord.gg/U5wDzWP8yD" target="_blank" class="icon fa-discord"><span
                                 class="label">Discord</span></a></li>
-                    <li><a href="https://twitter.com/an_idle_user" target="_blank" class="icon fa-twitter"><span
-                                    class="label">Twitter</span></a></li>
-                    <li><a href="https://www.linkedin.com/in/andradejesus" target="_blank"
-                           class="icon fa-linkedin"><span class="label">LinkedIn</span></a></li>
                     <li><a href="https://github.com/idle-user" target="_blank" class="icon fa-github"><span
                                     class="label">GitHub</span></a></li>
                 </ul>
