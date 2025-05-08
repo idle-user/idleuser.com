@@ -264,7 +264,6 @@ function page_meta($meta)
 			<meta name="twitter:description" content="{$meta['twitter:description']}">
 			<meta name="twitter:image" content="{$meta['twitter:image']}">
 			<meta name="twitter:site" content="{$meta['twitter:site']}">
-			<script src="https://tracking.idleuser.com/api/script.js" data-site-id="2" defer></script>
 		EOD;
     $rybbit_website = getenv('RYBBIT_WEBSITE');
     $rybbit_site_id = getenv('RYBBIT_SITE_ID');
