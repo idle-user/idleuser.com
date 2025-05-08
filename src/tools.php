@@ -246,7 +246,7 @@ function page_meta($meta)
     if (empty($meta['twitter:image']) && !empty($meta['og:image'])) {
         $meta['twitter:image'] = $meta['og:image'];
     }
-    return <<<EOD
+    $output = <<<EOD
 			<meta charset="{$meta['charset']}">
 			<meta name="viewport" content="{$meta['viewport']}">
 			<meta name="description" content="{$meta['description']}">
@@ -264,7 +264,16 @@ function page_meta($meta)
 			<meta name="twitter:description" content="{$meta['twitter:description']}">
 			<meta name="twitter:image" content="{$meta['twitter:image']}">
 			<meta name="twitter:site" content="{$meta['twitter:site']}">
+			<script src="https://tracking.idleuser.com/api/script.js" data-site-id="2" defer></script>
 		EOD;
+    $rybbit_website = getenv('RYBBIT_WEBSITE');
+    $rybbit_site_id = getenv('RYBBIT_SITE_ID');
+    if($rybbit_website && $rybbit_site_id) {
+        $output .= <<<EOD
+        <script src="{$rybbit_website}/api/script.js" data-site-id="{$rybbit_site_id}" defer></script>
+        EOD;
+    }
+    return $output;
 }
 
 function is_email_ignore($email)
