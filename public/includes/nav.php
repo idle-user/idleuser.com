@@ -33,7 +33,7 @@
 
         <ul class="navbar-nav ml-md-auto mr-3">
             <li class="nav-item">
-                <a class="nav-link" href="https://discord.gg/U5wDzWP8yD" target="_blank" title="Discord">
+                <a class="nav-link" href="<?php echo getenv('DISCORD_INVITE_URL') ?>" target="_blank" title="Discord">
                     <i class="fab fa-discord"></i>
                 </a>
             </li>

@@ -11,7 +11,7 @@
                 <div class="col-sm-4 offset-md-1 py-4">
                     <h4 class="text-white">Contact</h4>
                     <ul class="list-unstyled">
-                        <li><a href="https://discord.gg/U5wDzWP8yD" target="_blank" class="text-white"><i
+                        <li><a href="<?php echo getenv('DISCORD_INVITE_URL') ?>" target="_blank" class="text-white"><i
                                         class="fab fa-discord mr-2"></i>Find me on Discord</a></li>
                         <li><a href="/" class="text-white"><i class="fas fa-home mr-2"></i>Learn more about me</a></li>
                     </ul>
