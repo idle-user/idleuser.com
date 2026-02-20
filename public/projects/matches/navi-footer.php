@@ -64,8 +64,8 @@
                 <h2>Join our Discord!</h2>
             </header>
             <div>
-                <iframe src="https://discordapp.com/widget?id=361689774723170304&theme=dark&username=<?php echo $_SESSION['loggedin'] ? $_SESSION['profile']['username'] : '' ?>"
-                        width="225" height="400" allowtransparency="true" frameborder="0"></iframe>
+                <iframe src="https://discordapp.com/widget?id=<?php echo getenv('DISCORD_SERVER_ID') ?>&theme=dark&username=<?php echo $_SESSION['loggedin'] ? $_SESSION['profile']['username'] : '' ?>"
+                        width="225" height="400" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
             </div>
         </section>
         <footer id="footer">
