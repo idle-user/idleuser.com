@@ -269,7 +269,7 @@ function page_meta($meta)
     $rybbit_site_id = getenv('RYBBIT_SITE_ID');
     if($rybbit_website && $rybbit_site_id) {
         $output .= <<<EOD
-        <script src="{$rybbit_website}/api/script.js" data-site-id="{$rybbit_site_id}" defer></script>
+        <script src="{$rybbit_website}/api/script.js?siteId={$rybbit_site_id}" async></script>
         EOD;
     }
     return $output;
